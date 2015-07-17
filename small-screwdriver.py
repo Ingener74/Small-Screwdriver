@@ -1,51 +1,61 @@
 # encoding: utf8
-
 import sys
-import json
-from PySide.QtGui import QApplication, QPushButton
+import random
+from PySide.QtCore import Qt
+from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QColor
+from SmallScrewdriver import Ui_SmallScrewdriver, Point, Rect
 
 
-class Point(object):
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+class PaintWidget(QWidget):
+    def __init__(self, rects, parent=None):
+        QWidget.__init__(self, parent)
 
-    def toDict(self):
-        return {'x': self.x, 'y': self.y}
+        self.rects = rects
+        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
 
-    def __repr__(self):
-        return json.dumps(self.toDict(), indent=4, separators=(',', ':'))
+    def paintEvent(self, event):
+        painter = QPainter(self)
 
-    def __str__(self):
-        return self.__repr__()
+        painter.begin(self)
 
-class Rect(object):
-    def __init__(self, origin, width, height):
-        self.origin = origin
-        self.width = width
-        self.height = height
+        for rect in self.rects:
+            rect.draw(painter)
 
-    def toDict(self):
-        return {'origin': self.origin.toDict(), 'width': self.width, 'height': self.height}
+        painter.end()
 
-    def __repr__(self):
-        return json.dumps(self.toDict(), indent=4, separators=(',', ':'))
 
-    def __str__(self):
-        return self.__repr__()
+# noinspection PyPep8Naming
+class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
+        self.setupUi(self)
+
+        self.rects = [self.randomRect() for i in xrange(0, 20)]
+
+        self.paintWidget = PaintWidget(self.rects, self)
+        self.paintWidget.resize(400, 400)
+
+        self.verticalLayout.insertWidget(1, self.paintWidget)
+
+    @staticmethod
+    def randomRect():
+        return Rect(Point(100. * random.random(), 100. * random.random()),
+                    10 + 200. * random.random(), 10 + 200. * random.random(),
+                    QColor(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))
+
+    def keyPressEvent(self, e):
+        if e.key() == Qt.Key_Escape:
+            self.close()
+
 
 if __name__ == '__main__':
+    # noinspection PyTypeChecker,PyCallByClass
+    QApplication.setStyle(u'plastique')
     app = QApplication(sys.argv)
 
-    p1 = Point(10, 20)
-    print p1
+    random.seed()
 
-    r1 = Rect(p1, 100, 200)
-    print r1
-
-    button = QPushButton(u"Выход")
-    button.setMinimumSize(200, 80)
-    button.show()
-    button.clicked.connect(app.quit)
+    smallScrewdriver = SmallScrewdriver()
+    smallScrewdriver.show()
 
     sys.exit(app.exec_())
