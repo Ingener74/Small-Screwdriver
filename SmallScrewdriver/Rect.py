@@ -4,16 +4,14 @@ from PySide.QtGui import QPen
 
 
 class Rect(object):
-    def __init__(self, origin, width, height, color=Qt.red):
+    def __init__(self, origin, width, height, pen=QPen()):
         self.origin = origin
         self.width = width
         self.height = height
-        self.color = color
+        self.pen = pen
 
     def draw(self, painter):
-        pen = QPen()
-        pen.setColor(self.color)
-        painter.setPen(pen)
+        painter.setPen(self.pen)
         painter.drawRect(self.origin.x, self.origin.y, self.width, self.height)
 
     def __str__(self):

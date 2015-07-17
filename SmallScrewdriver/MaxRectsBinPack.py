@@ -1,6 +1,12 @@
 # encoding: utf8
+import sys
 from SmallScrewdriver import Rect, Point
 
+
+"""
+https://github.com/juj/RectangleBinPack
+http://clb.demon.fi/
+"""
 
 # noinspection PyPep8Naming
 class MaxRectsBinPack(object):
@@ -18,14 +24,36 @@ class MaxRectsBinPack(object):
         used_rectangles = []
         free_rectangles = [Rect(Point(0, 0), self.bin_width, self.bin_height)]
 
-    def insert(self, inputRects, heurictic):
+    def insert(self, rects, heurictic):
         """
         Решает разложение прямоугольников
-        :param inputRects: входные прямоугольники
+        :param rects: входные прямоугольники
         :param heurictic: евристика для решения
         :return: Вернёт разложенные прямоугольники
         """
-        pass
+        result = []
+
+        while len(rects):
+
+            bestScore1 = sys.maxint
+            bestScore2 = sys.maxint
+
+
+            for rect in rects:
+                newRect, score1, score2 = self._scoreRect(rect.width, rect.height, heurictic)
+
+                if score1 < bestScore1 or (score1 == bestScore1 and score2 < bestScore2):
+                    bestScore1 = score1
+                    bestScore2 = score2
+                    bestNode = newRect
+
+            if bestNode is None:
+                return
+
+            self._placeRect(bestNode)
+            rects.remove(newRect)
+
+        return result
 
     def Occupancy(self):
         """
