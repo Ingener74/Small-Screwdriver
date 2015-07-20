@@ -58,6 +58,16 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
 
 
 if __name__ == '__main__':
+
+    test = {'Point': {'x': 10, 'y': 20},
+            'width': 100,
+            'height': 100}
+    print test
+
+    print Point(10, 10)
+
+    raise SystemExit
+
     # noinspection PyTypeChecker,PyCallByClass
     QApplication.setStyle(u'plastique')
     app = QApplication(sys.argv)
