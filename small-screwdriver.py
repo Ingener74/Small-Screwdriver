@@ -1,7 +1,8 @@
 # encoding: utf8
+
 import sys
 import random
-from PySide.QtCore import Qt
+from PySide.QtCore import Qt, Signal, Slot
 from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QColor, QPen
 from SmallScrewdriver import Ui_SmallScrewdriver, Point, Rect
 
@@ -20,14 +21,10 @@ class PaintWidget(QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)
 
-        painter.begin(self)
-
         for rect in self.rects:
             rect.draw(painter)
 
         self.bin.draw(painter)
-
-        painter.end()
 
 
 # noinspection PyPep8Naming
