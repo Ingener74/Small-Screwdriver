@@ -7,4 +7,4 @@ class Point(object):
         self.y = y
 
     def __str__(self):
-        return '\'{}\': {}'.format(self.__class__.__name__, {key: str(value) for key, value in self.__dict__.iteritems()})
+        return '{}({}, {})'.format(self.__class__.__name__, self.x, self.y)

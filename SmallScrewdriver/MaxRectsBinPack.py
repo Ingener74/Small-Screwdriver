@@ -22,7 +22,7 @@ class MaxRectsBinPack(object):
         self.bin_height = height
 
         used_rectangles = []
-        free_rectangles = [Rect(Point(0, 0), self.bin_width, self.bin_height)]
+        free_rectangles = [Rect(Point(0, 0))]
 
     def insert(self, rects, heurictic):
         """
@@ -63,7 +63,7 @@ class MaxRectsBinPack(object):
         pass
 
     def _scoreRect(self, width, height, heuristic):
-        return Rect(Point(0, 0), 0, 0), 0, 0
+        return Rect(Point(0, 0)), 0, 0
 
     def _placeRect(self, node):
         pass
