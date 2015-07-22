@@ -3,16 +3,22 @@ import copy
 
 import sys
 import random
-from PySide.QtCore import Qt, Signal, Slot, QThread, QTimer, QMutex
-from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QColor, QPen
-from SmallScrewdriver import Ui_SmallScrewdriver, Point, Rect, Size, Bin
+from PIL import Image
+from PySide.QtCore import Qt, Signal, Slot, QThread, QTimer, QMutex, QDirIterator, QPoint
+from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QColor, QPen, QFileDialog, QImage, QPixmap
+from SmallScrewdriver import Ui_SmallScrewdriver, Point, Rect, Size, Bin, BPImage
 
 
 class BinPackingThread(QThread):
     updateBins = Signal(Rect)
 
-    def __init__(self, bins):
+    def __init__(self, directory, bins):
         QThread.__init__(self)
+
+        self.directory = QDirIterator(directory, )
+
+        while self.directory.hasNext():
+            print self.directory.next()
 
         self.input_images = []
 
@@ -40,8 +46,14 @@ class PaintWidget(QWidget):
 
         self.bins = []
 
+        im = Image.open('resources/ship.png')
+
+        self.image = BPImage.convertPil2QImage(im)
+
     def paintEvent(self, event):
         painter = QPainter(self)
+
+        painter.drawPixmap(QPoint(0, 0), QPixmap(self.image))
 
         for b in self.bins:
             b.draw(painter)
@@ -62,16 +74,15 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
 
         self.verticalLayout.insertWidget(1, self.paintWidget)
 
-        self.binPackingThread = BinPackingThread(
-            [
-                Bin(Size(512, 512)),
-                Bin(Size(256, 256), Point(514, 0))
-            ])
-        self.binPackingThread.updateBins.connect(self.paintWidget)
-
         self.go.clicked.connect(self.onGo)
 
     def onGo(self):
+        directory = QFileDialog.getExistingDirectory()
+        self.binPackingThread = BinPackingThread(directory, [
+            Bin(Size(512, 512)),
+            Bin(Size(256, 256), Point(514, 0))
+        ])
+        self.binPackingThread.updateBins.connect(self.paintWidget.redrawBins)
         self.binPackingThread.start()
 
     def keyPressEvent(self, e):

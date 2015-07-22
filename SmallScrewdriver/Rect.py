@@ -19,6 +19,12 @@ class Rect(object):
         painter.setPen(self.pen)
         painter.drawRect(self.origin.x, self.origin.y, self.size.width, self.size.height)
 
+    def __eq__(self, other):
+        return self.origin == other.origin and self.size == other.size
+
+    def __ne__(self, other):
+        return self.origin != other.origin or self.size != other.size
+
     def __str__(self):
         return '{}({}, {})'.format(self.__class__.__name__, str(self.origin), str(self.size))
 

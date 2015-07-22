@@ -14,6 +14,12 @@ class Point(object):
         self.y += other.y
         return self
 
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+
+    def __ne__(self, other):
+        return self.x != other.x or self.y != other.y
+
     def __str__(self):
         return '{}({}, {})'.format(self.__class__.__name__, self.x, self.y)
 

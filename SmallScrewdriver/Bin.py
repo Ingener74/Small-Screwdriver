@@ -7,6 +7,7 @@ from Point import Point
 from Rect import Rect
 
 
+# noinspection PyPep8Naming
 class Bin(object):
     def __init__(self, size=Size(256, 256), origin=Point(0, 0)):
         self.origin = origin
@@ -23,6 +24,12 @@ class Bin(object):
             return True
         else:
             return False
+
+    def fillLevel(self):
+        area = 0.0
+        for r in self.rects:
+            area += r.area()
+        return area / float(self.size.area())
 
     def draw(self, painter):
         pen = QPen()

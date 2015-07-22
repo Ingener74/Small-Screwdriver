@@ -9,6 +9,12 @@ class Size(object):
     def area(self):
         return self.width * self.height
 
+    def __eq__(self, other):
+        return self.width == other.width and self.height == other.height
+
+    def __ne__(self, other):
+        return  self.width != other.width or self.height != other.height
+
     def __str__(self):
         return '{}({}, {})'.format(self.__class__.__name__, self.width, self.height)
 
