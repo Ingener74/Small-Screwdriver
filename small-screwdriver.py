@@ -1,71 +1,63 @@
 # encoding: utf8
+import copy
 
 import sys
 import random
 from PySide.QtCore import Qt, Signal, Slot, QThread, QTimer, QMutex
 from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QColor, QPen
-from SmallScrewdriver import Ui_SmallScrewdriver, Point, Rect
-from SmallScrewdriver.Size import Size
+from SmallScrewdriver import Ui_SmallScrewdriver, Point, Rect, Size, Bin
 
 
 class BinPackingThread(QThread):
-    def __init__(self):
-        self.bins = []
-        self.input_rects = []
+    updateBins = Signal(Rect)
 
-        self.output_mutex = QMutex()
-        self.output_rects = []
+    def __init__(self, bins):
+        QThread.__init__(self)
 
-        pass
+        self.input_images = []
+
+        self.bins = bins
+
+        for b in self.bins:
+            b.append(Rect.random())
+            b.append(Rect.random())
+            b.append(Rect.random())
+
+        print 'BinPackingThread'
+        print self.bins
 
     def run(self):
         while True:
-
-            self.output_mutex.lock()
-
-            if len(self.output_rects) > 0:
-                self.output_rects.remove(0)
-            else:
-                self.output_rects.append(Rect(Point(10, 10), Size(100, 100)))
-
-            self.output_mutex.unlock()
-
+            self.updateBins.emit(copy.copy(self.bins))
             self.sleep(1)
 
 
 # noinspection PyPep8Naming
 class PaintWidget(QWidget):
-    def __init__(self, rects, bin_size, parent=None):
+    def __init__(self, parent=None):
         QWidget.__init__(self, parent)
-
-        pen = QPen()
-        pen.setStyle(Qt.DashLine)
-        self.bin = Rect(Point(0, 0), pen)
-
-        self.rects = rects
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
 
-        self.redrawTimer = QTimer()
-        self.redrawTimer.timeout.connect(self.onTimeout)
-        self.redrawTimer.start(10)
+        self.bins = []
 
-        self.binPackingThread = BinPackingThread()
+        self.binPackingThread = BinPackingThread(
+            [
+                Bin(Size(512, 512)),
+                Bin(Size(256, 256), Point(514, 0))
+            ])
+        self.binPackingThread.updateBins.connect(self.redrawBins)
+        self.binPackingThread.start()
 
     def paintEvent(self, event):
         painter = QPainter(self)
 
-        for rect in self.rects:
-            rect.draw(painter)
+        for b in self.bins:
+            b.draw(painter)
 
-        self.bin.draw(painter)
+    def redrawBins(self, bins):
+        self.bins = bins
 
-    def onTimeout(self, rects):
-        self.binPackingThread.output_mutex.lock()
-
-        del self.rects[:]
-        self.rects = list(self.binPackingThread.output_rects)
-
-        self.binPackingThread.output_mutex.unlock()
+        print 'redraw bins', self.bins
 
         self.update()
 
@@ -76,9 +68,7 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
         QWidget.__init__(self, parent)
         self.setupUi(self)
 
-        self.rects = [self.randomRect() for i in xrange(0, 20)]
-
-        self.paintWidget = PaintWidget(self.rects, (512, 512), self)
+        self.paintWidget = PaintWidget(self)
         self.paintWidget.resize(400, 400)
 
         self.verticalLayout.insertWidget(1, self.paintWidget)
@@ -88,28 +78,12 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
     def onGo(self):
         print u'Поехали'
 
-    @staticmethod
-    def randomRect():
-        pen = QPen()
-        pen.setColor(QColor(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))
-        return Rect(Point(100. * random.random(), 100. * random.random()), pen)
-
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
             self.close()
 
 
 if __name__ == '__main__':
-    test = {'Point': {'x': 10, 'y': 20},
-            'width': 100,
-            'height': 100
-            }
-    print test
-
-    print Point(10, 10)
-
-    raise SystemExit
-
     # noinspection PyTypeChecker,PyCallByClass
     QApplication.setStyle(u'plastique')
     app = QApplication(sys.argv)
