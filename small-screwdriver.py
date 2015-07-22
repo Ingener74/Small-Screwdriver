@@ -40,14 +40,6 @@ class PaintWidget(QWidget):
 
         self.bins = []
 
-        self.binPackingThread = BinPackingThread(
-            [
-                Bin(Size(512, 512)),
-                Bin(Size(256, 256), Point(514, 0))
-            ])
-        self.binPackingThread.updateBins.connect(self.redrawBins)
-        self.binPackingThread.start()
-
     def paintEvent(self, event):
         painter = QPainter(self)
 
@@ -56,9 +48,6 @@ class PaintWidget(QWidget):
 
     def redrawBins(self, bins):
         self.bins = bins
-
-        print 'redraw bins', self.bins
-
         self.update()
 
 
@@ -73,10 +62,17 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
 
         self.verticalLayout.insertWidget(1, self.paintWidget)
 
+        self.binPackingThread = BinPackingThread(
+            [
+                Bin(Size(512, 512)),
+                Bin(Size(256, 256), Point(514, 0))
+            ])
+        self.binPackingThread.updateBins.connect(self.paintWidget)
+
         self.go.clicked.connect(self.onGo)
 
     def onGo(self):
-        print u'Поехали'
+        self.binPackingThread.start()
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
