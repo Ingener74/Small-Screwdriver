@@ -63,7 +63,7 @@ class PaintWidget(QWidget):
         self.update()
 
 
-# noinspection PyPep8Naming
+# noinspection PyPep8Naming,PyAttributeOutsideInit
 class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)

@@ -10,7 +10,7 @@ class BPImage(Rect):
     def __init__(self, filename):
         self.filename = filename
 
-        image = Image.open(self.filename).convert('RGBA')
+        image = Image.open(self.filename)
 
         self.image = BPImage.convertPil2QImage(image)
 
@@ -29,6 +29,8 @@ class BPImage(Rect):
 
         rect = image.rect()
         print rect
+
+        print image.format()
 
         for x in xrange(image.width()):
             for y in xrange(image.height()):
