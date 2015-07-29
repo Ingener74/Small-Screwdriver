@@ -38,7 +38,3 @@ class Rect(object):
         point = Point(100. * random.random(), 100. * random.random())
         size = Size(5 + 100. * random.random(), 5 + 100. * random.random())
         return Rect(point, size, pen)
-
-    @classmethod
-    def test_clsmethod(cls):
-        print cls.__class__.__name__

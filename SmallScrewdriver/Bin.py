@@ -1,10 +1,7 @@
 # encoding: utf8
-import copy
 from PySide.QtCore import Qt
 from PySide.QtGui import QPen
-from Size import Size
-from Point import Point
-from Rect import Rect
+from SmallScrewdriver import Size, Point, Rect
 
 
 # noinspection PyPep8Naming

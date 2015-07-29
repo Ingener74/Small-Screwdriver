@@ -1,8 +1,6 @@
 from unittest import TestCase
 from SmallScrewdriver import BPImage, Rect, Size, Point
 
-__author__ = 'Pavel'
-
 
 class TestImage(TestCase):
     def test_bg_image(self):

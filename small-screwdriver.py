@@ -29,8 +29,8 @@ class BinPackingThread(QThread):
             b.append(Rect.random())
             b.append(Rect.random())
 
-        print 'BinPackingThread'
-        print self.bins
+        # print 'BinPackingThread'
+        # print self.bins
 
     def run(self):
         while True:
