@@ -15,7 +15,7 @@ class BinPackingThread(QThread):
     def __init__(self, directory, bins):
         QThread.__init__(self)
 
-        self.directory = QDirIterator(directory, )
+        self.directory = QDirIterator(directory)
 
         while self.directory.hasNext():
             print self.directory.next()
@@ -44,16 +44,12 @@ class PaintWidget(QWidget):
         QWidget.__init__(self, parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
 
-        self.bins = []
-
-        im = Image.open('resources/ship.png')
-
-        self.image = BPImage.convertPil2QImage(im)
+        self.bins = [BPImage('resources/ship1.png')]
 
     def paintEvent(self, event):
         painter = QPainter(self)
 
-        painter.drawPixmap(QPoint(0, 0), QPixmap(self.image))
+        # painter.drawPixmap(QPoint(0, 0), QPixmap(self.image.image))
 
         for b in self.bins:
             b.draw(painter)
