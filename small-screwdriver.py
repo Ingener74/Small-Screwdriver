@@ -44,7 +44,7 @@ class PaintWidget(QWidget):
         QWidget.__init__(self, parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
 
-        self.bins = [BPImage('resources/ship1.png')]
+        self.bins = [BPImage('resources/start.png')]
 
     def paintEvent(self, event):
         painter = QPainter(self)
