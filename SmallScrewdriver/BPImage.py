@@ -30,8 +30,8 @@ class BPImage(Rect):
     def convertPil2QImage(pil):
 
         if pil.mode == 'RGB':
-            # pil = pil.convert('RGBA')
-            raise RuntimeError('RGBA only')
+            pil = pil.convert('RGBA')
+            # raise RuntimeError('RGBA only')
 
         qimage = QImage(pil.width, pil.height, QImage.Format_ARGB32)
 
