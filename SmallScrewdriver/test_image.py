@@ -23,13 +23,11 @@ class TestImage(TestCase):
 
         assert fire.area() == 256 * 256
 
-        assert fire.crop_region == Rect(Point(16, 15), Size(225, 225))
+        assert fire.crop_region == Rect(Point(16, 15), Size(226, 226))
 
     def test_cropImage(self):
 
         fire = BPImage('../resources/fire.png')
 
-        croped_fire = BPImage.cropImage(fire.image, 50)
-
-        assert croped_fire.width() == 225
-        assert croped_fire.height() == 255
+        assert fire.crop_region.size.width == 226
+        assert fire.crop_region.size.height == 226

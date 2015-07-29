@@ -7,7 +7,7 @@ from Point import Point
 
 
 class Rect(object):
-    def __init__(self, origin, size, pen=QPen()):
+    def __init__(self, origin=Point(), size=Size(), pen=QPen()):
         self.origin = origin
         self.size = size
         self.pen = pen
