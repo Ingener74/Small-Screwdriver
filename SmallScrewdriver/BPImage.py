@@ -4,7 +4,7 @@ from PySide.QtCore import QPoint
 from PySide.QtGui import QImage, QColor, QPixmap
 from PIL import Image
 from SmallScrewdriver import Rect, Size, Point
-from SillyCrossbow import crop_image
+from SillyCrossbow import crop_image3
 
 
 # noinspection PyPep8Naming
@@ -16,31 +16,11 @@ class BPImage(Rect):
         Rect.__init__(self, Point(), Size(image.width, image.height))
 
         self.crop_region = Rect()
-        cimage, \
+        self.image, \
             self.crop_region.origin.x, \
             self.crop_region.origin.y, \
             self.crop_region.size.width, \
-            self.crop_region.size.height = crop_image(image, 50)
-
-        # QImage(cimage.tostring(), cimage.width, cimage.height, QImage.Format_ARGB32)
-        self.image = BPImage.convertPil2QImage(cimage)
-
-    # TODO Very slow
-    @staticmethod
-    def convertPil2QImage(pil):
-
-        if pil.mode == 'RGB':
-            pil = pil.convert('RGBA')
-            # raise RuntimeError('RGBA only')
-
-        qimage = QImage(pil.width, pil.height, QImage.Format_ARGB32)
-
-        for x in xrange(0, pil.width):
-            for y in xrange(0, pil.height):
-                color = pil.getpixel((x, y))
-                qimage.setPixel(x, y, QColor(color[0], color[1], color[2], color[3]).rgba())
-
-        return qimage
+            self.crop_region.size.height = crop_image3(image, 50)
 
     def draw(self, painter):
         painter.drawPixmap(QPoint(self.crop_region.origin.x, self.crop_region.origin.y), QPixmap(self.image))
