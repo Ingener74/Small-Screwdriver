@@ -15,9 +15,9 @@ class Rect(object):
     def area(self):
         return self.size.area()
 
-    def draw(self, painter):
+    def draw(self, painter, offset):
         painter.setPen(self.pen)
-        painter.drawRect(self.origin.x, self.origin.y, self.size.width, self.size.height)
+        painter.drawRect(self.origin.x + offset.x, self.origin.y + offset.y, self.size.width, self.size.height)
 
     def __eq__(self, other):
         return self.origin == other.origin and self.size == other.size

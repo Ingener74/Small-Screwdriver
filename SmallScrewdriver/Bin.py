@@ -35,7 +35,8 @@ class Bin(object):
         painter.drawRect(self.origin.x, self.origin.y, self.size.width, self.size.height)
 
         for rect in self.rects:
-            Rect(rect.origin + self.origin, rect.size, rect.pen).draw(painter=painter)
+            # Rect(rect.origin + self.origin, rect.size, rect.pen).draw(painter=painter)
+            rect.draw(painter=painter, offset=self.origin)
 
     def __str__(self):
         return '{}({}, {}, {})'.format(self.__class__.__name__, self.origin, self.size, self.rects)

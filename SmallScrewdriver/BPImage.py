@@ -22,10 +22,14 @@ class BPImage(Rect):
             self.crop_region.size.width, \
             self.crop_region.size.height = crop_image3(image, 50)
 
-    def draw(self, painter):
-        painter.drawPixmap(QPoint(self.crop_region.origin.x, self.crop_region.origin.y), QPixmap(self.image))
-        self.crop_region.draw(painter)
-        Rect.draw(self, painter)
+    def area(self):
+        return self.crop_region.area()
+
+    def draw(self, painter, offset):
+        painter.drawImage(QPoint(self.origin.x + offset.x,
+                                  self.origin.y + offset.y), self.image)
+        self.crop_region.draw(painter, offset)
+        # Rect.draw(self, painter, offset)
 
     def __str__(self):
         print '{}({}, {})'.format(self.__class__.__name__, self.filename, self.image)
