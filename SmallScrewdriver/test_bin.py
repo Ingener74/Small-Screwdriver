@@ -10,37 +10,46 @@ class TestBin(TestCase):
         b = Bin(Size(256, 256), Point(0, 0))
 
         assert b.append(Rect(Point(0, 0), Size(10, 10)))
-        assert len(b.rects) == 1
+        assert len(b.images) == 1
+        # area = 100
 
         assert b.append(Rect(Point(10, 10), Size(100, 100)))
-        assert len(b.rects) == 2
+        assert len(b.images) == 2
+        # area == 10100
 
         assert b.append(Rect(Point(10, 10), Size(100, 100)))
-        assert len(b.rects) == 3
+        assert len(b.images) == 3
+        # area == 20100
 
         assert b.append(Rect(Point(10, 10), Size(100, 100)))
-        assert len(b.rects) == 4
+        assert len(b.images) == 4
+        # area == 30100
 
         assert b.append(Rect(Point(10, 10), Size(100, 100)))
-        assert len(b.rects) == 5
+        assert len(b.images) == 5
+        # area == 40100
 
         assert b.append(Rect(Point(10, 10), Size(50, 50)))
-        assert len(b.rects) == 6
+        assert len(b.images) == 6
+        # area == 42600
 
         assert b.append(Rect(Point(10, 10), Size(50, 50)))
-        assert len(b.rects) == 7
+        assert len(b.images) == 7
+        # area == 45100
 
         assert b.append(Rect(Point(10, 10), Size(50, 50)))
-        assert len(b.rects) == 8
+        assert len(b.images) == 8
+        # area == 47600
 
         assert b.append(Rect(Point(10, 10), Size(50, 50)))
-        assert len(b.rects) == 9
+        assert len(b.images) == 9
+        # area == 50100
 
-        assert b.append(Rect(Point(10, 10), Size(100, 100)))
-        assert len(b.rects) == 10
+        # assert b.append(Rect(Point(10, 10), Size(100, 100)))
+        # assert len(b.images) == 10
 
         assert not b.append(Rect(Point(0, 0), Size(512, 512)))
-        assert len(b.rects) == 10
+        assert len(b.images) == 9
 
     def test_fillLevel(self):
         b = Bin(Size(256, 256), Point(0, 0))

@@ -9,22 +9,26 @@ class Bin(object):
     def __init__(self, size=Size(256, 256), origin=Point(0, 0)):
         self.origin = origin
         self.size = size
-        self.rects = []
+        self.images = []
 
-    def append(self, rect):
-        area = rect.area()
-        for r in self.rects:
+    def append(self, image):
+        if image.area() > self.size.area():
+            return False
+
+        area = image.area()
+        for r in self.images:
             area += r.area()
+        area += image.area()
 
         if area <= self.size.area():
-            self.rects.append(rect)
+            self.images.append(image)
             return True
         else:
             return False
 
     def fillLevel(self):
         area = 0.0
-        for r in self.rects:
+        for r in self.images:
             area += r.area()
         return area / float(self.size.area())
 
@@ -34,12 +38,12 @@ class Bin(object):
         painter.setPen(pen)
         painter.drawRect(self.origin.x, self.origin.y, self.size.width, self.size.height)
 
-        for rect in self.rects:
+        for image in self.images:
             # Rect(rect.origin + self.origin, rect.size, rect.pen).draw(painter=painter)
-            rect.draw(painter=painter, offset=self.origin)
+            image.draw(painter=painter, offset=self.origin)
 
     def __str__(self):
-        return '{}({}, {}, {})'.format(self.__class__.__name__, self.origin, self.size, self.rects)
+        return '{}({}, {}, {})'.format(self.__class__.__name__, self.origin, self.size, self.images)
 
     def __repr__(self):
         return self.__str__()

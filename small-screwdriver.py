@@ -1,36 +1,37 @@
 # encoding: utf8
 import copy
-
 import sys
 import random
-from PIL import Image
-from PySide.QtCore import Qt, Signal, Slot, QThread, QTimer, QMutex, QDirIterator, QPoint
-from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QColor, QPen, QFileDialog, QImage, QPixmap
+
+from PySide.QtCore import Qt, Signal, QThread, QDirIterator, QDir
+from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QFileDialog
+
 from SmallScrewdriver import Ui_SmallScrewdriver, Point, Rect, Size, Bin, BPImage
 
 
 class BinPackingThread(QThread):
     updateBins = Signal(Rect)
 
-    def __init__(self, directory, bins):
+    def __init__(self, d, bins):
         QThread.__init__(self)
 
-        self.directory = QDirIterator(directory)
+        d = QDir(path=d)
+        d.setNameFilters('*.png')
+        d.setFilter(QDir.Files or QDir.NoDotAndDotDot)
 
-        while self.directory.hasNext():
-            print self.directory.next()
+        d = QDirIterator(d)
 
         self.input_images = []
 
+        while d.hasNext():
+            self.input_images.append(BPImage(d.next()))
+
         self.bins = bins
 
-        for b in self.bins:
-            b.append(Rect.random())
-            b.append(Rect.random())
-            b.append(Rect.random())
+        for i in self.input_images:
+            self.bins[0].append(i)
 
-        # print 'BinPackingThread'
-        # print self.bins
+        self.updateBins.emit(copy.copy(self.bins))
 
     def run(self):
         while True:
@@ -44,20 +45,13 @@ class PaintWidget(QWidget):
         QWidget.__init__(self, parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
 
-        # self.bins = [BPImage('resources/start.png')]
         self.bins = []
-        self.images = [BPImage('resources/ship1.png')]
 
     def paintEvent(self, event):
         painter = QPainter(self)
 
-        # painter.drawPixmap(QPoint(0, 0), QPixmap(self.image.image))
-
         for b in self.bins:
             b.draw(painter)
-
-        for i in self.images:
-            i.draw(painter, Point())
 
     def redrawBins(self, bins):
         self.bins = bins
