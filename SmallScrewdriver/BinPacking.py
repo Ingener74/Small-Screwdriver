@@ -35,7 +35,9 @@ class BinPacking(object):
                     break
 
         for i in self.bin.images:
-            self.images.remove(i)
+            images.remove(i)
+
+        print 'packing end'
 
     def add_image_to_shelf(self, image):
         self.current_shelf_size.width += image.crop_region.size.width
@@ -49,5 +51,3 @@ class BinPacking(object):
         self.current_shelf_pos.x += image.crop_region.size.width
 
         self.bin.append(image)
-
-

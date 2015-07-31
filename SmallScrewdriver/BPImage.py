@@ -29,7 +29,7 @@ class BPImage(Rect):
     def draw(self, painter, offset):
         painter.drawImage(QPoint(self.origin.x + offset.x,
                                  self.origin.y + offset.y), self.image)
-        Rect(self.origin, self.crop_region.size).draw(painter, offset)
+        # Rect(self.origin, self.crop_region.size).draw(painter, offset)
 
     def __str__(self):
         return '{}({file}, {crop}, {origin}, {size})'.format(self.__class__.__name__,

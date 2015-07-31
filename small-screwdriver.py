@@ -3,7 +3,7 @@ import sys
 import random
 
 from PySide.QtCore import Qt, Signal, QThread, QDirIterator, QDir, QSettings
-from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QFileDialog, QTransform
+from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QFileDialog, QTransform, QImage
 
 from SmallScrewdriver import Ui_SmallScrewdriver, Point, Rect, Size, Bin, BPImage
 from SmallScrewdriver.BinPacking import BinPacking
@@ -24,7 +24,7 @@ class BinPackingThread(QThread):
     def run(self):
 
         d = QDir(path=self.directory)
-        d.setNameFilters('*.png')
+        d.setNameFilters(['*.png'])
         d.setFilter(QDir.Files or QDir.NoDotAndDotDot)
 
         d = QDirIterator(d)
@@ -43,6 +43,12 @@ class BinPackingThread(QThread):
 
         BinPacking(self.bins[0], input_images)
 
+        im1 = QImage(self.bins[0].size.width, self.bins[0].size.height, QImage.Format_ARGB32)
+        p1 = QPainter(im1)
+        self.bins[0].draw(p1)
+        im1.save("test.png")
+        p1.end()
+
         for i in input_images:
             self.bins[1].append(i)
 
@@ -53,15 +59,17 @@ class BinPackingThread(QThread):
 
 # noinspection PyPep8Naming
 class PaintWidget(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, scaleSpinBox, parent=None):
         QWidget.__init__(self, parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
 
         self.bins = []
 
+        self.scaleSpinBox = scaleSpinBox
+
     def paintEvent(self, event):
         painter = QPainter(self)
-        painter.setWorldTransform(QTransform().scale(0.2, 0.2))
+        painter.setWorldTransform(QTransform().scale(self.scaleSpinBox.value(), self.scaleSpinBox.value()))
 
         for b in self.bins:
             b.draw(painter)
@@ -80,7 +88,9 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
         self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
         self.restoreGeometry(self.settings.value(self.__class__.__name__))
 
-        self.paintWidget = PaintWidget(self)
+        self.scaleSpinBox.valueChanged.connect(self.update)
+
+        self.paintWidget = PaintWidget(self.scaleSpinBox, self)
         self.paintWidget.resize(400, 400)
 
         self.verticalLayout.insertWidget(1, self.paintWidget)

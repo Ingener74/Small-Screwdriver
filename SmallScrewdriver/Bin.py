@@ -42,6 +42,9 @@ class Bin(object):
             # Rect(rect.origin + self.origin, rect.size, rect.pen).draw(painter=painter)
             image.draw(painter=painter, offset=self.origin)
 
+    def save(self, binName):
+        pass
+
     def __str__(self):
         return '{}({}, {}, {})'.format(self.__class__.__name__, self.origin, self.size, self.images)
 
