@@ -55,3 +55,8 @@ docs/_build/
 
 # PyBuilder
 target/
+
+atlas1.json
+atlas1.png
+atlas0.png
+atlas0.json

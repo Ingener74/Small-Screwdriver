@@ -1,9 +1,9 @@
 # encoding: utf8
 from PySide.QtCore import QPoint
+from PySide.QtGui import QImage
 
-from PIL import Image
 from SmallScrewdriver import Rect, Size, Point
-from SillyCrossbow import crop_image3
+from SillyCrossbow import cropImage
 
 
 # noinspection PyPep8Naming
@@ -17,10 +17,11 @@ class BPImage(Rect):
     def __init__(self, filename):
         self.filename = filename
 
-        image = Image.open(self.filename)
-        Rect.__init__(self, Point(), Size(image.width, image.height))
+        image = QImage(self.filename)
 
-        self.image, x, y, width, height = crop_image3(image, 50)
+        Rect.__init__(self, Point(), Size(image.width(), image.height()))
+
+        self.image, x, y, width, height = cropImage(image, 50)
         self.crop_region = Rect(Point(x, y), Size(width, height))
 
     def area(self):

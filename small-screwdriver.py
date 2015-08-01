@@ -1,10 +1,10 @@
 # encoding: utf8
-from copy import copy
 import sys
 import random
 
 from PySide.QtCore import Qt, Signal, QThread, QDirIterator, QDir, QSettings
-from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QFileDialog, QTransform, QImage
+
+from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QFileDialog, QTransform
 
 from SmallScrewdriver import Ui_SmallScrewdriver, Point, Rect, Size, Bin, BPImage
 from SmallScrewdriver.BinPacking import BinPacking
@@ -29,12 +29,16 @@ class BinPackingThread(QThread):
         d.setNameFilters(['*.png'])
         d.setFilter(QDir.Files or QDir.NoDotAndDotDot)
 
-        d = QDirIterator(d)
+        dit = QDirIterator(d)
 
         input_images = []
 
-        while d.hasNext():
-            input_images.append(BPImage(d.next()))
+        while dit.hasNext():
+            im = dit.next()
+
+            print d.relativeFilePath(im)
+
+            input_images.append(BPImage(im))
 
         atlas_counter = 0
 
@@ -52,8 +56,6 @@ class BinPackingThread(QThread):
             bin_x += b.size.width + 5
 
         self.updateBins.emit(self.bins)
-
-        print u'Я закончил'
 
 
 # noinspection PyPep8Naming

@@ -1,6 +1,4 @@
 # encoding: utf8
-import sys
-import math
 
 from SmallScrewdriver import Size, Point
 
@@ -10,24 +8,16 @@ class BinPacking(object):
     def __init__(self, bin, images):
         self.bin = bin
 
-        print 'Before sort'
-        for i in images:
-            print i
-
         self.images = sorted(images, key=lambda image: image.crop_region.size.width, reverse=True)
 
-        print 'After sort'
-        for i in self.images:
-            print i
-
         self.current_shelf_size = Size()
-        self.current_shelf_pos = Point()n
-        for i in images:
+        self.current_shelf_pos = Point()
+        for i in self.images:
             # Если на текущеё полке есть место
             if self.bin.size.width - self.current_shelf_size.width >= i.crop_region.size.width:
 
                 # Добавляем изображение в ящик
-                self.add_image_to_shelf(i)
+                self.addImage2Shelf(i)
 
             # Если на текущёй полке места нет ...
             else:
@@ -37,7 +27,7 @@ class BinPacking(object):
                     self.current_shelf_pos.x = 0
                     self.current_shelf_size = Size()
 
-                    self.add_image_to_shelf(i)
+                    self.addImage2Shelf(i)
                 # Если места нет ...
                 else:
                     # ... тогда заканчиваем
@@ -46,9 +36,7 @@ class BinPacking(object):
         for i in self.bin.images:
             images.remove(i)
 
-        # print 'packing end'
-
-    def add_image_to_shelf(self, image):
+    def addImage2Shelf(self, image):
         self.current_shelf_size.width += image.crop_region.size.width
 
         if self.current_shelf_size.height < image.crop_region.size.height:
@@ -60,3 +48,6 @@ class BinPacking(object):
         self.current_shelf_pos.x += image.crop_region.size.width
 
         self.bin.append(image)
+
+    def saveAtlases(self, directory):
+        pass
