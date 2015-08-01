@@ -29,7 +29,7 @@ class BinPackingThread(QThread):
         d.setNameFilters(['*.png'])
         d.setFilter(QDir.Files or QDir.NoDotAndDotDot)
 
-        dit = QDirIterator(d)
+        dit = QDirIterator(d, flags=QDirIterator.Subdirectories, filters=QDir.Files)
 
         input_images = []
 
