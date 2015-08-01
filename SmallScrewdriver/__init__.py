@@ -7,3 +7,4 @@ from Size import Size
 from Bin import Bin
 from BPImage import BPImage
 from BinPacking import BinPacking
+from Shelf import Shelf

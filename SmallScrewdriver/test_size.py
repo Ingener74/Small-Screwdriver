@@ -29,3 +29,19 @@ class TestSize(TestCase):
         assert s2 != s4
 
         assert s3 != s4
+
+        assert s1 < s2
+        assert s4 < s2
+        assert not s1 < s3
+
+        assert s2 > s1
+        assert s2 > s4
+        assert not s3 > s1
+
+        assert s1 <= s4
+        assert s1 <= s2
+        assert s1 <= s3
+
+        assert s2 >= s1
+        assert s1 >= s4
+        assert s3 >= s1
