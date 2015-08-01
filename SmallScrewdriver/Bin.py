@@ -1,7 +1,10 @@
 # encoding: utf8
+import json
+
 from PySide.QtCore import Qt
-from PySide.QtGui import QPen
-from SmallScrewdriver import Size, Point, Rect
+from PySide.QtGui import QPen, QImage, QPainter
+
+from SmallScrewdriver import Size, Point
 
 
 # noinspection PyPep8Naming
@@ -43,7 +46,18 @@ class Bin(object):
             image.draw(painter=painter, offset=self.origin)
 
     def save(self, binName):
-        pass
+        image = QImage(self.size.width, self.size.height, QImage.Format_ARGB32)
+        painter = QPainter(image)
+        self.draw(painter)
+        image.save(binName + '.png')
+        painter.end()
+
+        json_images = []
+        for i in self.images:
+            json_images.append(i.toJson())
+
+        with open(binName + '.json', mode='w') as outfile:
+            json.dump(obj=json_images, fp=outfile, separators=(',', ':'), indent=4)
 
     def __str__(self):
         return '{}({}, {}, {})'.format(self.__class__.__name__, self.origin, self.size, self.images)

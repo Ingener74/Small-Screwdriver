@@ -1,4 +1,5 @@
 # encoding: utf8
+from copy import copy
 import sys
 import random
 
@@ -8,18 +9,19 @@ from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QFileDial
 from SmallScrewdriver import Ui_SmallScrewdriver, Point, Rect, Size, Bin, BPImage
 from SmallScrewdriver.BinPacking import BinPacking
 
-
 COMPANY = 'Venus.Games'
 APPNAME = 'SmallScrewdriver'
+
+SETTINGS_SCALE = 'RenderScale'
 
 
 class BinPackingThread(QThread):
     updateBins = Signal(Rect)
 
-    def __init__(self, d, bins):
+    def __init__(self, d):
         QThread.__init__(self)
         self.directory = d
-        self.bins = bins
+        self.bins = []
 
     def run(self):
 
@@ -34,23 +36,20 @@ class BinPackingThread(QThread):
         while d.hasNext():
             input_images.append(BPImage(d.next()))
 
-        input_images = sorted(input_images, key=lambda image: image.crop_region.size.width, reverse=True)
+        atlas_counter = 0
 
-        # for i in input_images:
-        #     self.bins[0].append(i)
-        #     self.updateBins.emit(self.bins)
-        # self.bins.append()
+        while len(input_images) > 0:
+            bin = Bin(Size(2048, 2048))
+            BinPacking(bin, input_images)
+            bin.save('atlas' + str(atlas_counter))
+            atlas_counter += 1
 
-        BinPacking(self.bins[0], input_images)
+            self.bins.append(bin)
 
-        im1 = QImage(self.bins[0].size.width, self.bins[0].size.height, QImage.Format_ARGB32)
-        p1 = QPainter(im1)
-        self.bins[0].draw(p1)
-        im1.save("test.png")
-        p1.end()
-
-        for i in input_images:
-            self.bins[1].append(i)
+        bin_x = 0
+        for b in self.bins:
+            b.origin = Point(bin_x, 0)
+            bin_x += b.size.width + 5
 
         self.updateBins.emit(self.bins)
 
@@ -86,7 +85,10 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
         self.setupUi(self)
 
         self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
+        print self.settings.fileName()
         self.restoreGeometry(self.settings.value(self.__class__.__name__))
+        if self.settings.value(SETTINGS_SCALE) is not None:
+            self.scaleSpinBox.setValue(float(self.settings.value(SETTINGS_SCALE)))
 
         self.scaleSpinBox.valueChanged.connect(self.update)
 
@@ -99,10 +101,7 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
 
     def onGo(self):
         directory = QFileDialog.getExistingDirectory()
-        self.binPackingThread = BinPackingThread(directory, [
-            Bin(Size(2048, 2048)),
-            Bin(Size(1024, 1024), Point(2048, 0))
-        ])
+        self.binPackingThread = BinPackingThread(directory)
         self.binPackingThread.updateBins.connect(self.paintWidget.redrawBins)
         self.binPackingThread.start()
 
@@ -113,7 +112,7 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
     def closeEvent(self, e):
         self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
         self.settings.setValue(self.__class__.__name__, self.saveGeometry())
-
+        self.settings.setValue(SETTINGS_SCALE, self.scaleSpinBox.value())
 
 
 if __name__ == '__main__':

@@ -31,12 +31,36 @@ class BPImage(Rect):
                                  self.origin.y + offset.y), self.image)
         # Rect(self.origin, self.crop_region.size).draw(painter, offset)
 
-    def __str__(self):
-        return '{}({file}, {crop}, {origin}, {size})'.format(self.__class__.__name__,
-                                                             file=self.filename,
-                                                             crop=self.crop_region,
-                                                             origin=self.origin,
-                                                             size=self.size)
+    def toJson(self):
+        return {
+            'offset': {
+                'x': self.origin.x,
+                'y': self.origin.y
+            },
+            'original_size': {
+                'width': self.size.width,
+                'height': self.size.height
+            },
+            'cropped_image': {
+                'origin': {
+                    'x': self.crop_region.origin.x,
+                    'y': self.crop_region.origin.y
+                },
+                'size': {
+                    'width': self.crop_region.size.width,
+                    'height': self.crop_region.size.height
+                }
+            },
+            'filename': self.filename
+        }
 
-    def __repr__(self):
-        return self.__str__()
+        # noinspection PyUnreachableCode
+        def __str__(self):
+            return '{}({file}, {crop}, {origin}, {size})'.format(self.__class__.__name__,
+                                                                 file=self.filename,
+                                                                 crop=self.crop_region,
+                                                                 origin=self.origin,
+                                                                 size=self.size)
+
+        def __repr__(self):
+            return self.__str__()

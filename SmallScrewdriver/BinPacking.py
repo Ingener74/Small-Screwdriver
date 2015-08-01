@@ -9,10 +9,19 @@ from SmallScrewdriver import Size, Point
 class BinPacking(object):
     def __init__(self, bin, images):
         self.bin = bin
+
+        print 'Before sort'
+        for i in images:
+            print i
+
         self.images = sorted(images, key=lambda image: image.crop_region.size.width, reverse=True)
 
+        print 'After sort'
+        for i in self.images:
+            print i
+
         self.current_shelf_size = Size()
-        self.current_shelf_pos = Point()
+        self.current_shelf_pos = Point()n
         for i in images:
             # Если на текущеё полке есть место
             if self.bin.size.width - self.current_shelf_size.width >= i.crop_region.size.width:
@@ -37,7 +46,7 @@ class BinPacking(object):
         for i in self.bin.images:
             images.remove(i)
 
-        print 'packing end'
+        # print 'packing end'
 
     def add_image_to_shelf(self, image):
         self.current_shelf_size.width += image.crop_region.size.width
