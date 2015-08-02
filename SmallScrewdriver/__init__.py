@@ -5,6 +5,6 @@ from Point import Point
 from Rect import Rect
 from Size import Size
 from Bin import Bin
-from BPImage import BPImage
+from Image import Image
 from BinPacking import BinPacking
 from Shelf import Shelf

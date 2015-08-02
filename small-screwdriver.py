@@ -6,7 +6,7 @@ from PySide.QtCore import Qt, Signal, QThread, QDirIterator, QDir, QSettings
 
 from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QFileDialog, QTransform
 
-from SmallScrewdriver import Ui_SmallScrewdriver, Point, Rect, Size, Bin, BPImage
+from SmallScrewdriver import Ui_SmallScrewdriver, Point, Rect, Size, Bin, Image
 from SmallScrewdriver.ShelfFirstFitDecreasingBinPacking import ShelfFirstFitDecreasingBinPacking
 
 COMPANY = 'Venus.Games'
@@ -38,7 +38,7 @@ class BinPackingThread(QThread):
 
             print d.relativeFilePath(im)
 
-            input_images.append(BPImage(im))
+            input_images.append(Image(im))
 
         atlas_counter = 0
 

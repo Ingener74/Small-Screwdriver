@@ -6,8 +6,8 @@ from SmallScrewdriver import Rect, Size, Point
 from SillyCrossbow import cropImage
 
 
-# noinspection PyPep8Naming
-class BPImage(Rect):
+# noinspection PyPep8Naming,PyUnusedLocal
+class Image(Rect):
     """
     self.origin        - показывает положение в атласе
     self.size          - оригинальный размер изображения
@@ -55,13 +55,13 @@ class BPImage(Rect):
             'filename': self.filename
         }
 
-        # noinspection PyUnreachableCode
-        def __str__(self):
-            return '{}({file}, {crop}, {origin}, {size})'.format(self.__class__.__name__,
-                                                                 file=self.filename,
-                                                                 crop=self.crop_region,
-                                                                 origin=self.origin,
-                                                                 size=self.size)
+    # noinspection PyUnreachableCode
+    def __str__(self):
+        return '{klass}({file}, {origin}, {size}, {crop})'.format(klass=self.__class__.__name__,
+                                                                  file=self.filename,
+                                                                  crop=self.crop_region,
+                                                                  origin=self.origin,
+                                                                  size=self.size)
 
-        def __repr__(self):
-            return self.__str__()
+    def __repr__(self):
+        return self.__str__()

@@ -1,6 +1,6 @@
 # encoding: utf8
 
-from SmallScrewdriver import Size, Point, BinPacking
+from SmallScrewdriver import Size, Point, BinPacking, Bin, Shelf
 
 
 # noinspection PyPep8Naming
@@ -11,11 +11,24 @@ class ShelfFirstFitDecreasingBinPacking(BinPacking):
 
         self.bins = []
 
+        self.shelfs = []
+
         self.images = sorted(images, key=lambda image: image.crop_region.size.width, reverse=True)
 
         self.current_shelf_size = Size()
         self.current_shelf_pos = Point()
+
+        # bin = Bin(self.binSize)
+        # shelf = Shelf(bin.size)
+
         for i in self.images:
+
+            # Добавляем изображение на полку
+            if shelf.addImage(i):
+                pass
+            else:
+                pass
+
             # Если на текущеё полке есть место
             if self.bin.size.width - self.current_shelf_size.width >= i.crop_region.size.width:
 
