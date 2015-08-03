@@ -28,18 +28,18 @@ class TestSize(TestCase):
 
         self.assertNotEqual(s3, s4)
 
-        self.assertLess(s1 ,s2)
-        self.assertLess(s4 , s2)
-        # self.assertGreaterEqual() not s1 < s3
+        self.assertLess(s1, s2)
+        self.assertLess(s4, s2)
+        self.assertGreaterEqual(s1, s3)
 
-        assert s2 > s1
-        assert s2 > s4
-        assert not s3 > s1
+        self.assertGreater(s2, s1)
+        self.assertGreater(s2, s4)
+        self.assertLessEqual(s3, s1)
 
-        assert s1 <= s4
-        assert s1 <= s2
-        assert s1 <= s3
+        self.assertLessEqual(s1, s4)
+        self.assertLessEqual(s1, s2)
+        self.assertLessEqual(s1, s3)
 
-        assert s2 >= s1
-        assert s1 >= s4
-        assert s3 >= s1
+        self.assertGreaterEqual(s2, s1)
+        self.assertGreaterEqual(s1, s4)
+        self.assertGreaterEqual(s3, s1)
