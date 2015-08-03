@@ -18,12 +18,12 @@ class TestShelf(TestCase):
 
         # shelf 1
         shelf = Shelf(Size(1024, 1024), Point(0, 300))
-        self.assertEquals(shelf.maxSize, Size(1024, 1024))
-        self.assertEquals(shelf.size, Size())
+        self.assertEqual(shelf.maxSize, Size(1024, 1024))
+        self.assertEqual(shelf.size, Size())
 
         self.assertTrue(shelf.addImage(im1))
-        self.assertEquals(shelf.size, Size(226, 226))
-        self.assertEquals(len(shelf.images), 1)
+        self.assertEqual(shelf.size, Size(226, 226))
+        self.assertEqual(len(shelf.images), 1)
         self.assertEqual(im1.origin, Point(0, 300))
 
         self.assertTrue(shelf.addImage(im2))
@@ -61,7 +61,6 @@ class TestShelf(TestCase):
         self.assertEqual(im3.origin, Point(im1.crop_region.size.width +
                                            im2.crop_region.size.width +
                                            im3.crop_region.size.width, 200))
-        self
 
         self.assertTrue(shelf2.addImage(im4))
         self.assertEqual(shelf2.size, Size(im1.crop_region.size.width +

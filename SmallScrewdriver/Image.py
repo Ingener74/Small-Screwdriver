@@ -3,7 +3,7 @@ from PySide.QtCore import QPoint
 from PySide.QtGui import QImage
 
 from SmallScrewdriver import Rect, Size, Point
-from SillyCrossbow import cropImage
+from SillyCrossbow import crop_image
 
 
 # noinspection PyPep8Naming,PyUnusedLocal
@@ -21,7 +21,7 @@ class Image(Rect):
 
         Rect.__init__(self, Point(), Size(image.width(), image.height()))
 
-        self.image, x, y, width, height = cropImage(image, 50)
+        self.image, x, y, width, height = crop_image(image, 50)
         self.crop_region = Rect(Point(x, y), Size(width, height))
 
     def area(self):

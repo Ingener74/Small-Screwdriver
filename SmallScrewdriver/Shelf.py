@@ -20,7 +20,7 @@ class Shelf(Rect):
         freeSize = Size(self.maxSize.width - self.size.width, self.maxSize.height)
         if freeSize >= image.crop_region.size:
 
-            image.origin = Point(self.size.width, origin)
+            image.origin = Point(self.size.width, self.origin.y)
             self.images.append(image)
 
             self.size.width += image.crop_region.size.width
