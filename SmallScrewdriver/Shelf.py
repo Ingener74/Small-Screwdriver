@@ -5,7 +5,7 @@ from SmallScrewdriver import Rect, Point, Size
 
 # noinspection PyPep8Naming
 class Shelf(Rect):
-    def __init__(self, maxSize, origin):
+    def __init__(self, maxSize, origin=Point()):
         Rect.__init__(self, origin, Size())
         self.maxSize = maxSize
         self.images = []

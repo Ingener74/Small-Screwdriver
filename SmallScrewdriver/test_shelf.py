@@ -49,7 +49,7 @@ class TestShelf(TestCase):
         self.assertTrue(shelf2.addImage(im2))
         self.assertEqual(shelf2.size, Size(im1.crop_region.size.width + im2.crop_region.size.width,
                                            max(im1.crop_region.size.height, im2.crop_region.size.height)))
-        self.assertEqual(im2.origin, Point(im1.crop_region.size.width + im2.crop_region.size.width, 200))
+        self.assertEqual(im2.origin, Point(im1.crop_region.size.width, 200))
 
         self.assertTrue(shelf2.addImage(im3))
         self.assertEqual(shelf2.size, Size(im1.crop_region.size.width +
@@ -59,8 +59,7 @@ class TestShelf(TestCase):
                                                im2.crop_region.size.height,
                                                im3.crop_region.size.height)))
         self.assertEqual(im3.origin, Point(im1.crop_region.size.width +
-                                           im2.crop_region.size.width +
-                                           im3.crop_region.size.width, 200))
+                                           im2.crop_region.size.width, 200))
 
         self.assertTrue(shelf2.addImage(im4))
         self.assertEqual(shelf2.size, Size(im1.crop_region.size.width +
@@ -73,8 +72,7 @@ class TestShelf(TestCase):
                                                im4.crop_region.size.height)))
         self.assertEqual(im4.origin, Point(im1.crop_region.size.width +
                                            im2.crop_region.size.width +
-                                           im3.crop_region.size.width +
-                                           im4.crop_region.size.width, 200))
+                                           im3.crop_region.size.width, 200))
 
         # shelf 3
         shelf3 = Shelf(Size(2048, 100))
