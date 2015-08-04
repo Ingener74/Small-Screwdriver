@@ -40,21 +40,6 @@ class BinPackingThread(QThread):
 
             input_images.append(Image(im))
 
-        atlas_counter = 0
-
-        # while len(input_images) > 0:
-        #     bin = Bin(Size(2048, 2048))
-        #     ShelfFirstFitDecreasingBinPacking(bin, input_images)
-        #     bin.save('atlas' + str(atlas_counter))
-        #     atlas_counter += 1
-        #
-        #     self.bins.append(bin)
-        #
-        # bin_x = 0
-        # for b in self.bins:
-        #     b.origin = Point(bin_x, 0)
-        #     bin_x += b.size.width + 5
-
         bin_packing = ShelfFirstFitDecreasingBinPacking(binSize=Size(2048, 2048), images=input_images)
 
         bin_packing.saveAtlases(self.directory)

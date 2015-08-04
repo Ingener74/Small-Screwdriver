@@ -10,13 +10,9 @@ class ShelfFirstFitDecreasingBinPacking(BinPacking):
         self.binSize = binSize
 
         self.bins = []
-
         self.shelfs = []
 
         self.images = sorted(images, key=lambda image: image.crop_region.size.width, reverse=True)
-
-        self.current_shelf_size = Size()
-        self.current_shelf_pos = Point()
 
         bin = Bin(self.binSize)
         self.bins.append(bin)
@@ -45,6 +41,12 @@ class ShelfFirstFitDecreasingBinPacking(BinPacking):
 
                     shelf = Shelf(bin.size)
                     self.shelfs.append(shelf)
+
+        for i, b in enumerate(self.bins):
+            b.origin = Point(i * self.binSize.width + i*5 + 5, 0)
+
+        for b in self.bins:
+            print 'fill level ', b.fillLevel()
 
     def saveAtlases(self, directory):
         for i, b in enumerate(self.bins):
