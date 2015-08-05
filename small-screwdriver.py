@@ -62,8 +62,10 @@ class PaintWidget(QWidget):
         painter = QPainter(self)
         painter.setWorldTransform(QTransform().scale(self.scaleSpinBox.value(), self.scaleSpinBox.value()))
 
+        x = 0
         for b in self.bins:
-            b.draw(painter)
+            b.draw(painter, Point(x, 0))
+            x += b.size.width + 5
 
     def redrawBins(self, bins):
         self.bins = bins

@@ -7,6 +7,8 @@ class RecursiveShelfBinPacking(BinPacking):
         BinPacking.__init__(self, bin_size=bin_size)
 
         self.images = []
+
+        # Bыкидываем все изображения размер которых больше размера контейнера
         for i in images:
             if i.crop.size < self.bin_size:
                 self.images.append(i)
@@ -15,7 +17,6 @@ class RecursiveShelfBinPacking(BinPacking):
             if i.crop.size.width > i.crop.size.height:
                 i.rotated = True
 
-        # TODO выкинуть все изображения размер которых больше размера контейнера
         self.images = sorted(self.images,
                              key=lambda im: im.crop.size.width if im.rotated else im.crop.size.height,
                              reverse=True)
@@ -36,7 +37,7 @@ class RecursiveShelfBinPacking(BinPacking):
                 # ... пробуем вставить изображение в полку ...
                 if s.addImage(i):
                     # ... если получилось, идём к следующему изображению ...
-                    bin.append(i)
+                    bin.addImage(i)
                     break
             else:
                 # ... если не получилось вставить не в одну полку, создаём новую полку ...
@@ -45,15 +46,11 @@ class RecursiveShelfBinPacking(BinPacking):
                 shelf = Shelf(max_size=max_size, origin=origin)
 
                 self.shelfs.append(shelf)
-                # TODO теперь надо пройти этим изображением по полкам
 
                 # ... пробуем вставить изображение в новую полку ...
                 if shelf.addImage(i):
                     # ... если получилось, идём к следующему изображению ...
-                    bin.append(i)
-
-                    # TODO дальше пока незнаю, дома допишу
-                    break
+                    bin.addImage(i)
                 else:
                     # ... если нет, создаём новый контейнер и полку
 
@@ -65,13 +62,9 @@ class RecursiveShelfBinPacking(BinPacking):
 
                     # ... пробуем вставить изображение в новый контейнер на новой полке
                     if shelf.addImage(i):
-                        bin.append(i)
-                        break
+                        bin.addImage(i)
                     else:
                         raise SystemError(u'Какая та хуйня, сюда мы дойти не должны')
-
-            print 'test'
-
 
         for i, b in enumerate(self.bins):
             b.origin = Point(i * self.bin_size.width + i*5 + 5, 0)

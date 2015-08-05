@@ -33,9 +33,11 @@ class Image(Rect):
         origin_offset = QPoint(self.origin.x + offset.x, self.origin.y + offset.y)
 
         if self.rotated:
-            painter.setTransform(QTransform().translate(origin_offset.x() + self.crop.size.height,
-                                                        origin_offset.y()).rotate(90, Qt.ZAxis))
+            old_transform = QTransform(painter.transform())
+            painter.setTransform(painter.transform().translate(origin_offset.x() + self.crop.size.height,
+                                                               origin_offset.y()).rotate(90, Qt.ZAxis))
             painter.drawImage(0, 0, self.image)
+            painter.setTransform(old_transform)
         else:
             painter.drawImage(origin_offset, self.image)
         # Rect(self.origin, self.crop.size).draw(painter, offset)
@@ -50,7 +52,7 @@ class Image(Rect):
                 'width': self.size.width,
                 'height': self.size.height
             },
-            'cropped_image': {
+            'crop': {
                 'origin': {
                     'x': self.crop.origin.x,
                     'y': self.crop.origin.y

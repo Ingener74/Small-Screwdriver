@@ -14,7 +14,7 @@ class Bin(object):
         self.size = size
         self.images = []
 
-    def append(self, image):
+    def addImage(self, image):
         if image.area() > self.size.area():
             return False
 
@@ -35,20 +35,22 @@ class Bin(object):
             area += r.area()
         return area / float(self.size.area())
 
-    def draw(self, painter):
+    def draw(self, painter, offset):
         pen = QPen()
         pen.setStyle(Qt.DashLine)
         painter.setPen(pen)
-        painter.drawRect(self.origin.x, self.origin.y, self.size.width, self.size.height)
+        # painter.drawRect(self.origin.x, self.origin.y, self.size.width, self.size.height)
+        painter.drawRect(offset.x, offset.y, self.size.width, self.size.height)
 
         for image in self.images:
             # Rect(rect.origin + self.origin, rect.size, rect.pen).draw(painter=painter)
-            image.draw(painter=painter, offset=self.origin)
+            # image.draw(painter=painter, offset=self.origin)
+            image.draw(painter=painter, offset=offset)
 
     def save(self, binName):
         image = QImage(self.size.width, self.size.height, QImage.Format_ARGB32)
         painter = QPainter(image)
-        self.draw(painter)
+        self.draw(painter, Point())
         image.save(binName + '.png')
         painter.end()
 
