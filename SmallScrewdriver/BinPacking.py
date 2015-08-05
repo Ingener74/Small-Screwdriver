@@ -1,11 +1,11 @@
-from abc import ABCMeta, abstractmethod
-
-__author__ = 'Pavel'
+# encoding: utf8
 
 
 class BinPacking(object):
-    __metaclass__ = ABCMeta
+    def __init__(self, bin_size):
+        self.bins = []
+        self.bin_size = bin_size
 
-    @abstractmethod
-    def saveAtlases(self, directory):
-        pass
+    def save_atlases(self, directory):
+        for i, b in enumerate(self.bins):
+            b.save(directory + '/atlas' + str(i))

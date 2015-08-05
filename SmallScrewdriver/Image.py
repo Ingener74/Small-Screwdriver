@@ -24,6 +24,8 @@ class Image(Rect):
         self.image, x, y, width, height = crop_image(image, 50)
         self.crop_region = Rect(Point(x, y), Size(width, height))
 
+        self.rotated = False
+
     def area(self):
         return self.crop_region.area()
 

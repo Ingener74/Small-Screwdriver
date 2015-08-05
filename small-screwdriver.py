@@ -40,9 +40,9 @@ class BinPackingThread(QThread):
 
             input_images.append(Image(im))
 
-        bin_packing = ShelfFirstFitDecreasingBinPacking(binSize=Size(2048, 2048), images=input_images)
+        bin_packing = ShelfFirstFitDecreasingBinPacking(bin_size=Size(2048, 2048), images=input_images)
 
-        bin_packing.saveAtlases(self.directory)
+        bin_packing.save_atlases(self.directory)
 
         self.updateBins.emit(bin_packing.bins)
 

@@ -5,16 +5,14 @@ from SmallScrewdriver import Size, Point, BinPacking, Bin, Shelf
 
 # noinspection PyPep8Naming
 class ShelfFirstFitDecreasingBinPacking(BinPacking):
-    def __init__(self, binSize, images):
+    def __init__(self, bin_size, images):
+        BinPacking.__init__(self, bin_size=bin_size)
 
-        self.binSize = binSize
-
-        self.bins = []
         self.shelfs = []
 
         self.images = sorted(images, key=lambda image: image.crop_region.size.width, reverse=True)
 
-        bin = Bin(self.binSize)
+        bin = Bin(self.bin_size)
         self.bins.append(bin)
 
         shelf = Shelf(bin.size)
@@ -36,18 +34,15 @@ class ShelfFirstFitDecreasingBinPacking(BinPacking):
                     bin.append(i)
                 else:
                     # ... если даже в новую полку мы добавить не можем, добавляем новый контейнер
-                    bin = Bin(self.binSize)
+                    bin = Bin(self.bin_size)
                     self.bins.append(bin)
 
                     shelf = Shelf(bin.size)
                     self.shelfs.append(shelf)
 
         for i, b in enumerate(self.bins):
-            b.origin = Point(i * self.binSize.width + i*5 + 5, 0)
+            b.origin = Point(i * self.bin_size.width + i*5 + 5, 0)
 
         for b in self.bins:
             print 'fill level ', b.fillLevel()
 
-    def saveAtlases(self, directory):
-        for i, b in enumerate(self.bins):
-            b.save(directory + '/atlas' + str(i))
