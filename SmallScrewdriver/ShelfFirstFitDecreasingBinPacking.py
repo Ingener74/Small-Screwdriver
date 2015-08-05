@@ -10,7 +10,7 @@ class ShelfFirstFitDecreasingBinPacking(BinPacking):
 
         self.shelfs = []
 
-        self.images = sorted(images, key=lambda image: image.crop_region.size.width, reverse=True)
+        self.images = sorted(images, key=lambda image: image.crop.size.width, reverse=True)
 
         bin = Bin(self.bin_size)
         self.bins.append(bin)

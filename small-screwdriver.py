@@ -6,8 +6,8 @@ from PySide.QtCore import Qt, Signal, QThread, QDirIterator, QDir, QSettings
 
 from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QFileDialog, QTransform
 
-from SmallScrewdriver import Ui_SmallScrewdriver, Point, Rect, Size, Bin, Image
-from SmallScrewdriver.ShelfFirstFitDecreasingBinPacking import ShelfFirstFitDecreasingBinPacking
+from SmallScrewdriver import (Ui_SmallScrewdriver, Point, Rect, Size, Bin, Image, ShelfFirstFitDecreasingBinPacking,
+                              RecursiveShelfBinPacking)
 
 COMPANY = 'Venus.Games'
 APPNAME = 'SmallScrewdriver'
@@ -40,7 +40,8 @@ class BinPackingThread(QThread):
 
             input_images.append(Image(im))
 
-        bin_packing = ShelfFirstFitDecreasingBinPacking(bin_size=Size(2048, 2048), images=input_images)
+        # bin_packing = ShelfFirstFitDecreasingBinPacking(bin_size=Size(2048, 2048), images=input_images)
+        bin_packing = RecursiveShelfBinPacking(bin_size=Size(2048, 2048), images=input_images)
 
         bin_packing.save_atlases(self.directory)
 

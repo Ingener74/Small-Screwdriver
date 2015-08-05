@@ -29,7 +29,7 @@ class TestShelf(TestCase):
         self.assertTrue(shelf.addImage(im2))
         self.assertEqual(shelf.size, Size(226 + 397, 226))
         self.assertEqual(len(shelf.images), 2)
-        self.assertEqual(im2.origin, Point(im1.crop_region.size.width, 300))
+        self.assertEqual(im2.origin, Point(im1.crop.size.width, 300))
 
         self.assertFalse(shelf.addImage(im3))
         self.assertEqual(len(shelf.images), 2)
@@ -43,36 +43,36 @@ class TestShelf(TestCase):
         self.assertEqual(shelf2.size, Size())
 
         self.assertTrue(shelf2.addImage(im1))
-        self.assertEqual(shelf2.size, Size(im1.crop_region.size.width, im1.crop_region.size.height))
+        self.assertEqual(shelf2.size, Size(im1.crop.size.width, im1.crop.size.height))
         self.assertEqual(im1.origin, Point(0, 200))
 
         self.assertTrue(shelf2.addImage(im2))
-        self.assertEqual(shelf2.size, Size(im1.crop_region.size.width + im2.crop_region.size.width,
-                                           max(im1.crop_region.size.height, im2.crop_region.size.height)))
-        self.assertEqual(im2.origin, Point(im1.crop_region.size.width, 200))
+        self.assertEqual(shelf2.size, Size(im1.crop.size.width + im2.crop.size.width,
+                                           max(im1.crop.size.height, im2.crop.size.height)))
+        self.assertEqual(im2.origin, Point(im1.crop.size.width, 200))
 
         self.assertTrue(shelf2.addImage(im3))
-        self.assertEqual(shelf2.size, Size(im1.crop_region.size.width +
-                                           im2.crop_region.size.width +
-                                           im3.crop_region.size.width,
-                                           max(im1.crop_region.size.height,
-                                               im2.crop_region.size.height,
-                                               im3.crop_region.size.height)))
-        self.assertEqual(im3.origin, Point(im1.crop_region.size.width +
-                                           im2.crop_region.size.width, 200))
+        self.assertEqual(shelf2.size, Size(im1.crop.size.width +
+                                           im2.crop.size.width +
+                                           im3.crop.size.width,
+                                           max(im1.crop.size.height,
+                                               im2.crop.size.height,
+                                               im3.crop.size.height)))
+        self.assertEqual(im3.origin, Point(im1.crop.size.width +
+                                           im2.crop.size.width, 200))
 
         self.assertTrue(shelf2.addImage(im4))
-        self.assertEqual(shelf2.size, Size(im1.crop_region.size.width +
-                                           im2.crop_region.size.width +
-                                           im3.crop_region.size.width +
-                                           im4.crop_region.size.width,
-                                           max(im1.crop_region.size.height,
-                                               im2.crop_region.size.height,
-                                               im3.crop_region.size.height,
-                                               im4.crop_region.size.height)))
-        self.assertEqual(im4.origin, Point(im1.crop_region.size.width +
-                                           im2.crop_region.size.width +
-                                           im3.crop_region.size.width, 200))
+        self.assertEqual(shelf2.size, Size(im1.crop.size.width +
+                                           im2.crop.size.width +
+                                           im3.crop.size.width +
+                                           im4.crop.size.width,
+                                           max(im1.crop.size.height,
+                                               im2.crop.size.height,
+                                               im3.crop.size.height,
+                                               im4.crop.size.height)))
+        self.assertEqual(im4.origin, Point(im1.crop.size.width +
+                                           im2.crop.size.width +
+                                           im3.crop.size.width, 200))
 
         # shelf 3
         shelf3 = Shelf(Size(2048, 100))

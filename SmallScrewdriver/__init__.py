@@ -8,3 +8,5 @@ from Bin import Bin
 from Image import Image
 from BinPacking import BinPacking
 from Shelf import Shelf
+from ShelfFirstFitDecreasingBinPacking import ShelfFirstFitDecreasingBinPacking
+from RecursiveShelfBinPacking import RecursiveShelfBinPacking
