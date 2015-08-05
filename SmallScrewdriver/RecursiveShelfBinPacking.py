@@ -6,12 +6,17 @@ class RecursiveShelfBinPacking(BinPacking):
     def __init__(self, bin_size, images):
         BinPacking.__init__(self, bin_size=bin_size)
 
+        self.images = []
         for i in images:
+            if i.crop.size < self.bin_size:
+                self.images.append(i)
+
+        for i in self.images:
             if i.crop.size.width > i.crop.size.height:
                 i.rotated = True
 
         # TODO выкинуть все изображения размер которых больше размера контейнера
-        self.images = sorted(images,
+        self.images = sorted(self.images,
                              key=lambda im: im.crop.size.width if im.rotated else im.crop.size.height,
                              reverse=True)
 
@@ -61,3 +66,9 @@ class RecursiveShelfBinPacking(BinPacking):
                             break
                         else:
                             raise SystemError(u'Какая та хуйня, сюда мы дойти не должны')
+
+        for i, b in enumerate(self.bins):
+            b.origin = Point(i * self.bin_size.width + i*5 + 5, 0)
+
+        for b in self.bins:
+            print 'fill level ', b.fillLevel()
