@@ -7,9 +7,12 @@ from PySide.QtGui import QPen, QImage, QPainter
 from SmallScrewdriver import Size, Point
 
 
+DEFAULT_BIN_SIZE = Size(256, 256)
+
+
 # noinspection PyPep8Naming
 class Bin(object):
-    def __init__(self, size=Size(256, 256), origin=Point(0, 0)):
+    def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(0, 0)):
         self.origin = origin
         self.size = size
         self.images = []

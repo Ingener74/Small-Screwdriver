@@ -2,7 +2,8 @@
 
 from unittest import TestCase
 
-from SmallScrewdriver import Shelf, Size, Image, Point
+from SmallScrewdriver import Size, Image, Point
+from SmallScrewdriver.Shelf import Shelf
 
 
 class TestShelf(TestCase):

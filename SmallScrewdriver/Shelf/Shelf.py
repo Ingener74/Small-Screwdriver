@@ -1,9 +1,10 @@
 # encoding: utf8
 
-from SmallScrewdriver import Rect, Point, Size
-
 
 # noinspection PyPep8Naming
+from SmallScrewdriver import Point, Size, Rect
+
+
 class Shelf(Rect):
     def __init__(self, max_size, origin=Point()):
         Rect.__init__(self, origin, Size())
@@ -30,4 +31,3 @@ class Shelf(Rect):
             return True
         else:
             return False
-

@@ -1,5 +1,6 @@
 # encoding: utf8
-from SmallScrewdriver import BinPacking, Bin, Shelf, Size, Point
+from SmallScrewdriver import BinPacking
+from SmallScrewdriver.Shelf import BinShelf
 
 
 class RecursiveShelfBinPacking(BinPacking):
@@ -8,66 +9,41 @@ class RecursiveShelfBinPacking(BinPacking):
 
         self.images = []
 
-        # Bыкидываем все изображения размер которых больше размера контейнера
+        # Bыкидываем все изображения размер которых больше или равен размеру контейнера
         for i in images:
             if i.crop.size < self.bin_size:
                 self.images.append(i)
 
+        # ориентировать все изображения по вертикали
         for i in self.images:
             if i.crop.size.width > i.crop.size.height:
                 i.rotated = True
 
+        # сортировать по высоте
         self.images = sorted(self.images,
                              key=lambda im: im.crop.size.width if im.rotated else im.crop.size.height,
                              reverse=True)
 
-        self.shelfs = []
-
-        bin = Bin(bin_size)
+        bin = BinShelf(bin_size)
         self.bins.append(bin)
-
-        shelf = Shelf(max_size=bin.size)
-        self.shelfs.append(shelf)
 
         # Проходим по всем изображениям ...
         for i in self.images:
-            # ... и по всем полкам ...
-            for s in self.shelfs:
+            # ... и по всем контейнерам ...
+            for b in self.bins:
 
-                # ... пробуем вставить изображение в полку ...
-                if s.addImage(i):
+                # ... пробуем вставить изображение в контейнер ...
+                if b.addImage(i):
                     # ... если получилось, идём к следующему изображению ...
-                    bin.addImage(i)
                     break
             else:
-                # ... если не получилось вставить не в одну полку, создаём новую полку ...
-                max_size = Size(bin.size.width, bin.size.height - (shelf.origin.y + shelf.size.height))
-                origin = Point(0, shelf.origin.y + shelf.size.height)
-                shelf = Shelf(max_size=max_size, origin=origin)
+                # ... если не получилось вставить не в однин контейнер, создаём новый ...
+                bin = BinShelf(bin_size)
+                self.bins.append(bin)
 
-                self.shelfs.append(shelf)
-
-                # ... пробуем вставить изображение в новую полку ...
-                if shelf.addImage(i):
-                    # ... если получилось, идём к следующему изображению ...
-                    bin.addImage(i)
+                # ...
+                if bin.addImage(i):
+                    pass
                 else:
-                    # ... если нет, создаём новый контейнер и полку
-
-                    bin = Bin(bin_size)
-                    self.bins.append(bin)
-
-                    shelf = Shelf(max_size=bin.size)
-                    self.shelfs.append(shelf)
-
-                    # ... пробуем вставить изображение в новый контейнер на новой полке
-                    if shelf.addImage(i):
-                        bin.addImage(i)
-                    else:
-                        raise SystemError(u'Какая та хуйня, сюда мы дойти не должны')
-
-        for i, b in enumerate(self.bins):
-            b.origin = Point(i * self.bin_size.width + i*5 + 5, 0)
-
-        for b in self.bins:
-            print 'fill level ', b.fillLevel()
+                    #
+                    raise SystemError(u'Какая та хуйня, сюда мы дойти не должны')

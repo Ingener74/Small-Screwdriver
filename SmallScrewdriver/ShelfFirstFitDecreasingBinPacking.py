@@ -1,6 +1,7 @@
 # encoding: utf8
 
-from SmallScrewdriver import Size, Point, BinPacking, Bin, Shelf
+from SmallScrewdriver import Size, Point, BinPacking, Bin
+from SmallScrewdriver.Shelf import Shelf
 
 
 # noinspection PyPep8Naming
@@ -23,7 +24,7 @@ class ShelfFirstFitDecreasingBinPacking(BinPacking):
 
             # Добавляем изображение на полку
             if shelf.addImage(i):
-                bin.append(i)
+                bin.addImage(i)
             else:
                 # ... если не можем, добавляем новую полку...
                 shelf = Shelf(Size(bin.size.width, bin.size.height - (shelf.origin.y + shelf.size.height)),
@@ -32,7 +33,7 @@ class ShelfFirstFitDecreasingBinPacking(BinPacking):
 
                 # ... пробуем добавить изображение на новую полку ...
                 if shelf.addImage(i):
-                    bin.append(i)
+                    bin.addImage(i)
                 else:
                     # ... если даже в новую полку мы добавить не можем, добавляем новый контейнер
                     bin = Bin(self.bin_size)
@@ -41,8 +42,8 @@ class ShelfFirstFitDecreasingBinPacking(BinPacking):
                     shelf = Shelf(bin.size)
                     self.shelfs.append(shelf)
 
-        for i, b in enumerate(self.bins):
-            b.origin = Point(i * self.bin_size.width + i*5 + 5, 0)
+        # for i, b in enumerate(self.bins):
+        #     b.origin = Point(i * self.bin_size.width + i*5 + 5, 0)
 
         for b in self.bins:
             print 'fill level ', b.fillLevel()
