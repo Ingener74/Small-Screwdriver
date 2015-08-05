@@ -38,34 +38,40 @@ class RecursiveShelfBinPacking(BinPacking):
                     # ... если получилось, идём к следующему изображению ...
                     bin.append(i)
                     break
-                else:
-                    # ... если не получилось, создаём новую полку ...
-                    max_size = Size(bin.size.width, bin.size.height - (shelf.origin.y + shelf.size.height))
-                    origin = Point(0, shelf.origin.y + shelf.size.height)
-                    shelf = Shelf(max_size=max_size, origin=origin)
+            else:
+                # ... если не получилось вставить не в одну полку, создаём новую полку ...
+                max_size = Size(bin.size.width, bin.size.height - (shelf.origin.y + shelf.size.height))
+                origin = Point(0, shelf.origin.y + shelf.size.height)
+                shelf = Shelf(max_size=max_size, origin=origin)
 
+                self.shelfs.append(shelf)
+                # TODO теперь надо пройти этим изображением по полкам
+
+                # ... пробуем вставить изображение в новую полку ...
+                if shelf.addImage(i):
+                    # ... если получилось, идём к следующему изображению ...
+                    bin.append(i)
+
+                    # TODO дальше пока незнаю, дома допишу
+                    break
+                else:
+                    # ... если нет, создаём новый контейнер и полку
+
+                    bin = Bin(bin_size)
+                    self.bins.append(bin)
+
+                    shelf = Shelf(max_size=bin.size)
                     self.shelfs.append(shelf)
 
-                    # ... пробуем вставить изображение в новую полку ...
+                    # ... пробуем вставить изображение в новый контейнер на новой полке
                     if shelf.addImage(i):
-                        # ... если получилось, идём к следующему изображению ...
                         bin.append(i)
                         break
                     else:
-                        # ... если нет, создаём новый контейнер и полку
+                        raise SystemError(u'Какая та хуйня, сюда мы дойти не должны')
 
-                        bin = Bin(bin_size)
-                        self.bins.append(bin)
+            print 'test'
 
-                        shelf = Shelf(max_size=bin.size)
-                        self.shelfs.append(shelf)
-
-                        # ... пробуем вставить изображение в новый контейнер на новой полке
-                        if shelf.addImage(i):
-                            bin.append(i)
-                            break
-                        else:
-                            raise SystemError(u'Какая та хуйня, сюда мы дойти не должны')
 
         for i, b in enumerate(self.bins):
             b.origin = Point(i * self.bin_size.width + i*5 + 5, 0)

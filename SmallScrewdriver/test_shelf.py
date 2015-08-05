@@ -77,3 +77,15 @@ class TestShelf(TestCase):
         # shelf 3
         shelf3 = Shelf(Size(2048, 100))
         self.assertFalse(shelf3.addImage(im1))
+
+        # shelf 4
+        im3.rotated = True
+        im4.rotated = True
+
+        shelf4 = Shelf(Size(2048, 512))
+        self.assertTrue(shelf4.addImage(im3))
+        self.assertEqual(shelf4.size, Size(im3.crop.size.height, im3.crop.size.width))
+
+        self.assertTrue(shelf4.addImage(im4))
+        self.assertEqual(shelf4.size, Size(im3.crop.size.height + im4.crop.size.height,
+                                           max(im3.crop.size.width, im4.crop.size.width)))
