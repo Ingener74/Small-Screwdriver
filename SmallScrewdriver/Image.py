@@ -1,6 +1,6 @@
 # encoding: utf8
-from PySide.QtCore import QPoint
-from PySide.QtGui import QImage
+from PySide.QtCore import QPoint, Qt
+from PySide.QtGui import QImage, QTransform
 
 from SmallScrewdriver import Rect, Size, Point
 from SillyCrossbow import crop_image
@@ -30,8 +30,14 @@ class Image(Rect):
         return self.crop.area()
 
     def draw(self, painter, offset):
-        painter.drawImage(QPoint(self.origin.x + offset.x,
-                                 self.origin.y + offset.y), self.image)
+        origin_offset = QPoint(self.origin.x + offset.x, self.origin.y + offset.y)
+
+        if self.rotated:
+            painter.setTransform(QTransform().translate(origin_offset.x() + self.crop.size.height,
+                                                        origin_offset.y()).rotate(90, Qt.ZAxis))
+            painter.drawImage(0, 0, self.image)
+        else:
+            painter.drawImage(origin_offset, self.image)
         # Rect(self.origin, self.crop.size).draw(painter, offset)
 
     def toJson(self):
@@ -54,6 +60,7 @@ class Image(Rect):
                     'height': self.crop.size.height
                 }
             },
+            'rotated': self.rotated,
             'filename': self.filename
         }
 

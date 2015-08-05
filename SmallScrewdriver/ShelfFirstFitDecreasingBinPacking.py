@@ -10,6 +10,7 @@ class ShelfFirstFitDecreasingBinPacking(BinPacking):
 
         self.shelfs = []
 
+        # TODO выкинуть все изображения размер которых больше размера контейнера
         self.images = sorted(images, key=lambda image: image.crop.size.width, reverse=True)
 
         bin = Bin(self.bin_size)
