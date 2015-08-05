@@ -13,15 +13,31 @@ COMPANY = 'Venus.Games'
 APPNAME = 'SmallScrewdriver'
 
 SETTINGS_SCALE = 'RenderScale'
+SETTINGS_SIZE = 'BinSize'
+SETTINGS_METHOD = 'BinPackingMethod'
+
+
+SIZES = (Size(256, 256),
+         Size(512, 512),
+         Size(1024, 1024),
+         Size(2048, 2048),
+         Size(4096, 4096),
+         Size(8192, 8192))
+
+METHODS = (ShelfFirstFitDecreasingBinPacking,
+           RecursiveShelfBinPacking)
 
 
 class BinPackingThread(QThread):
     updateBins = Signal(Rect)
 
-    def __init__(self, d):
+    def __init__(self, d, method, bin_size):
         QThread.__init__(self)
         self.directory = d
         self.bins = []
+
+        self.method = method
+        self.bin_size = bin_size
 
     def run(self):
 
@@ -35,14 +51,10 @@ class BinPackingThread(QThread):
 
         while dit.hasNext():
             im = dit.next()
-
-            print d.relativeFilePath(im)
-
+            # print d.relativeFilePath(im)
             input_images.append(Image(im))
 
-        # bin_packing = ShelfFirstFitDecreasingBinPacking(bin_size=Size(2048, 2048), images=input_images)
-        bin_packing = RecursiveShelfBinPacking(bin_size=Size(2048, 2048), images=input_images)
-
+        bin_packing = METHODS[self.method](SIZES[self.bin_size], input_images)
         bin_packing.save_atlases(self.directory)
 
         self.updateBins.emit(bin_packing.bins)
@@ -81,8 +93,15 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
         self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
         print self.settings.fileName()
         self.restoreGeometry(self.settings.value(self.__class__.__name__))
+
         if self.settings.value(SETTINGS_SCALE) is not None:
             self.scaleSpinBox.setValue(float(self.settings.value(SETTINGS_SCALE)))
+
+        if self.settings.value(SETTINGS_SIZE) is not None:
+            self.binSizeComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SIZE)))
+
+        if self.settings.value(SETTINGS_METHOD) is not None:
+            self.methodComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_METHOD)))
 
         self.scaleSpinBox.valueChanged.connect(self.update)
 
@@ -95,7 +114,9 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
 
     def onGo(self):
         directory = QFileDialog.getExistingDirectory()
-        self.binPackingThread = BinPackingThread(directory)
+        self.binPackingThread = BinPackingThread(directory,
+                                                 self.methodComboBox.currentIndex(),
+                                                 self.binSizeComboBox.currentIndex())
         self.binPackingThread.updateBins.connect(self.paintWidget.redrawBins)
         self.binPackingThread.start()
 
@@ -107,6 +128,8 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
         self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
         self.settings.setValue(self.__class__.__name__, self.saveGeometry())
         self.settings.setValue(SETTINGS_SCALE, self.scaleSpinBox.value())
+        self.settings.setValue(SETTINGS_SIZE, self.binSizeComboBox.currentIndex())
+        self.settings.setValue(SETTINGS_METHOD, self.methodComboBox.currentIndex())
 
 
 if __name__ == '__main__':

@@ -41,10 +41,3 @@ class ShelfFirstFitDecreasingBinPacking(BinPacking):
 
                     shelf = Shelf(bin.size)
                     self.shelfs.append(shelf)
-
-        # for i, b in enumerate(self.bins):
-        #     b.origin = Point(i * self.bin_size.width + i*5 + 5, 0)
-
-        for b in self.bins:
-            print 'fill level ', b.fillLevel()
-

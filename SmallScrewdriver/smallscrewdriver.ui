@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>948</width>
-    <height>800</height>
+    <width>1059</width>
+    <height>868</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,6 +55,72 @@
            </size>
           </property>
          </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="methodGroupBox">
+       <property name="title">
+        <string>Метод</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QComboBox" name="methodComboBox">
+          <item>
+           <property name="text">
+            <string>Shelf First Fit</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Recursive Shelf</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="binSizeGroupBox">
+       <property name="title">
+        <string>Размер атласов</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QComboBox" name="binSizeComboBox">
+          <item>
+           <property name="text">
+            <string>256 x 256</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>512 x 512</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>1024 x 1024</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>2048 x 2048</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>4096 x 4096</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>8192 x 8192</string>
+           </property>
+          </item>
+         </widget>
         </item>
        </layout>
       </widget>
