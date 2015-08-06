@@ -3,7 +3,7 @@ from SmallScrewdriver import BinPacking
 from SmallScrewdriver.Shelf import BinShelf
 
 
-class RecursiveShelfBinPacking(BinPacking):
+class ShelfFirstFitBinPacking(BinPacking):
     def __init__(self, bin_size, images):
         BinPacking.__init__(self, bin_size=bin_size)
 

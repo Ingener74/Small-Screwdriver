@@ -35,7 +35,8 @@ class Rect(object):
         :param size:
         :return:
         """
-        print size
+        if size >= self.size:
+            return False
         return False
 
     def __eq__(self, other):

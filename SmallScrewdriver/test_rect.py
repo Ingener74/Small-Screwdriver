@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, expectedFailure
 from SmallScrewdriver import Rect, Size, Point
 
 __author__ = 'Pavel'
@@ -39,11 +39,14 @@ class TestRect(TestCase):
 
         self.assertNotEqual(r4, r5)
 
+    @expectedFailure
     def test_split(self):
 
         r1 = Rect(Point(), Size(256, 256))
         r2 = Rect(Point(), Size(10, 10))
+        r3 = Rect(Point(), Size(256, 256))
 
         split, r11, r12 = r1.split(r2)
         self.assertTrue(split)
 
+        self.assertFalse(r1.split(r3.size))

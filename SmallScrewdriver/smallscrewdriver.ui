@@ -69,12 +69,22 @@
          <widget class="QComboBox" name="methodComboBox">
           <item>
            <property name="text">
+            <string>Shelf Next Fit</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
             <string>Shelf First Fit</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Recursive Shelf</string>
+            <string>Guillotine</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Max Rects</string>
            </property>
           </item>
          </widget>

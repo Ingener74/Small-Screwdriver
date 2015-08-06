@@ -5,7 +5,7 @@ from SmallScrewdriver.Shelf import Shelf
 
 
 # noinspection PyPep8Naming
-class ShelfFirstFitDecreasingBinPacking(BinPacking):
+class ShelfNextFitBinPacking(BinPacking):
     def __init__(self, bin_size, images):
         BinPacking.__init__(self, bin_size=bin_size)
 

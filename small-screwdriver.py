@@ -16,13 +16,14 @@ from PySide.QtGui import (QApplication,
                           QTransform)
 
 from SmallScrewdriver import (Ui_SmallScrewdriver,
+                              Ui_SmallScrewdriverMain,
                               Point,
                               Rect,
                               Size,
                               Image,
-                              ShelfFirstFitDecreasingBinPacking,
-                              RecursiveShelfBinPacking,
-                              GuillotineBinPacking)
+                              ShelfNextFitBinPacking,
+                              ShelfFirstFitBinPacking,
+                              GuillotineBinPacking, Bin)
 
 COMPANY = 'Venus.Games'
 APPNAME = 'SmallScrewdriver'
@@ -38,8 +39,8 @@ SIZES = (Size(256, 256),
          Size(4096, 4096),
          Size(8192, 8192))
 
-METHODS = (ShelfFirstFitDecreasingBinPacking,
-           RecursiveShelfBinPacking,
+METHODS = (ShelfNextFitBinPacking,
+           ShelfFirstFitBinPacking,
            GuillotineBinPacking)
 
 
@@ -146,6 +147,24 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
         self.settings.setValue(SETTINGS_METHOD, self.methodComboBox.currentIndex())
 
 
+class SmallScrewdriverMain(QWidget, Ui_SmallScrewdriverMain):
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
+        self.setupUi(self)
+
+        self.paintWidget = PaintWidget(self.scale, self)
+        self.horizontalLayout_3.insertWidget(1, self.paintWidget)
+        self.horizontalLayout_3.setStretch(0, 3)
+        self.horizontalLayout_3.setStretch(1, 6)
+        self.horizontalLayout_3.setStretch(2, 1)
+
+        self.paintWidget.bins = [Bin(), Bin()]
+
+    def keyPressEvent(self, e):
+        if e.key() == Qt.Key_Escape:
+            self.close()
+
+
 if __name__ == '__main__':
     # noinspection PyTypeChecker,PyCallByClass
     QApplication.setStyle(u'plastique')
@@ -155,5 +174,8 @@ if __name__ == '__main__':
 
     smallScrewdriver = SmallScrewdriver()
     smallScrewdriver.show()
+
+    # ssm = SmallScrewdriverMain()
+    # ssm.show()
 
     sys.exit(app.exec_())

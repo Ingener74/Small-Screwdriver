@@ -1,5 +1,8 @@
 <RCC>
-    <qresource prefix="/main">
-        <file>screwdriver.png</file>
-    </qresource>
+  <qresource prefix="/main">
+    <file>start.png</file>
+    <file>list_add.png</file>
+    <file>trash_green_full.png</file>
+    <file>screwdriver.png</file>
+  </qresource>
 </RCC>

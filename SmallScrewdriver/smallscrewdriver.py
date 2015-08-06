@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'SmallScrewdriver/smallscrewdriver.ui'
 #
-# Created: Wed Aug 05 23:03:42 2015
+# Created: Thu Aug 06 21:38:02 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -38,6 +38,8 @@ class Ui_SmallScrewdriver(object):
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.methodComboBox = QtGui.QComboBox(self.methodGroupBox)
         self.methodComboBox.setObjectName("methodComboBox")
+        self.methodComboBox.addItem("")
+        self.methodComboBox.addItem("")
         self.methodComboBox.addItem("")
         self.methodComboBox.addItem("")
         self.horizontalLayout_4.addWidget(self.methodComboBox)
@@ -78,8 +80,10 @@ class Ui_SmallScrewdriver(object):
         self.groupBox.setTitle(QtGui.QApplication.translate("SmallScrewdriver", "Кнопачки", None, QtGui.QApplication.UnicodeUTF8))
         self.go.setText(QtGui.QApplication.translate("SmallScrewdriver", "Поехали!", None, QtGui.QApplication.UnicodeUTF8))
         self.methodGroupBox.setTitle(QtGui.QApplication.translate("SmallScrewdriver", "Метод", None, QtGui.QApplication.UnicodeUTF8))
-        self.methodComboBox.setItemText(0, QtGui.QApplication.translate("SmallScrewdriver", "Shelf First Fit", None, QtGui.QApplication.UnicodeUTF8))
-        self.methodComboBox.setItemText(1, QtGui.QApplication.translate("SmallScrewdriver", "Recursive Shelf", None, QtGui.QApplication.UnicodeUTF8))
+        self.methodComboBox.setItemText(0, QtGui.QApplication.translate("SmallScrewdriver", "Shelf Next Fit", None, QtGui.QApplication.UnicodeUTF8))
+        self.methodComboBox.setItemText(1, QtGui.QApplication.translate("SmallScrewdriver", "Shelf First Fit", None, QtGui.QApplication.UnicodeUTF8))
+        self.methodComboBox.setItemText(2, QtGui.QApplication.translate("SmallScrewdriver", "Guillotine", None, QtGui.QApplication.UnicodeUTF8))
+        self.methodComboBox.setItemText(3, QtGui.QApplication.translate("SmallScrewdriver", "Max Rects", None, QtGui.QApplication.UnicodeUTF8))
         self.binSizeGroupBox.setTitle(QtGui.QApplication.translate("SmallScrewdriver", "Размер атласов", None, QtGui.QApplication.UnicodeUTF8))
         self.binSizeComboBox.setItemText(0, QtGui.QApplication.translate("SmallScrewdriver", "256 x 256", None, QtGui.QApplication.UnicodeUTF8))
         self.binSizeComboBox.setItemText(1, QtGui.QApplication.translate("SmallScrewdriver", "512 x 512", None, QtGui.QApplication.UnicodeUTF8))
