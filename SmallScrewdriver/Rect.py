@@ -29,15 +29,15 @@ class Rect(object):
         painter.setPen(self.pen)
         painter.drawRect(self.origin.x + offset.x, self.origin.y + offset.y, self.size.width, self.size.height)
 
-    def split(self, size, rule):
+    def split(self, rect, rule):
         """
         Разделить прямоугольник
         :param size:
         :return:
         """
-        if size >= self.size:
-            return False
-        return False
+        if rect.size >= self.size:
+            return False, Rect(), Rect()
+        return False, Rect(), Rect()
 
     def __eq__(self, other):
         return self.origin == other.origin and self.size == other.size

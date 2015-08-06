@@ -42,11 +42,24 @@ class TestRect(TestCase):
     @expectedFailure
     def test_split(self):
 
-        r1 = Rect(Point(), Size(256, 256))
-        r2 = Rect(Point(), Size(10, 10))
+        r1 = Rect(Point(10, 10), Size(512, 512))
+        r2 = Rect(Point(), Size(110, 70))
+        r3 = Rect(Point(), Size(70, 90))
+        r4 = Rect(Point(), Size(90, 50))
+        r5 = Rect(Point(), Size(50, 70))
+
+        # test SAS
+        s, rs1, rs2 = r1.split(r2, Rect.RULE_SAS)
+        self.assertTrue(s)
+        self.assertEqual(rs1, Rect(Point(r1.origin.x, r1.origin.y + r2.size.height),
+                                   Size(r2.size.width, r1.size.height - r2.size.height)))
+
+        self.assertEqual(rs2, Rect(Point(r1.origin.x + r2.size.width, r1.origin.y),
+                                   Size(r1.size.width - r2.size.width, r1.size.height)))
+
+
+
+        # test LAS
         r3 = Rect(Point(), Size(256, 256))
-
-        split, r11, r12 = r1.split(r2)
-        self.assertTrue(split)
-
-        self.assertFalse(r1.split(r3.size))
+        s, rs1, rs2 = r1.split(r3.size, Rect.RULE_LAS)
+        self.assertFalse(s)

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'SmallScrewdriver/SmallScrewdriverMain.ui'
 #
-# Created: Thu Aug 06 22:42:22 2015
+# Created: Thu Aug 06 22:57:41 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -139,6 +139,8 @@ class Ui_SmallScrewdriverMain(object):
         spacerItem3 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_7.addItem(spacerItem3)
         self.horizontalLayout_3.addLayout(self.verticalLayout_7)
+        self.horizontalLayout_3.setStretch(0, 3)
+        self.horizontalLayout_3.setStretch(1, 7)
 
         self.retranslateUi(SmallScrewdriverMain)
         self.tabWidget.setCurrentIndex(2)
