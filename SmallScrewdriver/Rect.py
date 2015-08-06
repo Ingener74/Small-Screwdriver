@@ -7,6 +7,16 @@ from Point import Point
 
 
 class Rect(object):
+    """
+    Split rules
+    """
+    RULE_SAS = 0
+    RULE_LAS = 1
+    RULE_SLAS = 2
+    RULE_LLAS = 3
+    RULE_MAXAS = 4
+    RULE_MINAS = 5
+
     def __init__(self, origin=Point(), size=Size(), pen=QPen()):
         self.origin = origin
         self.size = size
@@ -18,6 +28,15 @@ class Rect(object):
     def draw(self, painter, offset):
         painter.setPen(self.pen)
         painter.drawRect(self.origin.x + offset.x, self.origin.y + offset.y, self.size.width, self.size.height)
+
+    def split(self, size, rule):
+        """
+        Разделить прямоугольник
+        :param size:
+        :return:
+        """
+        print size
+        return False
 
     def __eq__(self, other):
         return self.origin == other.origin and self.size == other.size

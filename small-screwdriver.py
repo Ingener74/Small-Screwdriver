@@ -2,12 +2,27 @@
 import sys
 import random
 
-from PySide.QtCore import Qt, Signal, QThread, QDirIterator, QDir, QSettings
+from PySide.QtCore import (Qt,
+                           Signal,
+                           QThread,
+                           QDirIterator,
+                           QDir,
+                           QSettings)
+from PySide.QtGui import (QApplication,
+                          QWidget,
+                          QPainter,
+                          QSizePolicy,
+                          QFileDialog,
+                          QTransform)
 
-from PySide.QtGui import QApplication, QWidget, QPainter, QSizePolicy, QFileDialog, QTransform
-
-from SmallScrewdriver import (Ui_SmallScrewdriver, Point, Rect, Size, Bin, Image, ShelfFirstFitDecreasingBinPacking,
-                              RecursiveShelfBinPacking)
+from SmallScrewdriver import (Ui_SmallScrewdriver,
+                              Point,
+                              Rect,
+                              Size,
+                              Image,
+                              ShelfFirstFitDecreasingBinPacking,
+                              RecursiveShelfBinPacking,
+                              GuillotineBinPacking)
 
 COMPANY = 'Venus.Games'
 APPNAME = 'SmallScrewdriver'
@@ -15,7 +30,6 @@ APPNAME = 'SmallScrewdriver'
 SETTINGS_SCALE = 'RenderScale'
 SETTINGS_SIZE = 'BinSize'
 SETTINGS_METHOD = 'BinPackingMethod'
-
 
 SIZES = (Size(256, 256),
          Size(512, 512),
@@ -25,7 +39,8 @@ SIZES = (Size(256, 256),
          Size(8192, 8192))
 
 METHODS = (ShelfFirstFitDecreasingBinPacking,
-           RecursiveShelfBinPacking)
+           RecursiveShelfBinPacking,
+           GuillotineBinPacking)
 
 
 class BinPackingThread(QThread):
@@ -40,7 +55,6 @@ class BinPackingThread(QThread):
         self.bin_size = bin_size
 
     def run(self):
-
         d = QDir(path=self.directory)
         d.setNameFilters(['*.png'])
         d.setFilter(QDir.Files or QDir.NoDotAndDotDot)

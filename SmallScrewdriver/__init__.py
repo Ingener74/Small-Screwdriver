@@ -9,3 +9,4 @@ from Image import Image
 from BinPacking import BinPacking
 from ShelfFirstFitDecreasingBinPacking import ShelfFirstFitDecreasingBinPacking
 from RecursiveShelfBinPacking import RecursiveShelfBinPacking
+from GuillotineBinPacking import GuillotineBinPacking

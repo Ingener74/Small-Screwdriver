@@ -38,3 +38,12 @@ class TestRect(TestCase):
         self.assertNotEqual(r3, r5)
 
         self.assertNotEqual(r4, r5)
+
+    def test_split(self):
+
+        r1 = Rect(Point(), Size(256, 256))
+        r2 = Rect(Point(), Size(10, 10))
+
+        split, r11, r12 = r1.split(r2)
+        self.assertTrue(split)
+
