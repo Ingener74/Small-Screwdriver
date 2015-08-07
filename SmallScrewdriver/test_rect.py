@@ -1,3 +1,4 @@
+# coding=utf-8
 from unittest import TestCase, expectedFailure
 from SmallScrewdriver import Rect, Size, Point
 
@@ -41,7 +42,6 @@ class TestRect(TestCase):
 
     @expectedFailure
     def test_split(self):
-
         r1 = Rect(Point(10, 10), Size(512, 512))
         r2 = Rect(Point(), Size(110, 70))
         r3 = Rect(Point(), Size(70, 90))
@@ -51,13 +51,18 @@ class TestRect(TestCase):
         # test SAS
         s, rs1, rs2 = r1.split(r2, Rect.RULE_SAS)
         self.assertTrue(s)
+        # Верхний большой
         self.assertEqual(rs1, Rect(Point(r1.origin.x, r1.origin.y + r2.size.height),
                                    Size(r2.size.width, r1.size.height - r2.size.height)))
 
+        # Левый маленький
         self.assertEqual(rs2, Rect(Point(r1.origin.x + r2.size.width, r1.origin.y),
                                    Size(r1.size.width - r2.size.width, r1.size.height)))
 
-
+        s, rs3, rs4 = rs2.split(r3)
+        self.assertTrue(s)
+        self.assertEqual(rs3, Rect(Point(rs1), Size()))
+        self.assertEqual(rs4, Rect(Point(), Size()))
 
         # test LAS
         r3 = Rect(Point(), Size(256, 256))
