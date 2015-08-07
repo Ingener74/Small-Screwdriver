@@ -31,16 +31,16 @@ class Widget(QWidget):
         # painter.drawImage(0, 0, self.image2)
 
         r1 = Rect(Point(10, 10), Size(512, 512))
-        r2 = Rect(Point(), Size(110, 70))
-        r3 = Rect(Point(), Size(70, 90))
-        r4 = Rect(Point(), Size(90, 50))
-        r5 = Rect(Point(), Size(50, 70))
+        r2 = Rect(Point(), Size(110, 75))
+        r3 = Rect(Point(), Size(70, 95))
+        r4 = Rect(Point(), Size(90, 55))
+        r5 = Rect(Point(), Size(50, 35))
 
         r1.draw(painter)
-        r2.draw(painter)
-        r3.draw(painter)
-        r4.draw(painter)
-        r5.draw(painter)
+        # r2.draw(painter)
+        # r3.draw(painter)
+        # r4.draw(painter)
+        # r5.draw(painter)
 
         s, rs1, rs2 = r1.split(r2, Rect.RULE_SAS)
         if s:
@@ -50,8 +50,8 @@ class Widget(QWidget):
             rs2.randomColor()
             rs2.draw(painter)
 
-            r2.randomColor()
-            r2.draw(painter)
+            # r2.randomColor()
+            # r2.draw(painter)
 
         s, rs3, rs4 = rs1.split(r3, Rect.RULE_SAS)
         if s:
@@ -61,8 +61,19 @@ class Widget(QWidget):
             rs4.randomColor()
             rs4.draw(painter)
 
-            r3.randomColor()
-            r3.draw(painter)
+            # r3.randomColor()
+            # r3.draw(painter)
+
+        s, rs5, rs6 = rs3.split(r4, Rect.RULE_SAS)
+        if s:
+            rs5.randomColor()
+            rs5.draw(painter)
+
+            rs6.randomColor()
+            rs6.draw(painter)
+
+            # r4.randomColor()
+            # r4.draw(painter)
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
