@@ -1,4 +1,4 @@
-# coding=utf-8
+# encoding: utf8
 
 import random
 from PySide.QtGui import QPen, QColor
@@ -49,20 +49,20 @@ class Rect(object):
         x1 = 0
         x2 = 0
 
-        if rule is Rect.RULE_SAS and rule is Rect.RULE_LAS:
+        if rule is Rect.RULE_SAS or rule is Rect.RULE_LAS:
             x1 = self.size.width
             x2 = self.size.height
-        elif rule is Rect.RULE_SLAS and rule is Rect.RULE_LLAS:
+        elif rule is Rect.RULE_SLAS or rule is Rect.RULE_LLAS:
             x1 = self.size.width - rect.size.width
             x2 = self.size.height - rect.size.height
-        elif rule is Rect.RULE_MAXAS and rule is Rect.RULE_MINAS:
+        elif rule is Rect.RULE_MAXAS or rule is Rect.RULE_MINAS:
             x1 = self.area()
             x2 = rect.area()
 
         if (rule is Rect.RULE_SAS or rule is Rect.RULE_SLAS or rule is Rect.RULE_MINAS) and x1 < x2:
             # Делим горизонтально
             r1 = Rect(self.origin + Point(rect.size.width, 0),
-                      Size(self.size.width - self.size.width, rect.size.height))
+                      Size(self.size.width - rect.size.width, rect.size.height))
 
             r2 = Rect(self.origin + Point(0, rect.size.height),
                       Size(self.size.width, self.size.height - rect.size.height))

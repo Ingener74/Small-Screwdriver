@@ -1,4 +1,4 @@
-# coding=utf-8
+# encoding: utf8
 from unittest import TestCase, expectedFailure
 from SmallScrewdriver import Rect, Size, Point
 
@@ -40,31 +40,51 @@ class TestRect(TestCase):
 
         self.assertNotEqual(r4, r5)
 
-    @expectedFailure
     def test_split(self):
         r1 = Rect(Point(10, 10), Size(512, 512))
-        r2 = Rect(Point(), Size(110, 70))
-        r3 = Rect(Point(), Size(70, 90))
-        r4 = Rect(Point(), Size(90, 50))
-        r5 = Rect(Point(), Size(50, 70))
+        r2 = Rect(Point(), Size(110, 75))
+        r3 = Rect(Point(), Size(70, 95))
+        r4 = Rect(Point(), Size(90, 55))
+        r5 = Rect(Point(), Size(50, 75))
 
         # test SAS
         s, rs1, rs2 = r1.split(r2, Rect.RULE_SAS)
         self.assertTrue(s)
-        # Верхний большой
-        self.assertEqual(rs1, Rect(Point(r1.origin.x, r1.origin.y + r2.size.height),
-                                   Size(r2.size.width, r1.size.height - r2.size.height)))
+        self.assertEqual(rs1, Rect(Point(r1.origin.x + r2.size.width,
+                                         r1.origin.y),
+                                   Size(r1.size.width - r2.size.width,
+                                        r1.size.height)))
 
-        # Левый маленький
-        self.assertEqual(rs2, Rect(Point(r1.origin.x + r2.size.width, r1.origin.y),
-                                   Size(r1.size.width - r2.size.width, r1.size.height)))
+        self.assertEqual(rs2, Rect(Point(r1.origin.x,
+                                         r1.origin.y + r2.size.height),
+                                   Size(r2.size.width,
+                                        r1.size.height - r2.size.height)))
 
-        s, rs3, rs4 = rs2.split(r3)
+        s, rs3, rs4 = rs1.split(r3, Rect.RULE_SAS)
         self.assertTrue(s)
-        self.assertEqual(rs3, Rect(Point(rs1), Size()))
-        self.assertEqual(rs4, Rect(Point(), Size()))
+        self.assertEqual(rs3, Rect(Point(rs1.origin.x + r3.size.width,
+                                         rs1.origin.y),
+                                   Size(rs1.size.width - r3.size.width,
+                                        r3.size.height)))
 
-        # test LAS
-        r3 = Rect(Point(), Size(256, 256))
-        s, rs1, rs2 = r1.split(r3.size, Rect.RULE_LAS)
-        self.assertFalse(s)
+        self.assertEqual(rs4, Rect(Point(rs1.origin.x,
+                                         rs1.origin.y + r3.size.height),
+                                   Size(rs1.size.width,
+                                        rs1.size.height - r3.size.height)))
+
+        s, rs5, rs6 = rs3.split(r4, Rect.RULE_SAS)
+        self.assertTrue(s)
+        self.assertEqual(rs5, Rect(Point(rs3.origin.x + r4.size.width,
+                                         rs3.origin.y),
+                                   Size(rs3.size.width - r4.size.width,
+                                        rs3.size.height)))
+
+        self.assertEqual(rs6, Rect(Point(rs3.origin.x,
+                                         rs3.origin.y + r4.size.height),
+                                   Size(r4.size.width,
+                                        rs3.size.height - r4.size.height)))
+
+        # # test LAS
+        # r3 = Rect(Point(), Size(256, 256))
+        # s, rs1, rs2 = r1.split(r3.size, Rect.RULE_LAS)
+        # self.assertFalse(s)

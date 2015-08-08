@@ -44,10 +44,10 @@ class Widget(QWidget):
 
         s, rs1, rs2 = r1.split(r2, Rect.RULE_SAS)
         if s:
-            rs1.randomColor()
+            # rs1.randomColor()
             rs1.draw(painter)
 
-            rs2.randomColor()
+            # rs2.randomColor()
             rs2.draw(painter)
 
             # r2.randomColor()
@@ -55,10 +55,10 @@ class Widget(QWidget):
 
         s, rs3, rs4 = rs1.split(r3, Rect.RULE_SAS)
         if s:
-            rs3.randomColor()
+            # rs3.randomColor()
             rs3.draw(painter)
 
-            rs4.randomColor()
+            # rs4.randomColor()
             rs4.draw(painter)
 
             # r3.randomColor()
@@ -66,14 +66,22 @@ class Widget(QWidget):
 
         s, rs5, rs6 = rs3.split(r4, Rect.RULE_SAS)
         if s:
-            rs5.randomColor()
+            # rs5.randomColor()
             rs5.draw(painter)
 
-            rs6.randomColor()
+            # rs6.randomColor()
             rs6.draw(painter)
 
             # r4.randomColor()
             # r4.draw(painter)
+
+        s, rs7, rs8 = rs5.split(r5, Rect.RULE_SAS)
+        if s:
+            # rs7.randomColor()
+            rs7.draw(painter)
+
+            # rs8.randomColor()
+            rs8.draw(painter)
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
