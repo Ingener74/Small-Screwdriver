@@ -1,1 +1,1 @@
-__author__ = 'Pavel'
+from BinGuillotine import BinGuillotine
