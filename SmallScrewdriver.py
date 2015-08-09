@@ -56,6 +56,8 @@ class BinPackingThread(QThread):
         self.bin_size = bin_size
 
     def run(self):
+        print 'work directory ', self.directory
+
         d = QDir(path=self.directory)
         d.setNameFilters(['*.png'])
         d.setFilter(QDir.Files or QDir.NoDotAndDotDot)
@@ -66,7 +68,7 @@ class BinPackingThread(QThread):
 
         while dit.hasNext():
             im = dit.next()
-            # print d.relativeFilePath(im)
+            print d.relativeFilePath(im)
             input_images.append(Image(im))
 
         bin_packing = METHODS[self.method](SIZES[self.bin_size], input_images)
@@ -129,6 +131,8 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
 
     def onGo(self):
         directory = QFileDialog.getExistingDirectory()
+        # print directory
+        # if len(directory) > 0:
         self.binPackingThread = BinPackingThread(directory,
                                                  self.methodComboBox.currentIndex(),
                                                  self.binSizeComboBox.currentIndex())

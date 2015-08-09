@@ -1,13 +1,14 @@
 # coding=utf-8
-from SmallScrewdriver import BinPacking
+from SmallScrewdriver import BinPacking, Rect, Point
 from Guillotine import BinGuillotine
 
 
 class GuillotineBinPacking(BinPacking):
-    def __init__(self, bin_size, images, selection_heuristic=BinGuillotine):
+    def __init__(self, bin_size, images, *args, **kwargs):
         BinPacking.__init__(self, bin_size=bin_size)
 
-        self.selection_heuristic = selection_heuristic
+        self.selection_heuristic = kwargs.get('selection_heuristic', BinGuillotine.BAF)
+        self.split_rule = kwargs.get('split_rule', Rect.RULE_SAS)
         self.images = []
 
         # Bыкидываем все изображения размер которых больше или равен размеру контейнера
@@ -25,5 +26,12 @@ class GuillotineBinPacking(BinPacking):
                              key=lambda im: im.crop.size.width if im.rotated else im.crop.size.height,
                              reverse=True)
 
+        bin = BinGuillotine(self.bin_size, Point(), self.selection_heuristic, self.split_rule)
+
         for i in self.images:
-            print i
+            for b in self.bins:
+
+                if b.addImage(i):
+                    pass
+                else:
+                    pass
