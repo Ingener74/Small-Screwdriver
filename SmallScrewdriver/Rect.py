@@ -35,14 +35,14 @@ class Rect(object):
         :param size:
         :return:
         """
-        if rect.size >= self.size:
+        if self.size.width <= rect.size.width and self.size.height <= rect.size.height:
             return 0, Rect(), Rect()
 
-        if self.size.width == rect.size.width:
+        if self.size.width == rect.size.width and self.size.height > rect.size.height:
             return 1, Rect(self.origin + Point(0, rect.size.height),
                            Size(self.size.width, self.size.height - rect.size.height)), Rect()
 
-        if self.size.height == rect.size.height:
+        if self.size.height == rect.size.height and self.size.width > rect.size.width:
             return 1, Rect(self.origin + Point(rect.size.width, 0),
                            Size(self.size.width - rect.size.width, self.size.height)), Rect()
 
