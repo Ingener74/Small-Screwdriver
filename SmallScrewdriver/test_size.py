@@ -16,7 +16,7 @@ class TestSize(TestCase):
         self.assertEqual(size.area(), 400)
 
     def test_eq(self):
-        # TODO надо больше тестов !!!!
+        # TODO больше тестов !!!!
         s1 = Size(10, 10)
         s2 = Size(20, 20)
         s3 = Size(10, 20)

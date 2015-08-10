@@ -35,8 +35,16 @@ class Rect(object):
         :param size:
         :return:
         """
-        if self.size.width <= rect.size.width and self.size.height <= rect.size.height:
+        if self.size < rect.size:
             return 0, Rect(), Rect()
+
+        if self.size == rect.size:
+            return 0, Rect(), Rect()
+
+        if max(rect.size.width, rect.size.height) < max(self.size.width, self.size.height) and \
+                        min(rect.size.width, rect.size.height) < min(self.size.width, self.size.height):
+            # тогда входит
+            pass
 
         if self.size.width == rect.size.width and self.size.height > rect.size.height:
             return 1, Rect(self.origin + Point(0, rect.size.height),
