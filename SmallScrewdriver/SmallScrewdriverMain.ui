@@ -17,325 +17,332 @@
    <iconset resource="resources.qrc">
     <normaloff>:/main/screwdriver.png</normaloff>:/main/screwdriver.png</iconset>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="3,7">
+  <layout class="QHBoxLayout" name="horizontalLayout_3">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
-     <item>
-      <widget class="QGroupBox" name="groupBox_2">
-       <property name="title">
-        <string>Изображения</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QListView" name="imageList"/>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QWidget" name="">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Изображения</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QPushButton" name="addImages">
-            <property name="toolTip">
-             <string>Добавить папку с изображениями</string>
-            </property>
-            <property name="text">
-             <string>Добавить</string>
-            </property>
-            <property name="icon">
-             <iconset resource="resources.qrc">
-              <normaloff>:/main/list_add.png</normaloff>:/main/list_add.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-           </widget>
+           <widget class="QListView" name="imageList"/>
           </item>
           <item>
-           <widget class="QPushButton" name="removeImage">
-            <property name="toolTip">
-             <string>Убрать выделенное изображение</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Убрать</string>
-            </property>
-            <property name="icon">
-             <iconset resource="resources.qrc">
-              <normaloff>:/main/trash_green_full.png</normaloff>:/main/trash_green_full.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="shortcut">
-             <string/>
-            </property>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QPushButton" name="addImages">
+              <property name="toolTip">
+               <string>Добавить папку с изображениями</string>
+              </property>
+              <property name="text">
+               <string>Добавить</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/main/list_add.png</normaloff>:/main/list_add.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="removeImage">
+              <property name="toolTip">
+               <string>Убрать выделенное изображение</string>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Убрать</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/main/trash_green_full.png</normaloff>:/main/trash_green_full.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="shortcut">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Максимальный размер атласов</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QComboBox" name="comboBoxBinSize">
+            <item>
+             <property name="text">
+              <string>256 x 256</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>512 x 512</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>1024 x 1024</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>2048 x 2048</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>4096 x 4096</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>8192 x 8192</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox">
-       <property name="title">
-        <string>Максимальный размер атласов</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QComboBox" name="comboBoxBinSize">
-          <item>
-           <property name="text">
-            <string>256 x 256</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>512 x 512</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>1024 x 1024</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>2048 x 2048</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>4096 x 4096</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>8192 x 8192</string>
-           </property>
-          </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTabWidget" name="tabWidget">
+         <property name="currentIndex">
+          <number>2</number>
+         </property>
+         <widget class="QWidget" name="tabShelfNextFit">
+          <attribute name="title">
+           <string>Shelf Next Fit</string>
+          </attribute>
          </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QTabWidget" name="tabWidget">
-       <property name="currentIndex">
-        <number>2</number>
-       </property>
-       <widget class="QWidget" name="tabShelfNextFit">
-        <attribute name="title">
-         <string>Shelf Next Fit</string>
-        </attribute>
-       </widget>
-       <widget class="QWidget" name="tabShelfFirstFit">
-        <attribute name="title">
-         <string>Shelf First Fit</string>
-        </attribute>
-       </widget>
-       <widget class="QWidget" name="tabGuillotine">
-        <attribute name="title">
-         <string>Guillotine</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <widget class="QWidget" name="tabShelfFirstFit">
+          <attribute name="title">
+           <string>Shelf First Fit</string>
+          </attribute>
+         </widget>
+         <widget class="QWidget" name="tabGuillotine">
+          <attribute name="title">
+           <string>Guillotine</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QGroupBox" name="groupBox_3">
+             <property name="title">
+              <string>Эвристика выбора</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <item>
+               <widget class="QComboBox" name="comboBox">
+                <item>
+                 <property name="text">
+                  <string>Best Area Fit</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Best Short Side Fit</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Best Long Side Fit</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Worst Fit</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_4">
+             <property name="title">
+              <string>Правило разделения</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_5">
+              <item>
+               <widget class="QComboBox" name="comboBox_2">
+                <item>
+                 <property name="text">
+                  <string>Shorter Axis Split</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Longer Axis Split</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Shorter Leftover Axis Split</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Longer Leftover Axis Split</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Max Area Split</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Min Area Split</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>197</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tabMaxRects">
+          <attribute name="title">
+           <string>Max Rects</string>
+          </attribute>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QGroupBox" name="groupBox_3">
-           <property name="title">
-            <string>Эвристика выбора</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_6">
-            <item>
-             <widget class="QComboBox" name="comboBox">
-              <item>
-               <property name="text">
-                <string>Best Area Fit</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Best Short Side Fit</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Best Long Side Fit</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Worst Fit</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="groupBox_4">
-           <property name="title">
-            <string>Правило разделения</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_5">
-            <item>
-             <widget class="QComboBox" name="comboBox_2">
-              <item>
-               <property name="text">
-                <string>Shorter Axis Split</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Longer Axis Split</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Shorter Leftover Axis Split</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Longer Leftover Axis Split</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Max Area Split</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Min Area Split</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer">
+          <spacer name="horizontalSpacer">
            <property name="orientation">
-            <enum>Qt::Vertical</enum>
+            <enum>Qt::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>20</width>
-             <height>197</height>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="start">
+           <property name="toolTip">
+            <string>Поехали!</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="resources.qrc">
+             <normaloff>:/main/start.png</normaloff>:/main/start.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>128</width>
+             <height>128</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
             </size>
            </property>
           </spacer>
          </item>
         </layout>
-       </widget>
-       <widget class="QWidget" name="tabMaxRects">
-        <attribute name="title">
-         <string>Max Rects</string>
-        </attribute>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
        </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <layout class="QVBoxLayout" name="verticalLayout_7">
        <item>
-        <widget class="QPushButton" name="start">
-         <property name="toolTip">
-          <string>Поехали!</string>
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="title">
+          <string>Масштаб</string>
          </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="resources.qrc">
-           <normaloff>:/main/start.png</normaloff>:/main/start.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>128</width>
-           <height>128</height>
-          </size>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_8">
+          <item>
+           <widget class="QDoubleSpinBox" name="scale">
+            <property name="minimum">
+             <double>0.050000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>10.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.050000000000000</double>
+            </property>
+            <property name="value">
+             <double>1.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_2">
+        <spacer name="verticalSpacer_2">
          <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>40</width>
-           <height>20</height>
+           <width>20</width>
+           <height>40</height>
           </size>
          </property>
         </spacer>
        </item>
       </layout>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout_7">
-     <item>
-      <widget class="QGroupBox" name="groupBox_5">
-       <property name="title">
-        <string>Масштаб</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_8">
-        <item>
-         <widget class="QDoubleSpinBox" name="scale">
-          <property name="minimum">
-           <double>0.050000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>10.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>0.050000000000000</double>
-          </property>
-          <property name="value">
-           <double>1.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>
