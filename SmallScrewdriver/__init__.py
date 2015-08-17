@@ -1,7 +1,5 @@
 # encoding: utf8
 
-from SmallScrewdriverMain import Ui_SmallScrewdriverMain
-from smallscrewdriver import Ui_SmallScrewdriver
 from Point import Point
 from Rect import Rect
 from Size import Size

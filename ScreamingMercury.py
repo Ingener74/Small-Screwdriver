@@ -15,15 +15,16 @@ from PySide.QtGui import (QApplication,
                           QFileDialog,
                           QTransform)
 
-from SmallScrewdriver import (Ui_SmallScrewdriver,
-                              Ui_SmallScrewdriverMain,
-                              Point,
+from ScreamingMercury import (Ui_SmallScrewdriver,
+                              Ui_SmallScrewdriverMain)
+from SmallScrewdriver import (Point,
                               Rect,
                               Size,
                               Image,
                               ShelfNextFitBinPacking,
                               ShelfFirstFitBinPacking,
-                              GuillotineBinPacking, Bin)
+                              GuillotineBinPacking,
+                              Bin)
 
 COMPANY = 'Venus.Games'
 APPNAME = 'SmallScrewdriver'
