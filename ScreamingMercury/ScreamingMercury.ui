@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SmallScrewdriverMain</class>
- <widget class="QWidget" name="SmallScrewdriverMain">
+ <class>ScreamingMercury</class>
+ <widget class="QWidget" name="ScreamingMercury">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Маленькая отвёртка - упаковщик текстур</string>
+   <string>Кричащая ртуть - упаковщик текстур</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
@@ -23,7 +23,7 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <widget class="QGroupBox" name="groupBox_2">
@@ -300,7 +300,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout_7">
        <item>
         <widget class="QGroupBox" name="groupBox_5">

@@ -16,7 +16,7 @@ from PySide.QtGui import (QApplication,
                           QTransform)
 
 from ScreamingMercury import (Ui_SmallScrewdriver,
-                              Ui_SmallScrewdriverMain)
+                              Ui_ScreamingMercury)
 from SmallScrewdriver import (Point,
                               Rect,
                               Size,
@@ -152,7 +152,7 @@ class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
         self.settings.setValue(SETTINGS_METHOD, self.methodComboBox.currentIndex())
 
 
-class SmallScrewdriverMain(QWidget, Ui_SmallScrewdriverMain):
+class ScreamingMercury(QWidget, Ui_ScreamingMercury):
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
         self.setupUi(self)
@@ -180,7 +180,7 @@ if __name__ == '__main__':
     smallScrewdriver = SmallScrewdriver()
     smallScrewdriver.show()
 
-    # ssm = SmallScrewdriverMain()
-    # ssm.show()
+    sm = ScreamingMercury()
+    sm.show()
 
     sys.exit(app.exec_())
