@@ -6,7 +6,7 @@ setup(
     name="SmallScrewdriver",
     version="1.0.1",
     packages=find_packages(),
-    scripts=[],
+    scripts=['ScreamingMercury.py', 'ScreamingMercury'],
     install_requires=['PySide>=1.2.1',
                       'SillyCrossbow>=1.0.8'],
     package_data={
