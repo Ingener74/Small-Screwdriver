@@ -2,8 +2,6 @@
 from unittest import TestCase, expectedFailure
 from SmallScrewdriver import Rect, Size, Point
 
-__author__ = 'Pavel'
-
 
 class TestRect(TestCase):
     def test_area(self):
