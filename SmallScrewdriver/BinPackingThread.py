@@ -18,7 +18,8 @@ class BinPackingThread(QThread):
              Size(4096, 4096),
              Size(8192, 8192))
 
-    updateBins = Signal(Rect)
+    bin_packing_available = Signal(bool)
+    update_bins = Signal(Rect)
 
     def __init__(self):
         QThread.__init__(self)
@@ -28,25 +29,33 @@ class BinPackingThread(QThread):
 
         self.bins = []
 
-        self.method = None
-        self.bin_size = None
+        self.method = BinPackingThread.METHODS[0]
+        self.bin_size = BinPackingThread.SIZES[0]
 
     def set_directory(self, directory):
         self.directory = directory
+        self.bin_packing_available.emit(self.binPackingAvailable())
+
+    def binPackingAvailable(self):
+        return len(self.images) and self.directory is not None
 
     def set_images(self, images):
         self.images = images
+        self.bin_packing_available.emit(self.binPackingAvailable())
 
     def set_method(self, index):
+        print 'method ', index
         self.method = BinPackingThread.METHODS[index]
 
     def set_bin_size(self, index):
+        print 'bin size ', index
         self.bin_size = BinPackingThread.SIZES[index]
 
     def run(self):
-        if not self.directory and not len(self.images) and not self.method and not self.bin_size:
+        if not self.directory or not len(self.images):
             return
+
         bin_packing = self.method(self.bin_size, [Image(self.directory, image) for image in self.images])
         bin_packing.save_atlases(self.directory)
 
-        self.updateBins.emit(bin_packing.bins)
+        self.update_bins.emit(bin_packing.bins)

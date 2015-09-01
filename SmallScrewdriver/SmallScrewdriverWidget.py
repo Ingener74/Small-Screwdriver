@@ -9,7 +9,6 @@ from SmallScrewdriver.BinPackingThread import BinPackingThread
 
 # noinspection PyPep8Naming
 class SmallScrewdriverWidget(QWidget):
-
     images_changed = Signal(object)
 
     def __init__(self, *args, **kwargs):
@@ -22,7 +21,7 @@ class SmallScrewdriverWidget(QWidget):
         self.scale = 1.0
 
         self.bin_packing_thread = BinPackingThread()
-        self.bin_packing_thread.updateBins.connect(self.redraw_bins)
+        self.bin_packing_thread.update_bins.connect(self.redraw_bins)
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -32,6 +31,10 @@ class SmallScrewdriverWidget(QWidget):
         for b in self.bins:
             b.draw(painter, Point(x, 0))
             x += b.size.width + 5
+
+    def wheelEvent(self, *args, **kwargs):
+        self.scale += args[0].delta() / 2400.0
+        self.update()
 
     def redraw_bins(self, bins):
         self.bins = bins

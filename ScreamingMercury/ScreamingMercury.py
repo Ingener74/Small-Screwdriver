@@ -30,13 +30,20 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.binSizeComboBox.currentIndexChanged.connect(self.small_screwdriver.bin_size_changed)
 
         self.small_screwdriver.images_changed.connect(self.update_images)
+        self.small_screwdriver.bin_packing_thread.bin_packing_available.connect(self.startPushButton.setEnabled)
+
+        self.startPushButton.setEnabled(self.small_screwdriver.bin_packing_thread.binPackingAvailable())
 
         self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
         self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY))
         self.splitter.restoreState(self.settings.value(SETTINGS_SPLITTER1))
         self.splitter_2.restoreState(self.settings.value(SETTINGS_SPLITTER2))
-        self.binSizeComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SIZE)))
-        self.methodTabWidget.setCurrentIndex(int(self.settings.value(SETTINGS_METHOD)))
+
+        bin_size = self.settings.value(SETTINGS_SIZE)
+        self.binSizeComboBox.setCurrentIndex(0 if bin_size is None else int(bin_size))
+
+        method = self.settings.value(SETTINGS_METHOD)
+        self.methodTabWidget.setCurrentIndex(0 if method is None else int(method))
 
     def on_add_directory(self):
         directory = QFileDialog.getExistingDirectory()
