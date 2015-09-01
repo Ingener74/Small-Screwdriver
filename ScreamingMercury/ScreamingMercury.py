@@ -1,5 +1,5 @@
 # encoding: utf8
-from PySide.QtCore import Qt
+from PySide.QtCore import Qt, QSettings
 from PySide.QtGui import QWidget
 
 from ScreamingMercuryWindow import Ui_ScreamingMercury
@@ -9,7 +9,9 @@ from SmallScrewdriver import (SmallScrewdriverWidget, Size, ShelfNextFitBinPacki
 COMPANY = 'Venus.Games'
 APPNAME = 'SmallScrewdriver'
 
-SETTINGS_SCALE = 'RenderScale'
+SETTINGS_GEOMETRY = 'Geometry'
+SETTINGS_SPLITTER1 = 'Splitter1'
+SETTINGS_SPLITTER2 = 'Splitter2'
 SETTINGS_SIZE = 'BinSize'
 SETTINGS_METHOD = 'BinPackingMethod'
 
@@ -30,6 +32,13 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         QWidget.__init__(self, parent)
         self.setupUi(self)
 
+        self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
+        self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY))
+        self.splitter.restoreState(self.settings.value(SETTINGS_SPLITTER1))
+        self.splitter_2.restoreState(self.settings.value(SETTINGS_SPLITTER2))
+        self.binSizeComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SIZE)))
+        self.methodTabWidget.setCurrentIndex(int(self.settings.value(SETTINGS_METHOD)))
+
         # self.paintWidget = PaintWidget(self.scale, self)
         # self.horizontalLayout_3.insertWidget(1, self.paintWidget)
         # self.horizontalLayout_3.setStretch(0, 3)
@@ -45,6 +54,12 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         if e.key() == Qt.Key_Escape:
             self.close()
 
+    def closeEvent(self, e):
+        self.settings.setValue(SETTINGS_GEOMETRY, self.saveGeometry())
+        self.settings.setValue(SETTINGS_SPLITTER1, self.splitter.saveState())
+        self.settings.setValue(SETTINGS_SPLITTER2, self.splitter_2.saveState())
+        self.settings.setValue(SETTINGS_SIZE, self.binSizeComboBox.currentIndex())
+        self.settings.setValue(SETTINGS_METHOD, self.methodTabWidget.currentIndex())
 
 # class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
 #     def __init__(self, parent=None):
@@ -82,14 +97,3 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
 #                                                  self.binSizeComboBox.currentIndex())
 #         self.binPackingThread.updateBins.connect(self.paintWidget.redrawBins)
 #         self.binPackingThread.start()
-#
-#     def keyPressEvent(self, e):
-#         if e.key() == Qt.Key_Escape:
-#             self.close()
-#
-#     def closeEvent(self, e):
-#         self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
-#         self.settings.setValue(self.__class__.__name__, self.saveGeometry())
-#         self.settings.setValue(SETTINGS_SCALE, self.scaleSpinBox.value())
-#         self.settings.setValue(SETTINGS_SIZE, self.binSizeComboBox.currentIndex())
-#         self.settings.setValue(SETTINGS_METHOD, self.methodComboBox.currentIndex())

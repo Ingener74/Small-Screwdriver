@@ -10,10 +10,11 @@ class SmallScrewdriverWidget(QWidget):
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         self.bins = [Bin(), Bin()]
+        self.scale = 1.0
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        painter.setWorldTransform(QTransform().scale(self.scaleSpinBox.value(), self.scaleSpinBox.value()))
+        painter.setWorldTransform(QTransform().scale(self.scale, self.scale))
 
         x = 0
         for b in self.bins:

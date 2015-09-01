@@ -87,33 +87,8 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <widget class="QGroupBox" name="groupBox_5">
-          <property name="title">
-           <string>Масштаб</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_8">
-           <item>
-            <widget class="QDoubleSpinBox" name="scale">
-             <property name="minimum">
-              <double>0.050000000000000</double>
-             </property>
-             <property name="maximum">
-              <double>10.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.050000000000000</double>
-             </property>
-             <property name="value">
-              <double>1.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
         <item>
          <widget class="QGroupBox" name="groupBox">
           <property name="title">
@@ -121,7 +96,7 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QComboBox" name="comboBoxBinSize">
+            <widget class="QComboBox" name="binSizeComboBox">
              <item>
               <property name="text">
                <string>256 x 256</string>
@@ -158,7 +133,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTabWidget" name="tabWidget">
+         <widget class="QTabWidget" name="methodTabWidget">
           <property name="currentIndex">
            <number>2</number>
           </property>
@@ -184,7 +159,7 @@
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_6">
                <item>
-                <widget class="QComboBox" name="comboBox">
+                <widget class="QComboBox" name="heuristicComboBox">
                  <item>
                   <property name="text">
                    <string>Best Area Fit</string>
@@ -217,7 +192,7 @@
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_5">
                <item>
-                <widget class="QComboBox" name="comboBox_2">
+                <widget class="QComboBox" name="splitComboBox">
                  <item>
                   <property name="text">
                    <string>Shorter Axis Split</string>
@@ -291,7 +266,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="start">
+           <widget class="QPushButton" name="startPushButton">
             <property name="toolTip">
              <string>Поехали!</string>
             </property>
