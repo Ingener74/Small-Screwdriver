@@ -1,5 +1,5 @@
 # encoding: utf8
-from PySide.QtCore import QPoint, Qt
+from PySide.QtCore import QPoint, Qt, QDir
 from PySide.QtGui import QImage, QTransform
 
 from SmallScrewdriver import Rect, Size, Point
@@ -9,15 +9,16 @@ from SillyCrossbow import crop_image
 # noinspection PyPep8Naming,PyUnusedLocal
 class Image(Rect):
     """
-    self.origin        - показывает положение в атласе
-    self.size          - оригинальный размер изображения
+    self.origin - показывает положение в атласе
+    self.size   - оригинальный размер изображения
     self.crop   - область изображения взятого из оригинала после обрезания прозрачных краёв
     """
 
-    def __init__(self, filename):
+    def __init__(self, directory, filename):
+        self.directory = directory
         self.filename = filename
 
-        image = QImage(self.filename)
+        image = QImage(self.directory + QDir.separator() + self.filename)
 
         Rect.__init__(self, Point(), Size(image.width(), image.height()))
 

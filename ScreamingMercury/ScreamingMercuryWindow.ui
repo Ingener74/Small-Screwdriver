@@ -33,12 +33,12 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QListView" name="imageList"/>
+         <widget class="QListWidget" name="imageList"/>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QPushButton" name="addImages">
+           <widget class="QPushButton" name="addDirectory">
             <property name="toolTip">
              <string>Добавить папку с изображениями</string>
             </property>

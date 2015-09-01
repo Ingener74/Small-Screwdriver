@@ -1,10 +1,9 @@
 # encoding: utf8
-from PySide.QtCore import Qt, QSettings
-from PySide.QtGui import QWidget
+from PySide.QtCore import (Qt, QSettings)
+from PySide.QtGui import (QWidget, QFileDialog)
 
 from ScreamingMercuryWindow import Ui_ScreamingMercury
-from SmallScrewdriver import (SmallScrewdriverWidget, Size, ShelfNextFitBinPacking, GuillotineBinPacking,
-                              ShelfFirstFitBinPacking)
+from SmallScrewdriver import (SmallScrewdriverWidget)
 
 COMPANY = 'Venus.Games'
 APPNAME = 'SmallScrewdriver'
@@ -15,22 +14,22 @@ SETTINGS_SPLITTER2 = 'Splitter2'
 SETTINGS_SIZE = 'BinSize'
 SETTINGS_METHOD = 'BinPackingMethod'
 
-SIZES = (Size(256, 256),
-         Size(512, 512),
-         Size(1024, 1024),
-         Size(2048, 2048),
-         Size(4096, 4096),
-         Size(8192, 8192))
-
-METHODS = (ShelfNextFitBinPacking,
-           ShelfFirstFitBinPacking,
-           GuillotineBinPacking)
-
 
 class ScreamingMercury(QWidget, Ui_ScreamingMercury):
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
         self.setupUi(self)
+
+        self.small_screwdriver = SmallScrewdriverWidget()
+        self.work_layout.insertWidget(0, self.small_screwdriver)
+
+        self.addDirectory.clicked.connect(self.on_add_directory)
+        self.removeImage.clicked.connect(self.on_remove_images)
+        self.startPushButton.clicked.connect(self.on_start)
+        self.methodTabWidget.currentChanged.connect(self.small_screwdriver.method_changed)
+        self.binSizeComboBox.currentIndexChanged.connect(self.small_screwdriver.bin_size_changed)
+
+        self.small_screwdriver.images_changed.connect(self.update_images)
 
         self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
         self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY))
@@ -39,16 +38,22 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.binSizeComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SIZE)))
         self.methodTabWidget.setCurrentIndex(int(self.settings.value(SETTINGS_METHOD)))
 
-        # self.paintWidget = PaintWidget(self.scale, self)
-        # self.horizontalLayout_3.insertWidget(1, self.paintWidget)
-        # self.horizontalLayout_3.setStretch(0, 3)
-        # self.horizontalLayout_3.setStretch(1, 6)
-        # self.horizontalLayout_3.setStretch(2, 1)
-        #
-        # self.paintWidget.bins = [Bin(), Bin()]
+    def on_add_directory(self):
+        directory = QFileDialog.getExistingDirectory()
+        if directory != u'':
+            self.small_screwdriver.set_directory(directory)
 
-        self.small_screwdriver = SmallScrewdriverWidget()
-        self.work_layout.insertWidget(0, self.small_screwdriver)
+    def on_remove_images(self):
+        row = self.imageList.currentRow()
+        self.small_screwdriver.remove_image(row)
+        self.imageList.setCurrentRow(row)
+
+    def on_start(self):
+        self.small_screwdriver.start_bin_packing()
+
+    def update_images(self, images):
+        self.imageList.clear()
+        self.imageList.addItems(images)
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
@@ -60,40 +65,3 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.settings.setValue(SETTINGS_SPLITTER2, self.splitter_2.saveState())
         self.settings.setValue(SETTINGS_SIZE, self.binSizeComboBox.currentIndex())
         self.settings.setValue(SETTINGS_METHOD, self.methodTabWidget.currentIndex())
-
-# class SmallScrewdriver(QWidget, Ui_SmallScrewdriver):
-#     def __init__(self, parent=None):
-#         QWidget.__init__(self, parent)
-#         self.setupUi(self)
-#
-#         self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
-#         print self.settings.fileName()
-#         self.restoreGeometry(self.settings.value(self.__class__.__name__))
-#
-#         if self.settings.value(SETTINGS_SCALE) is not None:
-#             self.scaleSpinBox.setValue(float(self.settings.value(SETTINGS_SCALE)))
-#
-#         if self.settings.value(SETTINGS_SIZE) is not None:
-#             self.binSizeComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SIZE)))
-#
-#         if self.settings.value(SETTINGS_METHOD) is not None:
-#             self.methodComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_METHOD)))
-#
-#         self.scaleSpinBox.valueChanged.connect(self.update)
-#
-#         self.paintWidget = PaintWidget(self.scaleSpinBox, self)
-#         self.paintWidget.resize(400, 400)
-#
-#         self.verticalLayout.insertWidget(1, self.paintWidget)
-#
-#         self.go.clicked.connect(self.onGo)
-#
-#     def onGo(self):
-#         directory = QFileDialog.getExistingDirectory()
-#         # print directory
-#         # if len(directory) > 0:
-#         self.binPackingThread = BinPackingThread(directory,
-#                                                  self.methodComboBox.currentIndex(),
-#                                                  self.binSizeComboBox.currentIndex())
-#         self.binPackingThread.updateBins.connect(self.paintWidget.redrawBins)
-#         self.binPackingThread.start()

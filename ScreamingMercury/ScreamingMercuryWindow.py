@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ScreamingMercury/ScreamingMercuryWindow.ui'
 #
-# Created: Tue Sep  1 11:13:37 2015
+# Created: Tue Sep  1 15:42:25 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -28,18 +28,18 @@ class Ui_ScreamingMercury(object):
         self.groupBox_2.setObjectName("groupBox_2")
         self.verticalLayout = QtGui.QVBoxLayout(self.groupBox_2)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.imageList = QtGui.QListView(self.groupBox_2)
+        self.imageList = QtGui.QListWidget(self.groupBox_2)
         self.imageList.setObjectName("imageList")
         self.verticalLayout.addWidget(self.imageList)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.addImages = QtGui.QPushButton(self.groupBox_2)
+        self.addDirectory = QtGui.QPushButton(self.groupBox_2)
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(":/main/list_add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.addImages.setIcon(icon1)
-        self.addImages.setIconSize(QtCore.QSize(24, 24))
-        self.addImages.setObjectName("addImages")
-        self.horizontalLayout.addWidget(self.addImages)
+        self.addDirectory.setIcon(icon1)
+        self.addDirectory.setIconSize(QtCore.QSize(24, 24))
+        self.addDirectory.setObjectName("addDirectory")
+        self.horizontalLayout.addWidget(self.addDirectory)
         self.removeImage = QtGui.QPushButton(self.groupBox_2)
         self.removeImage.setWhatsThis("")
         icon2 = QtGui.QIcon()
@@ -143,8 +143,8 @@ class Ui_ScreamingMercury(object):
     def retranslateUi(self, ScreamingMercury):
         ScreamingMercury.setWindowTitle(QtGui.QApplication.translate("ScreamingMercury", "Кричащая ртуть - упаковщик текстур", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_2.setTitle(QtGui.QApplication.translate("ScreamingMercury", "Изображения", None, QtGui.QApplication.UnicodeUTF8))
-        self.addImages.setToolTip(QtGui.QApplication.translate("ScreamingMercury", "Добавить папку с изображениями", None, QtGui.QApplication.UnicodeUTF8))
-        self.addImages.setText(QtGui.QApplication.translate("ScreamingMercury", "Добавить", None, QtGui.QApplication.UnicodeUTF8))
+        self.addDirectory.setToolTip(QtGui.QApplication.translate("ScreamingMercury", "Добавить папку с изображениями", None, QtGui.QApplication.UnicodeUTF8))
+        self.addDirectory.setText(QtGui.QApplication.translate("ScreamingMercury", "Добавить", None, QtGui.QApplication.UnicodeUTF8))
         self.removeImage.setToolTip(QtGui.QApplication.translate("ScreamingMercury", "Убрать выделенное изображение", None, QtGui.QApplication.UnicodeUTF8))
         self.removeImage.setText(QtGui.QApplication.translate("ScreamingMercury", "Убрать", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("ScreamingMercury", "Максимальный размер атласов", None, QtGui.QApplication.UnicodeUTF8))
