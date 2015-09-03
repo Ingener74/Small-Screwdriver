@@ -20,7 +20,7 @@ class Shelf(Rect):
         """
         free_size = Size(self.maxSize.width - self.size.width, self.maxSize.height)
         image_size = Size(image.crop.size.height, image.crop.size.width) if image.rotated else image.crop.size
-        if free_size >= image_size:
+        if image_size < free_size:  # >= image_size
 
             image.origin = Point(self.size.width, self.origin.y)
             self.images.append(image)

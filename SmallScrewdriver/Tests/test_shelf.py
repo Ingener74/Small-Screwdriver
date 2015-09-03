@@ -8,13 +8,13 @@ from SmallScrewdriver.Shelf import Shelf
 
 class TestShelf(TestCase):
     def test_addImage(self):
-        im1 = Image('../resources/fire.png')
+        im1 = Image('../resources', 'fire.png')
         # print im1
-        im2 = Image('../resources/start.png')
+        im2 = Image('../resources', 'start.png')
         # print im2
-        im3 = Image('../resources/win_again.png')
+        im3 = Image('../resources', 'win_again.png')
         # print im3
-        im4 = Image('../resources/fail_again.png')
+        im4 = Image('../resources', 'fail_again.png')
         # print im4
 
         # shelf 1

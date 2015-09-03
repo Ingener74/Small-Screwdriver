@@ -1,15 +1,15 @@
 # encoding: utf8
 from PySide.QtCore import (QThread, Signal)
 
-from SmallScrewdriver import (Rect, Image, ShelfNextFitBinPacking, ShelfFirstFitBinPacking, GuillotineBinPacking, Size)
-
-__author__ = 'pavel'
+from SmallScrewdriver import (Rect, Image, ShelfNextFitBinPacking, ShelfFirstFitBinPacking, GuillotineBinPacking, Size,
+                              MaxRectsBinPacking)
 
 
 class BinPackingThread(QThread):
     METHODS = (ShelfNextFitBinPacking,
                ShelfFirstFitBinPacking,
-               GuillotineBinPacking)
+               GuillotineBinPacking,
+               MaxRectsBinPacking)
 
     SIZES = (Size(256, 256),
              Size(512, 512),
