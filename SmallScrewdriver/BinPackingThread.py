@@ -44,11 +44,9 @@ class BinPackingThread(QThread):
         self.bin_packing_available.emit(self.binPackingAvailable())
 
     def set_method(self, index):
-        print 'method ', index
         self.method = BinPackingThread.METHODS[index]
 
     def set_bin_size(self, index):
-        print 'bin size ', index
         self.bin_size = BinPackingThread.SIZES[index]
 
     def run(self):
