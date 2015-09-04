@@ -1,6 +1,7 @@
 # encoding: utf8
 
 
+# noinspection PyPep8Naming
 class Size(object):
     def __init__(self, width=0, height=0):
         self.width = width
@@ -29,6 +30,11 @@ class Size(object):
     def __ge__(self, other):
         raise TypeError("can not have greater then equal operator")
         # return self.width >= other.width or self.height >= other.height
+
+    def canInscribe(self, other):
+        return min(self.width, self.height) > max(other.width, other.height)
+
+
 
     def __str__(self):
         return '{}({}, {})'.format(self.__class__.__name__, self.width, self.height)

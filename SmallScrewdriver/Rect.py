@@ -27,6 +27,9 @@ class Rect(object):
 
     def draw(self, painter, offset=Point()):
         painter.setPen(self.pen)
+        color = QColor(self.pen.color())
+        color.setAlpha(100)
+        painter.setBrush(QColor(color))
         painter.drawRect(self.origin.x + offset.x, self.origin.y + offset.y, self.size.width, self.size.height)
 
     def split(self, rect, rule):
@@ -35,24 +38,35 @@ class Rect(object):
         :param size:
         :return:
         """
-        if max(self.size.width, self.size.height) <= min(rect.size.width, rect.size.height):
-            return 0, Rect(), Rect()
 
+        # Случай когда разделяющий и разделяемый одинаковые
         if self.size == rect.size:
             return 0, Rect(), Rect()
+        # Случай когда разделяющий прямоугольник больше разделяемого
+        elif self.size.canInscribe(rect.size):
+            pass
+        else:
+            return 0, Rect(), Rect()
 
-        if self.size.width == rect.size.width and self.size.height > rect.size.height:
-            return 1, Rect(self.origin + Point(0, rect.size.height),
-                           Size(self.size.width, self.size.height - rect.size.height)), Rect()
 
-        if self.size.height == rect.size.height and self.size.width > rect.size.width:
-            return 1, Rect(self.origin + Point(rect.size.width, 0),
-                           Size(self.size.width - rect.size.width, self.size.height)), Rect()
+        # Случай когда одна сторона разделяющего больше стороны разделяемого, а вторые стороны равны
+        if False:
+            # 2 случая когда одна сторона раздеющиего равна
+            if self.size.width == rect.size.width and self.size.height > rect.size.height:
+                return 1, Rect(self.origin + Point(0, rect.size.height),
+                               Size(self.size.width, self.size.height - rect.size.height)), Rect()
 
+            if self.size.height == rect.size.height and self.size.width > rect.size.width:
+                return 1, Rect(self.origin + Point(rect.size.width, 0),
+                               Size(self.size.width - rect.size.width, self.size.height)), Rect()
+
+        # Случай когда разделяемый меньше в одном из поворотов меньше
         if max(rect.size.width, rect.size.height) < max(self.size.width, self.size.height) and \
                         min(rect.size.width, rect.size.height) < min(self.size.width, self.size.height):
-            # тогда входит
             pass
+
+        else:
+            raise TypeError(u'Это я не учёл :(')
 
         x1 = 0
         x2 = 0
