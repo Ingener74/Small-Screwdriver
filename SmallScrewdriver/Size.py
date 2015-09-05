@@ -32,9 +32,26 @@ class Size(object):
         # return self.width >= other.width or self.height >= other.height
 
     def canInscribe(self, other):
-        return min(self.width, self.height) > max(other.width, other.height)
+        """
+        Моежт ли этот размер вписать другой под 0 градусов или 90 градусов
+        :param other: проверяемый размер
+        :return: True если может
+        False если нет
+        """
+        return other.less(self) == (True, True) or other.less(Size(self.height, self.width)) == (True, True)
 
+    def less(self, other):
+        """
+        Определяет меньше для каждой из двух сторон
+        :rtype : bool
+        """
+        return self.width < other.width, self.height < other.height
 
+    def equal(self, other):
+        return self.width == other.width, self.height == other.height
+
+    def rotate(self):
+        return Size(self.height, self.width)
 
     def __str__(self):
         return '{}({}, {})'.format(self.__class__.__name__, self.width, self.height)

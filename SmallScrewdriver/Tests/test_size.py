@@ -81,3 +81,77 @@ class TestSize(TestCase):
         self.assertFalse(s5.canInscribe(s3))
         self.assertFalse(s5.canInscribe(s1))
         self.assertFalse(s5.canInscribe(s3))
+
+    def test_less(self):
+        s1 = Size(10, 10)
+        s2 = Size(20, 20)
+        s3 = Size(8, 20)
+        s4 = Size(40, 5)
+        s5 = Size(4, 4)
+
+        self.assertEqual(s1.less(s1), (False, False))
+        self.assertEqual(s1.less(s2), (True, True))
+        self.assertEqual(s1.less(s3), (False, True))
+        self.assertEqual(s1.less(s4), (True, False))
+        self.assertEqual(s1.less(s5), (False, False))
+
+        self.assertEqual(s2.less(s1), (False, False))
+        self.assertEqual(s2.less(s2), (False, False))
+        self.assertEqual(s2.less(s3), (False, False))
+        self.assertEqual(s2.less(s4), (True, False))
+        self.assertEqual(s2.less(s5), (False, False))
+
+        self.assertEqual(s3.less(s1), (True, False))
+        self.assertEqual(s3.less(s2), (True, False))
+        self.assertEqual(s3.less(s3), (False, False))
+        self.assertEqual(s3.less(s4), (True, False))
+        self.assertEqual(s3.less(s5), (False, False))
+
+        self.assertEqual(s4.less(s1), (False, True))
+        self.assertEqual(s4.less(s2), (False, True))
+        self.assertEqual(s4.less(s3), (False, True))
+        self.assertEqual(s4.less(s4), (False, False))
+        self.assertEqual(s4.less(s5), (False, False))
+
+        self.assertEqual(s5.less(s1), (True, True))
+        self.assertEqual(s5.less(s2), (True, True))
+        self.assertEqual(s5.less(s3), (True, True))
+        self.assertEqual(s5.less(s4), (True, True))
+        self.assertEqual(s5.less(s5), (False, False))
+
+    def test_equal(self):
+        s1 = Size(10, 10)
+        s2 = Size(20, 20)
+        s3 = Size(8, 20)
+        s4 = Size(40, 5)
+        s5 = Size(4, 4)
+
+        self.assertEqual(s1.equal(s1), (True, True))
+        self.assertEqual(s1.equal(s2), (False, False))
+        self.assertEqual(s1.equal(s3), (False, False))
+        self.assertEqual(s1.equal(s4), (False, False))
+        self.assertEqual(s1.equal(s5), (False, False))
+
+        self.assertEqual(s2.equal(s1), (False, False))
+        self.assertEqual(s2.equal(s2), (True, True))
+        self.assertEqual(s2.equal(s3), (False, True))
+        self.assertEqual(s2.equal(s4), (False, False))
+        self.assertEqual(s2.equal(s5), (False, False))
+
+        self.assertEqual(s3.equal(s1), (False, False))
+        self.assertEqual(s3.equal(s2), (False, True))
+        self.assertEqual(s3.equal(s3), (True, True))
+        self.assertEqual(s3.equal(s4), (False, False))
+        self.assertEqual(s3.equal(s5), (False, False))
+
+        self.assertEqual(s4.equal(s1), (False, False))
+        self.assertEqual(s4.equal(s2), (False, False))
+        self.assertEqual(s4.equal(s3), (False, False))
+        self.assertEqual(s4.equal(s4), (True, True))
+        self.assertEqual(s4.equal(s5), (False, False))
+
+        self.assertEqual(s5.equal(s1), (False, False))
+        self.assertEqual(s5.equal(s2), (False, False))
+        self.assertEqual(s5.equal(s3), (False, False))
+        self.assertEqual(s5.equal(s4), (False, False))
+        self.assertEqual(s5.equal(s5), (True, True))

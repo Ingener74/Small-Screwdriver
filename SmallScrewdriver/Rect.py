@@ -28,7 +28,7 @@ class Rect(object):
     def draw(self, painter, offset=Point()):
         painter.setPen(self.pen)
         color = QColor(self.pen.color())
-        color.setAlpha(100)
+        color.setAlpha(50)
         painter.setBrush(QColor(color))
         painter.drawRect(self.origin.x + offset.x, self.origin.y + offset.y, self.size.width, self.size.height)
 
@@ -39,15 +39,50 @@ class Rect(object):
         :return:
         """
 
+        less = rect.size.less(self.size)
+        less_r = rect.size.rotate().less(self.size)
+
+        equal = rect.size.equal(self.size)
+        equal_r = rect.size.rotate().equal(self.size)
+
         # Случай когда разделяющий и разделяемый одинаковые
         if self.size == rect.size:
             return 0, Rect(), Rect()
-        # Случай когда разделяющий прямоугольник больше разделяемого
-        elif self.size.canInscribe(rect.size):
+
+        # Одна сторона одинаковая, другая меньше
+        elif equal == (True, False) and less == (False, True):
+            return 1, \
+                   Rect(self.origin + Point(0, rect.size.height),
+                        Size(self.size.width, self.size.height - rect.size.height)), \
+                   Rect()
+
+        elif equal_r == (True, False) and less == (False, True):
+            return 1, \
+                   Rect(self.origin + Point(0, rect.size.width),
+                        Size(self.size.width, self.size.height - rect.size.width)), \
+                   Rect()
+
+        elif equal == (False, True) and less == (True, False):
+            return 1, \
+                   Rect(self.origin + Point(rect.size.width, 0),
+                        Size(self.size.width - rect.size.width, self.size.height)), \
+                   Rect()
+
+        elif equal_r == (False, True) and less_r == (True, False):
+            return 1, \
+                   Rect(self.origin + Point(rect.size.height, 0),
+                        Size(self.size.width - rect.size.height, self.size.height)), \
+                   Rect()
+
+        # Обе стороны меньше
+        elif less == (True, True):
             pass
+        elif less_r == (True, True):
+            pass
+
+        # Остальные случаи
         else:
             return 0, Rect(), Rect()
-
 
         # Случай когда одна сторона разделяющего больше стороны разделяемого, а вторые стороны равны
         if False:
@@ -59,14 +94,6 @@ class Rect(object):
             if self.size.height == rect.size.height and self.size.width > rect.size.width:
                 return 1, Rect(self.origin + Point(rect.size.width, 0),
                                Size(self.size.width - rect.size.width, self.size.height)), Rect()
-
-        # Случай когда разделяемый меньше в одном из поворотов меньше
-        if max(rect.size.width, rect.size.height) < max(self.size.width, self.size.height) and \
-                        min(rect.size.width, rect.size.height) < min(self.size.width, self.size.height):
-            pass
-
-        else:
-            raise TypeError(u'Это я не учёл :(')
 
         x1 = 0
         x2 = 0
