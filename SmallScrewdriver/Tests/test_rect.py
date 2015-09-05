@@ -38,7 +38,7 @@ class TestRect(TestCase):
 
         self.assertNotEqual(r4, r5)
 
-    def test_split(self):
+    def test_split_sas(self):
 
         r1 = Rect(Point(10, 10), Size(512, 512))
         r2 = Rect(Point(), Size(110, 75))
@@ -51,25 +51,30 @@ class TestRect(TestCase):
 
         # Плохие примеры
         r8 = Rect(Point(), Size(512, 512))
-        s, rs1_, rs2_ = r1.split(r8, Rect.RULE_SAS)
+        s, rs1_, rs2_, r = r1.split(r8, Rect.RULE_SAS)
         self.assertEqual(s, 0)
         self.assertEqual(rs1_, Rect())
         self.assertEqual(rs2_, Rect())
+        self.assertEqual(r, False)
 
         r9 = Rect(Point(), Size(200, 70))
-        s, rs1_, rs2_ = r2.split(r9, Rect.RULE_SAS)
+        s, rs1_, rs2_, r = r2.split(r9, Rect.RULE_SAS)
         self.assertEqual(s, 0)
         self.assertEqual(rs1_, Rect())
         self.assertEqual(rs2_, Rect())
+        self.assertEqual(r, False)
 
         r10 = Rect(Point(), Size(50, 80))
-        s, rs1_, rs2_ = r2.split(r10, Rect.RULE_SAS)
-        self.assertEqual(s, 0)
-        self.assertEqual(rs1_, Rect())
-        self.assertEqual(rs2_, Rect())
+        s, rs1_, rs2_, r = r2.split(r10, Rect.RULE_SAS)
+        self.assertEqual(s, 2)
+        self.assertEqual(rs1_, Rect(r2.origin + Point(r10.size.height, 0),
+                                    Size(r2.size.width - r10.size.height, r2.size.height)))
+        self.assertEqual(rs2_, Rect(r2.origin + Point(0, r10.size.width),
+                                    Size(r10.size.height, r2.size.height - r10.size.width)))
+        self.assertEqual(r, True)
 
         # 1
-        s, ro1, ro2 = r2.split(r6, Rect.RULE_SAS)
+        s, ro1, ro2, r = r2.split(r6, Rect.RULE_SAS)
         self.assertEqual(s, 1)
         self.assertEqual(ro1, Rect(Point(r2.origin.x,
                                     r2.origin.y + r6.size.height),
@@ -77,7 +82,7 @@ class TestRect(TestCase):
                                    r2.size.height - r6.size.height)))
         self.assertEqual(ro2, Rect())
 
-        s, ro1, ro2 = r2.split(r7, Rect.RULE_SAS)
+        s, ro1, ro2, r = r2.split(r7, Rect.RULE_SAS)
         self.assertEqual(s, 1)
         self.assertEqual(ro1, Rect(Point(r2.origin.x + r7.size.width,
                                          r2.origin.y),
@@ -86,7 +91,7 @@ class TestRect(TestCase):
         self.assertEqual(ro2, Rect())
 
         # test SAS
-        s, rs1, rs2 = r1.split(r2, Rect.RULE_SAS)
+        s, rs1, rs2, r = r1.split(r2, Rect.RULE_SAS)
         self.assertEqual(s, 2)
         self.assertEqual(rs1, Rect(Point(r1.origin.x + r2.size.width,
                                          r1.origin.y),
@@ -98,7 +103,7 @@ class TestRect(TestCase):
                                    Size(r2.size.width,
                                         r1.size.height - r2.size.height)))
 
-        s, rs3, rs4 = rs1.split(r3, Rect.RULE_SAS)
+        s, rs3, rs4, r = rs1.split(r3, Rect.RULE_SAS)
         self.assertEqual(s, 2)
         self.assertEqual(rs3, Rect(Point(rs1.origin.x + r3.size.width,
                                          rs1.origin.y),
@@ -110,7 +115,7 @@ class TestRect(TestCase):
                                    Size(rs1.size.width,
                                         rs1.size.height - r3.size.height)))
 
-        s, rs5, rs6 = rs3.split(r4, Rect.RULE_SAS)
+        s, rs5, rs6, r = rs3.split(r4, Rect.RULE_SAS)
         self.assertEqual(s, 2)
         self.assertEqual(rs5, Rect(Point(rs3.origin.x + r4.size.width,
                                          rs3.origin.y),
@@ -122,7 +127,96 @@ class TestRect(TestCase):
                                    Size(r4.size.width,
                                         rs3.size.height - r4.size.height)))
 
-        # # test LAS
-        # r3 = Rect(Point(), Size(256, 256))
-        # s, rs1, rs2 = r1.split(r3.size, Rect.RULE_LAS)
-        # self.assertFalse(s)
+        # test LAS
+    def test_split_las(self):
+        r1 = Rect(Point(10, 10), Size(512, 512))
+        r2 = Rect(Point(), Size(110, 75))
+        r3 = Rect(Point(), Size(70, 95))
+        r4 = Rect(Point(), Size(90, 55))
+
+        s, rs1, rs2, r = r1.split(r2, Rect.RULE_LAS)
+        self.assertEqual(s, 2)
+        self.assertEqual(rs1, Rect(r1.origin + Point(r2.size.width, 0),
+                                   Size(r1.size.width - r2.size.width, r2.size.height)))
+        self.assertEqual(rs2, Rect(r1.origin + Point(0, r2.size.height),
+                                   Size(r1.size.width, r1.size.height - r2.size.height)))
+        self.assertEqual(r, False)
+
+        s, rs3, rs4, r = rs1.split(r3, Rect.RULE_LAS)
+        self.assertEqual(s, 2)
+        self.assertEqual(rs3, Rect(rs1.origin + Point(r3.size.height, 0),
+                                   Size(rs1.size.width - r3.size.height, r3.size.width)))
+        self.assertEqual(rs4, Rect(rs1.origin + Point(0, r3.size.width),
+                                   Size(rs1.size.width, rs1.size.height - r3.size.width)))
+        self.assertEqual(r, True)
+
+        s, rs5, rs6, r = rs3.split(r4, Rect.RULE_LAS)
+        self.assertEqual(s, 2)
+        self.assertEqual(rs5, Rect(rs3.origin + Point(r4.size.width, 0),
+                                   Size(rs3.size.width - r4.size.width, r4.size.height)))
+        self.assertEqual(rs6, Rect(rs3.origin + Point(0, r4.size.height),
+                                   Size(rs3.size.width, rs3.size.height - r4.size.height)))
+        self.assertEqual(r, False)
+
+    def test_split_slas(self):
+        r1 = Rect(Point(10, 10), Size(512, 512))
+        r2 = Rect(Point(), Size(110, 75))
+        r3 = Rect(Point(), Size(70, 95))
+        r4 = Rect(Point(), Size(90, 55))
+
+        s, rs1, rs2, r = r1.split(r2, Rect.RULE_SLAS)
+        self.assertEqual(s, 2)
+        self.assertEqual(rs1, Rect(r1.origin + Point(r2.size.width, 0),
+                                   Size(r1.size.width - r2.size.width, r2.size.height)))
+        self.assertEqual(rs2, Rect(r1.origin + Point(0, r2.size.height),
+                                   Size(r1.size.width, r1.size.height - r2.size.height)))
+        self.assertEqual(r, False)
+
+        s, rs3, rs4, r = rs1.split(r3, Rect.RULE_SLAS)
+        self.assertEqual(s, 2)
+        self.assertEqual(rs3, Rect(rs1.origin + Point(r3.size.height, 0),
+                                   Size(rs1.size.width - r3.size.height, rs1.size.height)))
+        self.assertEqual(rs4, Rect(rs1.origin + Point(0, r3.size.width),
+                                   Size(r3.size.height, rs1.size.height - r3.size.width)))
+        self.assertEqual(r, True)
+
+        s, rs5, rs6, r = rs3.split(r4, Rect.RULE_SLAS)
+        self.assertEqual(s, 2)
+        self.assertEqual(rs5, Rect(rs3.origin + Point(r4.size.width, 0),
+                                   Size(rs3.size.width - r4.size.width, rs3.size.height)))
+        self.assertEqual(rs6, Rect(rs3.origin + Point(0, r4.size.height),
+                                   Size(r4.size.width, rs3.size.height - r4.size.height)))
+        self.assertEqual(r, False)
+
+    def test_split_llas(self):
+        r1 = Rect(Point(10, 10), Size(512, 512))
+        r2 = Rect(Point(), Size(110, 75))
+        r3 = Rect(Point(), Size(70, 95))
+        r4 = Rect(Point(), Size(90, 55))
+
+        # Вертикально
+        s, rs1, rs2, r = r1.split(r2, Rect.RULE_LLAS)
+        self.assertEqual(s, 2)
+        self.assertEqual(rs1, Rect(r1.origin + Point(r2.size.width, 0),
+                                   Size(r1.size.width - r2.size.width, r1.size.height)))
+        self.assertEqual(rs2, Rect(r1.origin + Point(0, r2.size.height),
+                                   Size(r2.size.width, r1.size.height - r2.size.height)))
+        self.assertEqual(r, False)
+
+        # Вертикально
+        s, rs3, rs4, r = rs1.split(r3, Rect.RULE_LLAS)
+        self.assertEqual(s, 2)
+        self.assertEqual(rs3, Rect(rs1.origin + Point(r3.size.width, 0),
+                                   Size(rs1.size.width - r3.size.width, rs1.size.height)))
+        self.assertEqual(rs4, Rect(rs1.origin + Point(0, r3.size.height),
+                                   Size(r3.size.width, rs1.size.height - r3.size.height)))
+        self.assertEqual(r, False)
+
+        s, rs5, rs6, r = rs3.split(r4, Rect.RULE_LLAS)
+        self.assertEqual(s, 2)
+        self.assertEqual(rs5, Rect(rs3.origin + Point(r4.size.width, 0),
+                                   Size(rs3.size.width - r4.size.width, rs3.size.height)))
+        self.assertEqual(rs6, Rect(rs3.origin + Point(0, r4.size.height),
+                                   Size(r4.size.width, rs3.size.height - r4.size.height)))
+        self.assertEqual(r, False)
+
