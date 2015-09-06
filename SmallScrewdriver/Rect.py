@@ -20,10 +20,13 @@ class Rect(object):
     RULE_MAXAS = 4
     RULE_MINAS = 5
 
-    def __init__(self, origin=Point(), size=Size(), pen=QPen()):
-        self.origin = origin
-        self.size = size
-        self.pen = pen
+    def __init__(self, *args, **kwargs):
+        self.origin = args[0] if len(args) > 0 else kwargs['origin'] if 'origin' in kwargs else Point()
+        self.size = args[1] if len(args) > 1 else kwargs['size'] if 'size' in kwargs else Size()
+        self.pen = args[2] if len(args) > 2 else kwargs['pen'] if 'pen' in kwargs else QPen()
+
+        if 'rect' in kwargs:
+            self.origin, self.size, self.pen = kwargs['rect'].origin, kwargs['rect'].size, kwargs['rect'].pen
 
     def area(self):
         return self.size.area()
@@ -107,6 +110,9 @@ class Rect(object):
             x1 = self.size.width - rect.size.width
             x2 = self.size.height - rect.size.height
         elif rule is Rect.RULE_MAXAS or rule is Rect.RULE_MINAS:
+
+            # TODO здесь надо сделать по другому
+
             x1 = self.area()
             x2 = rect.area()
         if ((rule is Rect.RULE_SAS or rule is Rect.RULE_SLAS or rule is Rect.RULE_MINAS) and x1 < x2) or \

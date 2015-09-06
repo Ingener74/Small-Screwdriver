@@ -159,25 +159,34 @@
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_6">
                <item>
-                <widget class="QComboBox" name="heuristicComboBox">
+                <widget class="QComboBox" name="fitVariantComboBox">
                  <item>
                   <property name="text">
-                   <string>Best Area Fit</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Best Short Side Fit</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Best Long Side Fit</string>
+                   <string>Best Fit</string>
                   </property>
                  </item>
                  <item>
                   <property name="text">
                    <string>Worst Fit</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="heuristicComboBox">
+                 <item>
+                  <property name="text">
+                   <string>Best/Worst Area Fit</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Best/Worst Short Side Fit</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Best/Worst Long Side Fit</string>
                   </property>
                  </item>
                 </widget>

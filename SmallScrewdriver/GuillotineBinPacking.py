@@ -3,35 +3,39 @@ from SmallScrewdriver import BinPacking, Rect, Point
 from Guillotine import BinGuillotine
 
 
+# noinspection PyPep8Naming
 class GuillotineBinPacking(BinPacking):
     def __init__(self, bin_size, images, *args, **kwargs):
         BinPacking.__init__(self, bin_size=bin_size)
 
-        self.selection_heuristic = kwargs.get('selection_heuristic', BinGuillotine.BAF)
-        self.split_rule = kwargs.get('split_rule', Rect.RULE_SAS)
-        self.images = []
+        select_variant = kwargs['select_variant'] if 'select_variant' in kwargs else BinGuillotine.BEST_VARIANTS
+        select_heuristic = kwargs['select_heuristic'] if 'select_heuristic' in kwargs else BinGuillotine.AREA_FIT
+        split_rule = kwargs['split_rule'] if 'split_rule' in kwargs else Rect.RULE_SAS
 
-        # Bыкидываем все изображения размер которых больше или равен размеру контейнера
-        for i in images:
-            if i.crop.size < self.bin_size:
-                self.images.append(i)
+        # Отсеиваем изображения которые больше размера контейнера
+        self.images = filter(lambda image: image.size.less(self.bin_size) == (True, True), images)
 
-        # ориентировать все изображения по вертикали
-        for i in self.images:
-            if i.crop.size.width > i.crop.size.height:
-                i.rotated = True
-
-        # сортировать по высоте
-        self.images = sorted(self.images,
-                             key=lambda im: im.crop.size.width if im.rotated else im.crop.size.height,
-                             reverse=True)
-
-        bin = BinGuillotine(self.bin_size, Point(), self.selection_heuristic, self.split_rule)
+        # Создаём первый контейнер
+        self.__newContainer(select_heuristic, select_variant, split_rule)
 
         for i in self.images:
             for b in self.bins:
-
+                print u'Помещаем изображение ', i
                 if b.addImage(i):
-                    pass
+                    self.images.remove(i)
+                    break
                 else:
-                    pass
+                    print u'Изображение не вошло'
+            else:
+                print u'Новый контейнер'
+                # Не в один из контеёнеров изображение не влезло, делаем ещё один контейнер
+                self.__newContainer(select_heuristic, select_variant, split_rule)
+
+            # break
+
+    def __newContainer(self, select_heuristic, select_variant, split_rule):
+        self.bins += [BinGuillotine(self.bin_size,
+                                    Point(),
+                                    select_variant=select_variant,
+                                    select_heuristic=select_heuristic,
+                                    split_rule=split_rule)]

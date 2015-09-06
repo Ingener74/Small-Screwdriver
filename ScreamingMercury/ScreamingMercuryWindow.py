@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ScreamingMercury/ScreamingMercuryWindow.ui'
+# Form implementation generated from reading ui file 'C:/Users/Pavel/workspace/Small-Screwdriver/ScreamingMercury/ScreamingMercuryWindow.ui'
 #
-# Created: Tue Sep  1 15:42:25 2015
+# Created: Sun Sep 06 13:46:04 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -85,9 +85,13 @@ class Ui_ScreamingMercury(object):
         self.groupBox_3.setObjectName("groupBox_3")
         self.verticalLayout_6 = QtGui.QVBoxLayout(self.groupBox_3)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
+        self.fitVariantComboBox = QtGui.QComboBox(self.groupBox_3)
+        self.fitVariantComboBox.setObjectName("fitVariantComboBox")
+        self.fitVariantComboBox.addItem("")
+        self.fitVariantComboBox.addItem("")
+        self.verticalLayout_6.addWidget(self.fitVariantComboBox)
         self.heuristicComboBox = QtGui.QComboBox(self.groupBox_3)
         self.heuristicComboBox.setObjectName("heuristicComboBox")
-        self.heuristicComboBox.addItem("")
         self.heuristicComboBox.addItem("")
         self.heuristicComboBox.addItem("")
         self.heuristicComboBox.addItem("")
@@ -157,10 +161,11 @@ class Ui_ScreamingMercury(object):
         self.methodTabWidget.setTabText(self.methodTabWidget.indexOf(self.tabShelfNextFit), QtGui.QApplication.translate("ScreamingMercury", "Shelf Next Fit", None, QtGui.QApplication.UnicodeUTF8))
         self.methodTabWidget.setTabText(self.methodTabWidget.indexOf(self.tabShelfFirstFit), QtGui.QApplication.translate("ScreamingMercury", "Shelf First Fit", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_3.setTitle(QtGui.QApplication.translate("ScreamingMercury", "Эвристика выбора", None, QtGui.QApplication.UnicodeUTF8))
-        self.heuristicComboBox.setItemText(0, QtGui.QApplication.translate("ScreamingMercury", "Best Area Fit", None, QtGui.QApplication.UnicodeUTF8))
-        self.heuristicComboBox.setItemText(1, QtGui.QApplication.translate("ScreamingMercury", "Best Short Side Fit", None, QtGui.QApplication.UnicodeUTF8))
-        self.heuristicComboBox.setItemText(2, QtGui.QApplication.translate("ScreamingMercury", "Best Long Side Fit", None, QtGui.QApplication.UnicodeUTF8))
-        self.heuristicComboBox.setItemText(3, QtGui.QApplication.translate("ScreamingMercury", "Worst Fit", None, QtGui.QApplication.UnicodeUTF8))
+        self.fitVariantComboBox.setItemText(0, QtGui.QApplication.translate("ScreamingMercury", "Best Fit", None, QtGui.QApplication.UnicodeUTF8))
+        self.fitVariantComboBox.setItemText(1, QtGui.QApplication.translate("ScreamingMercury", "Worst Fit", None, QtGui.QApplication.UnicodeUTF8))
+        self.heuristicComboBox.setItemText(0, QtGui.QApplication.translate("ScreamingMercury", "Best/Worst Area Fit", None, QtGui.QApplication.UnicodeUTF8))
+        self.heuristicComboBox.setItemText(1, QtGui.QApplication.translate("ScreamingMercury", "Best/Worst Short Side Fit", None, QtGui.QApplication.UnicodeUTF8))
+        self.heuristicComboBox.setItemText(2, QtGui.QApplication.translate("ScreamingMercury", "Best/Worst Long Side Fit", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_4.setTitle(QtGui.QApplication.translate("ScreamingMercury", "Правило разделения", None, QtGui.QApplication.UnicodeUTF8))
         self.splitComboBox.setItemText(0, QtGui.QApplication.translate("ScreamingMercury", "Shorter Axis Split", None, QtGui.QApplication.UnicodeUTF8))
         self.splitComboBox.setItemText(1, QtGui.QApplication.translate("ScreamingMercury", "Longer Axis Split", None, QtGui.QApplication.UnicodeUTF8))
