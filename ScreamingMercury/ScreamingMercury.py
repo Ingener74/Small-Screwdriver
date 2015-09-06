@@ -14,6 +14,10 @@ SETTINGS_SPLITTER2 = 'Splitter2'
 SETTINGS_SIZE = 'BinSize'
 SETTINGS_METHOD = 'BinPackingMethod'
 
+SETTINGS_VARIANT = 'Variant'
+SETTINGS_HEURISTIC = 'Heuristic'
+SETTINGS_SPLIT_RULE = 'SplitRule'
+
 
 class ScreamingMercury(QWidget, Ui_ScreamingMercury):
     def __init__(self, parent=None):
@@ -45,6 +49,15 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         method = self.settings.value(SETTINGS_METHOD)
         self.methodTabWidget.setCurrentIndex(0 if method is None else int(method))
 
+        fit_variant = self.settings.value(SETTINGS_VARIANT)
+        self.fitVariantComboBox.setCurrentIndex(0 if fit_variant is None else int(fit_variant))
+
+        heuristic = self.settings.value(SETTINGS_HEURISTIC)
+        self.heuristicComboBox.setCurrentIndex(0 if heuristic is None else int(heuristic))
+
+        split_rule = self.settings.value(SETTINGS_SPLIT_RULE)
+        self.splitComboBox.setCurrentIndex(0 if split_rule is None else int(split_rule))
+
     def on_add_directory(self):
         directory = QFileDialog.getExistingDirectory()
         if directory != u'':
@@ -72,3 +85,7 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.settings.setValue(SETTINGS_SPLITTER2, self.splitter_2.saveState())
         self.settings.setValue(SETTINGS_SIZE, self.binSizeComboBox.currentIndex())
         self.settings.setValue(SETTINGS_METHOD, self.methodTabWidget.currentIndex())
+
+        self.settings.setValue(SETTINGS_VARIANT, self.fitVariantComboBox.currentIndex())
+        self.settings.setValue(SETTINGS_HEURISTIC, self.heuristicComboBox.currentIndex())
+        self.settings.setValue(SETTINGS_SPLIT_RULE, self.splitComboBox.currentIndex())

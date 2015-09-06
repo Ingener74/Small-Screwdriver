@@ -27,10 +27,8 @@ class BinGuillotine(Bin):
     def addImage(self, image):
 
         af = lambda x: x.area()
-        ssf = lambda x: min(x.width(), x.height())
-        lsf = lambda x: max(x.width(), x.height())
-        # ssf = lambda x: min(x.width() - image.size.width(), x.height() - image.size.height())
-        # lsf = lambda x: max(x.width() - image.size.width(), x.height() - image.size.height())
+        ssf = lambda x: min(x.width() - image.size.width(), x.height() - image.size.height())
+        lsf = lambda x: max(x.width() - image.size.width(), x.height() - image.size.height())
 
         # foo1 = filter([af, ssf, lsf][self.select_heuristic], self.splits)
 

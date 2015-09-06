@@ -12,8 +12,10 @@ class GuillotineBinPacking(BinPacking):
         select_heuristic = kwargs['select_heuristic'] if 'select_heuristic' in kwargs else BinGuillotine.AREA_FIT
         split_rule = kwargs['split_rule'] if 'split_rule' in kwargs else Rect.RULE_SAS
 
+        print len(images)
         # Отсеиваем изображения которые больше размера контейнера
         self.images = filter(lambda image: image.size.less(self.bin_size) == (True, True), images)
+        print len(self.images)
 
         # Создаём первый контейнер
         self.__newContainer(select_heuristic, select_variant, split_rule)
