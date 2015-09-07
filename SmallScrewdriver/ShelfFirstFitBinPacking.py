@@ -3,29 +3,27 @@ from SmallScrewdriver import BinPacking
 from SmallScrewdriver.Shelf import BinShelf
 
 
+# noinspection PyPep8Naming
 class ShelfFirstFitBinPacking(BinPacking):
     def __init__(self, bin_size, images):
         BinPacking.__init__(self, bin_size=bin_size)
 
-        self.images = []
+        # Отсеиваем изображения размер которых больше или равен размеру контейнера
+        self.images = filter(lambda image: image.size.less(self.bin_size) == (True, True), images)
 
-        # Bыкидываем все изображения размер которых больше или равен размеру контейнера
-        for i in images:
-            if i.crop.size < self.bin_size:
-                self.images.append(i)
+        # Ориентируем все изображения по вертикали
+        def rotate(image):
+            if image.crop.size.width > image.crop.size.height:
+                image.rotated = True
+            return image
+        self.images = map(rotate, self.images)
 
-        # ориентировать все изображения по вертикали
-        for i in self.images:
-            if i.crop.size.width > i.crop.size.height:
-                i.rotated = True
-
-        # сортировать по высоте
+        # Сортируем по высоте
         self.images = sorted(self.images,
                              key=lambda im: im.crop.size.width if im.rotated else im.crop.size.height,
                              reverse=True)
 
-        bin = BinShelf(bin_size)
-        self.bins.append(bin)
+        self.__newBin(bin_size)
 
         # Проходим по всем изображениям ...
         for i in self.images:
@@ -38,8 +36,7 @@ class ShelfFirstFitBinPacking(BinPacking):
                     break
             else:
                 # ... если не получилось вставить не в однин контейнер, создаём новый ...
-                bin = BinShelf(bin_size)
-                self.bins.append(bin)
+                bin = self.__newBin(bin_size)
 
                 # ...
                 if bin.addImage(i):
@@ -47,3 +44,8 @@ class ShelfFirstFitBinPacking(BinPacking):
                 else:
                     #
                     raise SystemError(u'Какая та хуйня, сюда мы дойти не должны')
+
+    def __newBin(self, bin_size):
+        bin = BinShelf(bin_size)
+        self.bins += [bin]
+        return bin

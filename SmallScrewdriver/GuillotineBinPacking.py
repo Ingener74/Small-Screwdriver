@@ -24,13 +24,16 @@ class GuillotineBinPacking(BinPacking):
                     break
             else:
                 # Не в один из контеёнеров изображение не влезло, делаем ещё один контейнер
-                self.__newContainer(select_heuristic, select_variant, split_rule)
+                bin = self.__newContainer(select_heuristic, select_variant, split_rule)
+                if bin.addImage(i):
+                    pass
+                else:
+                    raise SystemError(u'Какая та хуйня, сюда мы дойти не должны')
 
                 # break
 
     def __newContainer(self, select_heuristic, select_variant, split_rule):
-        self.bins += [BinGuillotine(self.bin_size,
-                                    Point(),
-                                    select_variant=select_variant,
-                                    select_heuristic=select_heuristic,
-                                    split_rule=split_rule)]
+        bin = BinGuillotine(self.bin_size, Point(), select_variant=select_variant,
+                            select_heuristic=select_heuristic, split_rule=split_rule)
+        self.bins += [bin]
+        return bin
