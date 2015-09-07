@@ -32,21 +32,45 @@ class BinGuillotine(Bin):
 
         # foo1 = filter([af, ssf, lsf][self.select_heuristic], self.splits)
 
+        #
+        # Сортируем
         foo2 = sorted(self.splits, key=[af, ssf, lsf][self.select_heuristic], reverse=bool(self.select_variant))
 
+        #
         for rect in foo2:
+            # Делим прямоугольник обрезанным прямоугольником из нашего изображения
             s, rs1, rs2, rotate = rect.split(image.crop, self.split_rule)
 
+            # Если разрезание прошло успешно ...
             if s > 0:
+
+                # ... в изображение записываем новые, смещение и поворот
                 image.origin = rect.origin
                 image.rotated = rotate
+
+                # Если разрезало на 2 части ...
                 if s == 2:
+                    # ... удаляем текущий прямоугольник ...
                     self.splits.remove(rect)
+                    # ... и вставляем 2 новых
                     self.splits += [rs1, rs2]
+                    # Добавляем изображение в контейнер
                     return Bin.addImage(self, image)
+
+                # Если отрезало одну часть
                 elif s == 1:
+                    # ... удаляем текущий прямоугольник ...
                     self.splits.remove(rect)
+                    # ... добавляем новый
                     self.splits += [rs1]
+                    # Добавляем изображение в контейнер
                     return Bin.addImage(self, image)
+
+                # Такого не может быть ...
                 else:
-                    raise RuntimeError(u'Что то странное')
+                    raise RuntimeError(u'Пиздёж и провокация')
+
+        # Если мы прошли по всем свободным прямоугольникам в изображении и никуда изображение не вошло ...
+        else:
+            # Возвращаем False
+            return False

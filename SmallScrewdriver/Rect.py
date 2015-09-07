@@ -59,7 +59,7 @@ class Rect(object):
         equal_r = rect_r.size.equal(self.size)
 
         # Случай когда разделяющий и разделяемый одинаковые
-        if self.size == rect.size:
+        if equal == (True, True) or equal_r == (True, True):
             return 0, Rect(), Rect(), False
 
         # Одна сторона одинаковая, другая меньше
@@ -115,8 +115,11 @@ class Rect(object):
 
             x1 = self.area()
             x2 = rect.area()
-        if ((rule is Rect.RULE_SAS or rule is Rect.RULE_SLAS or rule is Rect.RULE_MINAS) and x1 < x2) or \
-                ((rule is Rect.RULE_LAS or rule is Rect.RULE_LLAS or rule is Rect.RULE_MAXAS) and x1 >= x2):
+
+        less_rule = rule is Rect.RULE_SAS or rule is Rect.RULE_SLAS or rule is Rect.RULE_MINAS
+        greater_rule = rule is Rect.RULE_LAS or rule is Rect.RULE_LLAS or rule is Rect.RULE_MAXAS
+
+        if (less_rule and x1 < x2) or (greater_rule and x1 >= x2):
             # Делим горизонтально
             r1 = Rect(self.origin + Point(rect.size.width, 0),
                       Size(self.size.width - rect.size.width, rect.size.height))
