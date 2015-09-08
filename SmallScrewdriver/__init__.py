@@ -8,6 +8,6 @@ from Image import Image
 from BinPacking import BinPacking
 from SmallScrewdriver.Shelf.ShelfFirstFitBinPacking import ShelfFirstFitBinPacking
 from SmallScrewdriver.Guillotine.GuillotineBinPacking import GuillotineBinPacking
-from Shelf import Shelf, BinShelf
+from Shelf import Shelf, BinFirstFitShelf
 from Guillotine import BinGuillotine
 from SmallScrewdriverWidget import SmallScrewdriverWidget

@@ -22,7 +22,7 @@ class BinGuillotine(Bin):
         self.select_heuristic = kwargs['select_heuristic'] if 'select_heuristic' in kwargs else BinGuillotine.AREA_FIT
         self.split_rule = kwargs['split_rule'] if 'split_rule' in kwargs else Rect.RULE_SAS
 
-        self.splits = [Rect(size=self.size)]
+        self.free_rects = [Rect(size=self.size)]
 
     def addImage(self, image):
 
@@ -30,13 +30,10 @@ class BinGuillotine(Bin):
         ssf = lambda x: min(x.width() - image.size.width(), x.height() - image.size.height())
         lsf = lambda x: max(x.width() - image.size.width(), x.height() - image.size.height())
 
-        # foo1 = filter([af, ssf, lsf][self.select_heuristic], self.splits)
-
-        #
         # Сортируем
-        rects = sorted(self.splits, key=[af, ssf, lsf][self.select_heuristic], reverse=bool(self.select_variant))
+        rects = sorted(self.free_rects, key=[af, ssf, lsf][self.select_heuristic], reverse=bool(self.select_variant))
 
-        #
+        # Проходим по свободным прямоугольникам
         for rect in rects:
             # Делим прямоугольник обрезанным прямоугольником из нашего изображения
             s, rs1, rs2, rotate = rect.split(image.crop, self.split_rule)
@@ -51,18 +48,18 @@ class BinGuillotine(Bin):
                 # Если разрезало на 2 части ...
                 if s == 2:
                     # ... удаляем текущий прямоугольник ...
-                    self.splits.remove(rect)
+                    self.free_rects.remove(rect)
                     # ... и вставляем 2 новых
-                    self.splits += [rs1, rs2]
+                    self.free_rects += [rs1, rs2]
                     # Добавляем изображение в контейнер
                     return Bin.addImage(self, image)
 
                 # Если отрезало одну часть
                 elif s == 1:
                     # ... удаляем текущий прямоугольник ...
-                    self.splits.remove(rect)
+                    self.free_rects.remove(rect)
                     # ... добавляем новый
-                    self.splits += [rs1]
+                    self.free_rects += [rs1]
                     # Добавляем изображение в контейнер
                     return Bin.addImage(self, image)
 

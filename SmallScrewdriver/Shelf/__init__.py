@@ -1,4 +1,5 @@
 # encoding: utf8
 
 from Shelf import Shelf
-from BinShelf import BinShelf
+from BinFirstFitShelf import BinFirstFitShelf
+from BinNextFitShelf import BinNextFitShelf
