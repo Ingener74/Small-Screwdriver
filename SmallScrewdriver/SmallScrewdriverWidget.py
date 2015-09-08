@@ -53,8 +53,8 @@ class SmallScrewdriverWidget(QWidget):
             im = folder.relativeFilePath(dit.next())
             self.images.append(im)
 
-        self.bin_packing_thread.set_directory(self.directory)
-        self.bin_packing_thread.set_images(self.images)
+        self.bin_packing_thread.setDirectory(self.directory)
+        self.bin_packing_thread.setImages(self.images)
 
         self.images_changed.emit(self.images)
 
@@ -66,7 +66,7 @@ class SmallScrewdriverWidget(QWidget):
         self.bin_packing_thread.start()
 
     def bin_size_changed(self, index):
-        self.bin_packing_thread.set_bin_size(index)
+        self.bin_packing_thread.setBinSize(index)
 
     def method_changed(self, index):
-        self.bin_packing_thread.set_method(index)
+        self.bin_packing_thread.setMethod(index)

@@ -5,6 +5,7 @@ from SmallScrewdriver import (Rect, Image, ShelfNextFitBinPacking, ShelfFirstFit
                               MaxRectsBinPacking)
 
 
+# noinspection PyPep8Naming
 class BinPackingThread(QThread):
     METHODS = (ShelfNextFitBinPacking,
                ShelfFirstFitBinPacking,
@@ -32,21 +33,21 @@ class BinPackingThread(QThread):
         self.method = BinPackingThread.METHODS[0]
         self.bin_size = BinPackingThread.SIZES[0]
 
-    def set_directory(self, directory):
+    def setDirectory(self, directory):
         self.directory = directory
         self.bin_packing_available.emit(self.binPackingAvailable())
 
     def binPackingAvailable(self):
         return len(self.images) and self.directory is not None
 
-    def set_images(self, images):
+    def setImages(self, images):
         self.images = images
         self.bin_packing_available.emit(self.binPackingAvailable())
 
-    def set_method(self, index):
+    def setMethod(self, index):
         self.method = BinPackingThread.METHODS[index]
 
-    def set_bin_size(self, index):
+    def setBinSize(self, index):
         self.bin_size = BinPackingThread.SIZES[index]
 
     def run(self):
@@ -54,6 +55,6 @@ class BinPackingThread(QThread):
             return
 
         bin_packing = self.method(self.bin_size, [Image(self.directory, image) for image in self.images])
-        bin_packing.save_atlases(self.directory)
+        bin_packing.saveAtlases(self.directory)
 
         self.update_bins.emit(bin_packing.bins)
