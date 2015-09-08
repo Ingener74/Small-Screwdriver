@@ -34,10 +34,10 @@ class BinGuillotine(Bin):
 
         #
         # Сортируем
-        foo2 = sorted(self.splits, key=[af, ssf, lsf][self.select_heuristic], reverse=bool(self.select_variant))
+        rects = sorted(self.splits, key=[af, ssf, lsf][self.select_heuristic], reverse=bool(self.select_variant))
 
         #
-        for rect in foo2:
+        for rect in rects:
             # Делим прямоугольник обрезанным прямоугольником из нашего изображения
             s, rs1, rs2, rotate = rect.split(image.crop, self.split_rule)
 
