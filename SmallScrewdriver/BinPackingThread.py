@@ -1,8 +1,10 @@
 # encoding: utf8
 from PySide.QtCore import (QThread, Signal)
 
-from SmallScrewdriver import (Rect, Image, ShelfNextFitBinPacking, ShelfFirstFitBinPacking, GuillotineBinPacking, Size,
-                              MaxRectsBinPacking)
+from SmallScrewdriver import (Rect, Image, GuillotineBinPacking, Size)
+from SmallScrewdriver.MaxRects import MaxRectsBinPacking
+from SmallScrewdriver.Shelf.ShelfFirstFitBinPacking import ShelfFirstFitBinPacking
+from SmallScrewdriver.Shelf.ShelfNextFitBinPacking import ShelfNextFitBinPacking
 
 
 # noinspection PyPep8Naming

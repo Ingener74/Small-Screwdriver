@@ -1,9 +1,9 @@
 # coding=utf-8
 from SmallScrewdriver import BinPacking, Rect, Point
-from Guillotine import BinGuillotine
+from SmallScrewdriver.Guillotine import BinGuillotine
 
 
-# noinspection PyPep8Naming
+# noinspection PyPep8Naming,PyShadowingBuiltins
 class GuillotineBinPacking(BinPacking):
     def __init__(self, bin_size, images, *args, **kwargs):
 

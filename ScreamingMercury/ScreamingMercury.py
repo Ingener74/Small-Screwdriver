@@ -19,6 +19,7 @@ SETTINGS_HEURISTIC = 'Heuristic'
 SETTINGS_SPLIT_RULE = 'SplitRule'
 
 
+# noinspection PyPep8Naming
 class ScreamingMercury(QWidget, Ui_ScreamingMercury):
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
@@ -27,13 +28,13 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.small_screwdriver = SmallScrewdriverWidget()
         self.work_layout.insertWidget(0, self.small_screwdriver)
 
-        self.addDirectory.clicked.connect(self.on_add_directory)
-        self.removeImage.clicked.connect(self.on_remove_images)
-        self.startPushButton.clicked.connect(self.on_start)
-        self.methodTabWidget.currentChanged.connect(self.small_screwdriver.method_changed)
-        self.binSizeComboBox.currentIndexChanged.connect(self.small_screwdriver.bin_size_changed)
+        self.addDirectory.clicked.connect(self.onAddDirectory)
+        self.removeImage.clicked.connect(self.onRemoveImages)
+        self.startPushButton.clicked.connect(self.onStart)
+        self.methodTabWidget.currentChanged.connect(self.small_screwdriver.methodChanged)
+        self.binSizeComboBox.currentIndexChanged.connect(self.small_screwdriver.binSizeChanged)
 
-        self.small_screwdriver.images_changed.connect(self.update_images)
+        self.small_screwdriver.images_changed.connect(self.updateImages)
         self.small_screwdriver.bin_packing_thread.bin_packing_available.connect(self.startPushButton.setEnabled)
 
         self.startPushButton.setEnabled(self.small_screwdriver.bin_packing_thread.binPackingAvailable())
@@ -58,20 +59,20 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         split_rule = self.settings.value(SETTINGS_SPLIT_RULE)
         self.splitComboBox.setCurrentIndex(0 if split_rule is None else int(split_rule))
 
-    def on_add_directory(self):
+    def onAddDirectory(self):
         directory = QFileDialog.getExistingDirectory()
         if directory != u'':
-            self.small_screwdriver.set_directory(directory)
+            self.small_screwdriver.setDirectory(directory)
 
-    def on_remove_images(self):
+    def onRemoveImages(self):
         row = self.imageList.currentRow()
-        self.small_screwdriver.remove_image(row)
+        self.small_screwdriver.removeImage(row)
         self.imageList.setCurrentRow(row)
 
-    def on_start(self):
-        self.small_screwdriver.start_bin_packing()
+    def onStart(self):
+        self.small_screwdriver.startBinPacking()
 
-    def update_images(self, images):
+    def updateImages(self, images):
         self.imageList.clear()
         self.imageList.addItems(images)
 

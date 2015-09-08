@@ -23,7 +23,7 @@ class SmallScrewdriverWidget(QWidget):
         self.scale = 1.0
 
         self.bin_packing_thread = BinPackingThread()
-        self.bin_packing_thread.update_bins.connect(self.redraw_bins)
+        self.bin_packing_thread.update_bins.connect(self.redrawBins)
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -32,8 +32,8 @@ class SmallScrewdriverWidget(QWidget):
         for i, b in enumerate(self.bins):
             side = int(math.floor(math.log(len(self.bins), 2)))
 
-            x = (i % side) * (b.size.width + 10)
-            y = (i / side) * (b.size.height + 10)
+            x = (i % side) * (b.size.width + 10) if side else 0
+            y = (i / side) * (b.size.height + 10) if side else 0
 
             b.draw(painter, Point(x, y))
 
@@ -41,11 +41,11 @@ class SmallScrewdriverWidget(QWidget):
         self.scale += args[0].delta() / 2400.0
         self.update()
 
-    def redraw_bins(self, bins):
+    def redrawBins(self, bins):
         self.bins = bins
         self.update()
 
-    def set_directory(self, directory):
+    def setDirectory(self, directory):
         self.directory = directory
 
         folder = QDir(path=self.directory)
@@ -63,15 +63,15 @@ class SmallScrewdriverWidget(QWidget):
 
         self.images_changed.emit(self.images)
 
-    def remove_image(self, index):
+    def removeImage(self, index):
         del self.images[index]
         self.images_changed.emit(self.images)
 
-    def start_bin_packing(self):
+    def startBinPacking(self):
         self.bin_packing_thread.start()
 
-    def bin_size_changed(self, index):
+    def binSizeChanged(self, index):
         self.bin_packing_thread.setBinSize(index)
 
-    def method_changed(self, index):
+    def methodChanged(self, index):
         self.bin_packing_thread.setMethod(index)
