@@ -2,6 +2,7 @@
 from PySide.QtCore import (QDir, QDirIterator, Signal)
 
 from PySide.QtGui import (QWidget, QSizePolicy, QPainter, QTransform)
+import math
 
 from SmallScrewdriver import (Bin, Point)
 from SmallScrewdriver.BinPackingThread import BinPackingThread
@@ -17,7 +18,8 @@ class SmallScrewdriverWidget(QWidget):
 
         self.directory = None
         self.images = []
-        self.bins = [Bin(), Bin()]
+        # self.bins = [Bin(), Bin(), Bin(), Bin(), Bin(), Bin(), Bin(), Bin(), Bin()]
+        self.bins = []
         self.scale = 1.0
 
         self.bin_packing_thread = BinPackingThread()
@@ -27,10 +29,13 @@ class SmallScrewdriverWidget(QWidget):
         painter = QPainter(self)
         painter.setWorldTransform(QTransform().scale(self.scale, self.scale))
 
-        x = 0
-        for b in self.bins:
-            b.draw(painter, Point(x, 0))
-            x += b.size.width + 5
+        for i, b in enumerate(self.bins):
+            side = int(math.floor(math.log(len(self.bins), 2)))
+
+            x = (i % side) * (b.size.width + 10)
+            y = (i / side) * (b.size.height + 10)
+
+            b.draw(painter, Point(x, y))
 
     def wheelEvent(self, *args, **kwargs):
         self.scale += args[0].delta() / 2400.0
