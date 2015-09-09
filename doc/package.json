@@ -1,0 +1,22 @@
+{
+  "name": "small-scriwdriver",
+  "version": "0.1.0",
+  "description": "Small Screwdriver is 2D texture packing library with Screaming Mercury frontend tool",
+  "main": "gulpfile.coffee",
+  "dependencies": {
+    "connect": "^3.4.0",
+    "gulp": "^3.9.0"
+  },
+  "devDependencies": {
+    "connect": "^3.4.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "texture",
+    "gamedev"
+  ],
+  "author": "Shnaider Pavel <shnaiderpasha@gmail.com>",
+  "license": "MIT"
+}

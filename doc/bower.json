@@ -1,0 +1,22 @@
+{
+  "name": "small-screwdriver",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Ingener74/Small-Screwdriver",
+  "authors": [
+    "ShnaiderPavel <shnaiderpasha@gmail.com>"
+  ],
+  "description": "Small Screwdriver is 2D texture packing library with Screaming Mercury frontend tool",
+  "main": "index.html",
+  "keywords": [
+    "texture",
+    "gamedev"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

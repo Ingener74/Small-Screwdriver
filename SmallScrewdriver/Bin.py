@@ -12,7 +12,7 @@ DEFAULT_BIN_SIZE = Size(256, 256)
 
 # noinspection PyPep8Naming
 class Bin(object):
-    def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(0, 0), *args, **kwargs):
+    def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(0, 0)):
         self.origin = origin
         self.size = size
         self.images = []
