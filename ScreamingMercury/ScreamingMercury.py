@@ -36,6 +36,7 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
 
         self.small_screwdriver.images_changed.connect(self.updateImages)
         self.small_screwdriver.bin_packing_thread.bin_packing_available.connect(self.startPushButton.setEnabled)
+        self.small_screwdriver.bin_packing_thread.on_end.connect(self.startPushButton.setEnabled)
 
         self.startPushButton.setEnabled(self.small_screwdriver.bin_packing_thread.binPackingAvailable())
 
@@ -70,6 +71,7 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.imageList.setCurrentRow(row)
 
     def onStart(self):
+        self.startPushButton.setEnabled(False)
         self.small_screwdriver.startBinPacking()
 
     def updateImages(self, images):

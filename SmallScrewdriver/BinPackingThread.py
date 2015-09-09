@@ -24,13 +24,13 @@ class BinPackingThread(QThread):
     bin_packing_available = Signal(bool)
     update_bins = Signal(Rect)
 
+    on_end = Signal(bool)
+
     def __init__(self):
         QThread.__init__(self)
 
         self.directory = None
         self.images = []
-
-        self.bins = []
 
         self.method = BinPackingThread.METHODS[0]
         self.bin_size = BinPackingThread.SIZES[0]
@@ -60,3 +60,4 @@ class BinPackingThread(QThread):
         bin_packing.saveAtlases(self.directory)
 
         self.update_bins.emit(bin_packing.bins)
+        self.on_end.emit(True)
