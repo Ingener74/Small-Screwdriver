@@ -1,9 +1,32 @@
 from unittest import TestCase
 import math
-from SmallScrewdriver import Bin, Size, Point, Rect
+from SmallScrewdriver import Bin, Size, Point, Rect, DEFAULT_BIN_SIZE
 
 
 class TestBin(TestCase):
+
+    def test_ctor(self):
+
+        b = Bin()
+        self.assertEqual(b.size, DEFAULT_BIN_SIZE)
+        self.assertEqual(b.origin, Point())
+
+        b = Bin(size=DEFAULT_BIN_SIZE, origin=Point())
+        self.assertEqual(b.size, DEFAULT_BIN_SIZE)
+        self.assertEqual(b.origin, Point())
+
+        b = Bin(size=Size(512, 512), origin=Point(10, 10))
+        self.assertEqual(b.size, Size(512, 512))
+        self.assertEqual(b.origin, Point(10, 10))
+
+        b = Bin(**{'size': Size(512, 512), 'origin': Point(20, 20)})
+        self.assertEqual(b.size, Size(512, 512))
+        self.assertEqual(b.origin, Point(20, 20))
+
+        b = Bin(origin=Point(30, 30), size=Size(256, 256))
+        self.assertEqual(b.size, Size(256, 256))
+        self.assertEqual(b.origin, Point(30, 30))
+
     def test_append1(self):
         b = Bin(Size(256, 256), Point(0, 0))
 

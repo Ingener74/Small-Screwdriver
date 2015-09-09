@@ -4,10 +4,8 @@ from Shelf import Shelf
 
 
 class BinNextFitShelf(Bin):
-    def __init__(self, bin_size=DEFAULT_BIN_SIZE, origin=Point()):
+    def __init__(self, bin_size=DEFAULT_BIN_SIZE, origin=Point(), *args, **kwargs):
         Bin.__init__(self, size=bin_size, origin=origin)
-
-        self.bin_size = bin_size
 
         self.shelfs = [Shelf(self.bin_size)]
 

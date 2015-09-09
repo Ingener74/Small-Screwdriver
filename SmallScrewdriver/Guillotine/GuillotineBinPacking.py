@@ -13,6 +13,5 @@ class GuillotineBinPacking(BinPacking):
         BinPacking.__init__(self, bin_size=bin_size, images=images, *args, **kwargs)
 
     def _newBin(self, *args, **kwargs):
-        bin = BinGuillotine(self.bin_size, Point(), *args, **kwargs)
-        self.bins += [bin]
-        return bin
+        self.bins.append(BinGuillotine(self.bin_size, Point(), *args, **kwargs))
+        return self.bins[-1]

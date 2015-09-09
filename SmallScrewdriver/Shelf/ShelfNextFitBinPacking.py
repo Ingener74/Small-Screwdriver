@@ -44,5 +44,5 @@ class ShelfNextFitBinPacking(BinPacking):
         BinPacking.__init__(self, bin_size=bin_size, images=images, *args, **kwargs)
 
     def _newBin(self, *args, **kwargs):
-        self.bins.append(BinNextFitShelf(self.bin_size))
+        self.bins.append(BinNextFitShelf(self.bin_size, *args, **kwargs))
         return self.bins[-1]
