@@ -2,7 +2,7 @@
 import json
 
 from PySide.QtCore import Qt
-from PySide.QtGui import QPen, QImage, QPainter
+from PySide.QtGui import (QPen, QImage, QPainter)
 
 from SmallScrewdriver import Size, Point
 

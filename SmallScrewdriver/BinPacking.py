@@ -14,9 +14,10 @@ class BinPacking(object):
         self.bin_size = args[0] if len(args) > 0 else kwargs['bin_size'] if 'bin_size' in kwargs else DEFAULT_BIN_SIZE
 
         images = args[1] if len(args) > 1 else kwargs['images'] if 'images' in kwargs else []
+        del kwargs['images']
 
         # Первый контейнер
-        self._newBin(self.bin_size, *args, **kwargs)
+        self._newBin(*args, **kwargs)
 
         # Проходим по всем изображениям ...
         for image in images:
@@ -30,7 +31,7 @@ class BinPacking(object):
                     break
             else:
                 # ... если не в один контейнер, поместить не получилось, создаём новый ...
-                bin = self._newBin(self.bin_size, *args, **kwargs)
+                bin = self._newBin(*args, **kwargs)
 
                 # ... и пробуем поместить в него ...
                 if not bin.addImage(image):
@@ -43,4 +44,4 @@ class BinPacking(object):
 
     @abstractmethod
     def _newBin(self, *args, **kwargs):
-        pass
+        raise NotImplementedError
