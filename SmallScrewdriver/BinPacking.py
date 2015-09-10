@@ -46,6 +46,9 @@ class BinPacking(object):
                     # ... и если не получается значит произошла ...
                     raise SystemError(u'Какая та хуйня')
 
+        if on_progress:
+            on_progress(100)
+
     def saveAtlases(self, directory):
         for i, b in enumerate(self.bins):
             b.save(directory + '/atlas' + str(i))
