@@ -26,7 +26,8 @@ class BinPackingThread(QThread):
     bin_packing_available = Signal(bool)
     update_bins = Signal(Rect)
 
-    on_progress = Signal(int)
+    packing_progress = Signal(int)
+    saving_progress = Signal(int)
     on_end = Signal(bool)
 
     def __init__(self):
@@ -59,19 +60,28 @@ class BinPackingThread(QThread):
         if not self.directory or not len(self.images):
             return
 
+        self.packing_progress.emit(0)
+        self.saving_progress.emit(0)
+
         bin_packing = self.method(self.bin_size, [Image(self.directory, image) for image in self.images],
-                                  on_progress=self.onProgress)
+                                  packingProgress=self.packingProgress, savingProgress=self.savingProgress)
         bin_packing.saveAtlases(self.directory)
 
         self.update_bins.emit(bin_packing.bins)
         self.on_end.emit(True)
 
-    def onProgress(self, progress):
-        self.on_progress.emit(progress)
+    def packingProgress(self, progress):
+        self.packing_progress.emit(progress)
+
+    def savingProgress(self, progress):
+        self.saving_progress.emit(progress)
 
 
 # noinspection PyPep8Naming
 class SmallScrewdriverWidget(QWidget):
+    """
+    Виджет для
+    """
     images_changed = Signal(object)
 
     def __init__(self, *args, **kwargs):

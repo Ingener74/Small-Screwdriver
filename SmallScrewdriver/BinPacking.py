@@ -12,8 +12,10 @@ class BinPacking(object):
         images = args[1] if len(args) > 1 else kwargs['images'] if 'images' in kwargs else []
         del kwargs['images']
 
-        on_progress = kwargs['on_progress'] if 'on_progress' in kwargs else None
-        del kwargs['on_progress']
+        self.packingProgress = kwargs['packingProgress'] if 'packingProgress' in kwargs else None
+        self.savingProgress = kwargs['savingProgress'] if 'savingProgress' in kwargs else None
+        del kwargs['packingProgress']
+        del kwargs['savingProgress']
 
         # Первый контейнер
         self._newBin(*args, **kwargs)
@@ -27,8 +29,7 @@ class BinPacking(object):
                 # ... пробуем поместить изображение в контейнер ...
                 if bin.addImage(image):
 
-                    if on_progress:
-                        on_progress(int(100.0 * index / float(len(images))))
+                    self.__packingProgress(100 * index / len(images))
 
                     # ... если получилось, идём к следующему изображению ...
                     break
@@ -38,18 +39,27 @@ class BinPacking(object):
 
                 # ... и пробуем поместить в него ...
                 if bin.addImage(image):
-                    if on_progress:
-                        on_progress(int(100.0 * index / float(len(images))))
+                    self.__packingProgress(100 * index / len(images))
                 else:
                     # ... и если не получается значит произошла ...
                     raise SystemError(u'Какая та хуйня')
 
-        if on_progress:
-            on_progress(100)
+        self.__packingProgress(100)
 
     def saveAtlases(self, directory):
         for i, b in enumerate(self.bins):
+            self.__savingProgress(100 * i / len(self.bins))
             b.save(directory + '/atlas' + str(i))
+
+        self.__savingProgress(100)
+
+    def __packingProgress(self, progress):
+        if self.packingProgress:
+            self.packingProgress(progress)
+
+    def __savingProgress(self, progress):
+        if self.savingProgress:
+            self.savingProgress(progress)
 
     @abstractmethod
     def _newBin(self, *args, **kwargs):

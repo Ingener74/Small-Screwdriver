@@ -48,8 +48,10 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.small_screwdriver.bin_packing_thread.bin_packing_available.connect(self.startPushButton.setEnabled)
         self.small_screwdriver.bin_packing_thread.on_end.connect(self.startPushButton.setEnabled)
         self.small_screwdriver.bin_packing_thread.on_end.connect(self.progress_window.setHidden)
-        self.small_screwdriver.bin_packing_thread.on_progress.connect(
+        self.small_screwdriver.bin_packing_thread.packing_progress.connect(
             self.progress_window.binPackingProgressBar.setValue)
+        self.small_screwdriver.bin_packing_thread.saving_progress.connect(
+            self.progress_window.savingProgressBar.setValue)
 
         self.startPushButton.setEnabled(self.small_screwdriver.bin_packing_thread.binPackingAvailable())
 
