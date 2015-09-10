@@ -7,7 +7,7 @@ from SmallScrewdriver import (SmallScrewdriverWidget)
 from Progress import (Progress)
 
 COMPANY = 'Venus.Games'
-APPNAME = 'SmallScrewdriver'
+APPNAME = 'ScreamingMercury'
 
 SETTINGS_GEOMETRY = 'Geometry'
 SETTINGS_SPLITTER1 = 'Splitter1'
@@ -18,6 +18,8 @@ SETTINGS_METHOD = 'BinPackingMethod'
 SETTINGS_VARIANT = 'Variant'
 SETTINGS_HEURISTIC = 'Heuristic'
 SETTINGS_SPLIT_RULE = 'SplitRule'
+
+SETTINGS_DRAW_SCALE = 'DrawScale'
 
 
 # noinspection PyPep8Naming
@@ -51,20 +53,12 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.splitter.restoreState(self.settings.value(SETTINGS_SPLITTER1))
         self.splitter_2.restoreState(self.settings.value(SETTINGS_SPLITTER2))
 
-        bin_size = self.settings.value(SETTINGS_SIZE)
-        self.binSizeComboBox.setCurrentIndex(0 if bin_size is None else int(bin_size))
-
-        method = self.settings.value(SETTINGS_METHOD)
-        self.methodTabWidget.setCurrentIndex(0 if method is None else int(method))
-
-        fit_variant = self.settings.value(SETTINGS_VARIANT)
-        self.fitVariantComboBox.setCurrentIndex(0 if fit_variant is None else int(fit_variant))
-
-        heuristic = self.settings.value(SETTINGS_HEURISTIC)
-        self.heuristicComboBox.setCurrentIndex(0 if heuristic is None else int(heuristic))
-
-        split_rule = self.settings.value(SETTINGS_SPLIT_RULE)
-        self.splitComboBox.setCurrentIndex(0 if split_rule is None else int(split_rule))
+        self.binSizeComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SIZE, defaultValue=0)))
+        self.methodTabWidget.setCurrentIndex(int(self.settings.value(SETTINGS_METHOD, defaultValue=0)))
+        self.fitVariantComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_VARIANT, defaultValue=0)))
+        self.heuristicComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_HEURISTIC, defaultValue=0)))
+        self.splitComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SPLIT_RULE, defaultValue=0)))
+        self.small_screwdriver.scale = float(self.settings.value(SETTINGS_DRAW_SCALE, defaultValue=1.0))
 
     def onAddDirectory(self):
         directory = QFileDialog.getExistingDirectory()
@@ -90,6 +84,7 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
             self.close()
 
     def closeEvent(self, e):
+        self.progress.close()
         self.settings.setValue(SETTINGS_GEOMETRY, self.saveGeometry())
         self.settings.setValue(SETTINGS_SPLITTER1, self.splitter.saveState())
         self.settings.setValue(SETTINGS_SPLITTER2, self.splitter_2.saveState())
@@ -99,3 +94,5 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.settings.setValue(SETTINGS_VARIANT, self.fitVariantComboBox.currentIndex())
         self.settings.setValue(SETTINGS_HEURISTIC, self.heuristicComboBox.currentIndex())
         self.settings.setValue(SETTINGS_SPLIT_RULE, self.splitComboBox.currentIndex())
+
+        self.settings.setValue(SETTINGS_DRAW_SCALE, self.small_screwdriver.scale)

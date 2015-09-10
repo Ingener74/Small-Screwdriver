@@ -4,10 +4,8 @@ import math
 from PySide.QtCore import (QDir, QDirIterator, Signal, QThread)
 from PySide.QtGui import (QWidget, QSizePolicy, QPainter, QTransform)
 
-from SmallScrewdriver import (Point, Size, Rect, Image)
-from SmallScrewdriver.Guillotine import (GuillotineBinPacking)
-from SmallScrewdriver.MaxRects import (MaxRectsBinPacking)
-from SmallScrewdriver.Shelf import (ShelfNextFitBinPacking, ShelfFirstFitBinPacking)
+from SmallScrewdriver import (Point, Size, Rect, Image, GuillotineBinPacking, MaxRectsBinPacking,
+                              ShelfNextFitBinPacking, ShelfFirstFitBinPacking)
 
 
 # noinspection PyPep8Naming
@@ -81,7 +79,6 @@ class SmallScrewdriverWidget(QWidget):
 
         self.directory = None
         self.images = []
-        # self.bins = [Bin(), Bin(), Bin(), Bin(), Bin(), Bin(), Bin(), Bin(), Bin()]
         self.bins = []
         self.scale = 1.0
 
