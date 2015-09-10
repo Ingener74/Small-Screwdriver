@@ -7,11 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>471</width>
-    <height>79</height>
+    <height>82</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Прогресс упаковки</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/main/screwdriver.png</normaloff>:/main/screwdriver.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -32,6 +36,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
