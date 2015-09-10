@@ -1,5 +1,6 @@
 # encoding: utf8
 import json
+import os
 
 from PySide.QtCore import Qt
 from PySide.QtGui import (QPen, QImage, QPainter)
@@ -51,16 +52,29 @@ class Bin(object):
             image.draw(painter=painter, offset=offset)
 
     def save(self, binName):
+        # Создаём изображение для контейнера
         image = QImage(self.size.width, self.size.height, QImage.Format_ARGB32)
+
+        # Рисуем контейнер в изображение
         painter = QPainter(image)
         self.draw(painter, Point())
-        image.save(binName + '.png')
+
+        bin_file_name = binName + '.png'
+
+        # Если изображение для контейнера существует, удаляем
+        if os.path.exists(bin_file_name):
+            os.remove(bin_file_name)
+
+        # Сохраняем изображение контейнера
+        image.save(bin_file_name)
         painter.end()
 
+        # Собираем json файл для контейнера
         json_images = []
         for i in self.images:
             json_images.append(i.toJson())
 
+        # Сохраняем json файл для контейнера
         with open(binName + '.json', mode='w') as outfile:
             json.dump(obj=json_images, fp=outfile, separators=(',', ':'), indent=4)
 

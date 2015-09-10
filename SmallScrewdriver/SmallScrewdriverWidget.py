@@ -3,6 +3,7 @@ import math
 
 from PySide.QtCore import (QDir, QDirIterator, Signal, QThread)
 from PySide.QtGui import (QWidget, QSizePolicy, QPainter, QTransform)
+import re
 
 from SmallScrewdriver import (Point, Size, Rect, Image, GuillotineBinPacking, MaxRectsBinPacking,
                               ShelfNextFitBinPacking, ShelfFirstFitBinPacking)
@@ -116,7 +117,8 @@ class SmallScrewdriverWidget(QWidget):
 
         while dit.hasNext():
             im = folder.relativeFilePath(dit.next())
-            self.images.append(im)
+            if not re.search("atlas", im):
+                self.images.append(im)
 
         self.bin_packing_thread.setDirectory(self.directory)
         self.bin_packing_thread.setImages(self.images)

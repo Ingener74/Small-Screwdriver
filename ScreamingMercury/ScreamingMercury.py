@@ -2,8 +2,9 @@
 from PySide.QtCore import (Qt, QSettings)
 from PySide.QtGui import (QWidget, QFileDialog)
 
-from ScreamingMercuryWindow import Ui_ScreamingMercury
+from ScreamingMercuryWindow import (Ui_ScreamingMercury)
 from SmallScrewdriver import (SmallScrewdriverWidget)
+from Settings import (Settings)
 from Progress import (Progress)
 
 COMPANY = 'Venus.Games'
@@ -31,7 +32,8 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.small_screwdriver = SmallScrewdriverWidget()
         self.work_layout.insertWidget(0, self.small_screwdriver)
 
-        self.progress = Progress()
+        self.progress_window = Progress()
+        self.settings_window = Settings()
 
         self.addDirectory.clicked.connect(self.onAddDirectory)
         self.removeImage.clicked.connect(self.onRemoveImages)
@@ -39,12 +41,14 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.methodTabWidget.currentChanged.connect(self.small_screwdriver.methodChanged)
         self.binSizeComboBox.currentIndexChanged.connect(self.small_screwdriver.binSizeChanged)
 
+        self.settingsPushButton.clicked.connect(self.settings_window.show)
+
         self.small_screwdriver.images_changed.connect(self.updateImages)
 
         self.small_screwdriver.bin_packing_thread.bin_packing_available.connect(self.startPushButton.setEnabled)
         self.small_screwdriver.bin_packing_thread.on_end.connect(self.startPushButton.setEnabled)
-        self.small_screwdriver.bin_packing_thread.on_end.connect(self.progress.setHidden)
-        self.small_screwdriver.bin_packing_thread.on_progress.connect(self.progress.binPackingProgressBar.setValue)
+        self.small_screwdriver.bin_packing_thread.on_end.connect(self.progress_window.setHidden)
+        self.small_screwdriver.bin_packing_thread.on_progress.connect(self.progress_window.binPackingProgressBar.setValue)
 
         self.startPushButton.setEnabled(self.small_screwdriver.bin_packing_thread.binPackingAvailable())
 
@@ -73,7 +77,7 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
     def onStart(self):
         self.startPushButton.setEnabled(False)
         self.small_screwdriver.startBinPacking()
-        self.progress.show()
+        self.progress_window.show()
 
     def updateImages(self, images):
         self.imageList.clear()
@@ -84,7 +88,7 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
             self.close()
 
     def closeEvent(self, e):
-        self.progress.close()
+        self.progress_window.close()
         self.settings.setValue(SETTINGS_GEOMETRY, self.saveGeometry())
         self.settings.setValue(SETTINGS_SPLITTER1, self.splitter.saveState())
         self.settings.setValue(SETTINGS_SPLITTER2, self.splitter_2.saveState())

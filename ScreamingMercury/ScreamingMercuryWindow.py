@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:/Users/Pavel/workspace/Small-Screwdriver/ScreamingMercury/ScreamingMercuryWindow.ui'
+# Form implementation generated from reading ui file 'ScreamingMercury/ScreamingMercuryWindow.ui'
 #
-# Created: Sun Sep 06 13:46:04 2015
+# Created: Thu Sep 10 16:38:41 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -122,12 +122,20 @@ class Ui_ScreamingMercury(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem1)
+        self.settingsPushButton = QtGui.QPushButton(self.layoutWidget)
+        self.settingsPushButton.setText("")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(":/main/cog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.settingsPushButton.setIcon(icon3)
+        self.settingsPushButton.setIconSize(QtCore.QSize(36, 36))
+        self.settingsPushButton.setObjectName("settingsPushButton")
+        self.horizontalLayout_2.addWidget(self.settingsPushButton)
         self.startPushButton = QtGui.QPushButton(self.layoutWidget)
         self.startPushButton.setText("")
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/main/start.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.startPushButton.setIcon(icon3)
-        self.startPushButton.setIconSize(QtCore.QSize(128, 128))
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(":/main/start.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.startPushButton.setIcon(icon4)
+        self.startPushButton.setIconSize(QtCore.QSize(72, 72))
         self.startPushButton.setObjectName("startPushButton")
         self.horizontalLayout_2.addWidget(self.startPushButton)
         spacerItem2 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
