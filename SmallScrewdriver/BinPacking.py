@@ -7,8 +7,6 @@ from abc import abstractmethod
 # noinspection PyPep8Naming,PyShadowingBuiltins
 class BinPacking(object):
 
-    onProgress = Signal(int)
-
     def __init__(self, *args, **kwargs):
         self.bins = []
         self.bin_size = args[0] if len(args) > 0 else kwargs['bin_size'] if 'bin_size' in kwargs else DEFAULT_BIN_SIZE
@@ -16,17 +14,24 @@ class BinPacking(object):
         images = args[1] if len(args) > 1 else kwargs['images'] if 'images' in kwargs else []
         del kwargs['images']
 
+        on_progress = kwargs['on_progress'] if 'on_progress' in kwargs else None
+        del kwargs['on_progress']
+
         # Первый контейнер
         self._newBin(*args, **kwargs)
 
         # Проходим по всем изображениям ...
-        for image in images:
+        for index, image in enumerate(images):
 
             # ... и по всем контейнерам ...
             for bin in self.bins:
 
                 # ... пробуем поместить изображение в контейнер ...
                 if bin.addImage(image):
+
+                    if on_progress:
+                        on_progress(int(100.0 * index / float(len(images))))
+
                     # ... если получилось, идём к следующему изображению ...
                     break
             else:
@@ -34,7 +39,10 @@ class BinPacking(object):
                 bin = self._newBin(*args, **kwargs)
 
                 # ... и пробуем поместить в него ...
-                if not bin.addImage(image):
+                if bin.addImage(image):
+                    if on_progress:
+                        on_progress(int(100.0 * index / float(len(images))))
+                else:
                     # ... и если не получается значит произошла ...
                     raise SystemError(u'Какая та хуйня')
 
