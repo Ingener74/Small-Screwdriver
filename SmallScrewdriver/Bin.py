@@ -1,12 +1,11 @@
 # encoding: utf8
 import json
-import os
 
 from PySide.QtCore import Qt
 from PySide.QtGui import (QPen, QImage, QPainter)
 
+import os
 from SmallScrewdriver import Size, Point
-
 
 DEFAULT_BIN_SIZE = Size(256, 256)
 

@@ -3,8 +3,8 @@ import math
 
 from PySide.QtCore import (QDir, QDirIterator, Signal, QThread)
 from PySide.QtGui import (QWidget, QSizePolicy, QPainter, QTransform)
-import re
 
+import re
 from SmallScrewdriver import (Point, Size, Rect, Image, GuillotineBinPacking, MaxRectsBinPacking,
                               ShelfNextFitBinPacking, ShelfFirstFitBinPacking)
 

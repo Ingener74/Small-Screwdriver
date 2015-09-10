@@ -1,12 +1,10 @@
 # encoding: utf8
-from PySide.QtCore import Signal
 from SmallScrewdriver import DEFAULT_BIN_SIZE
 from abc import abstractmethod
 
 
 # noinspection PyPep8Naming,PyShadowingBuiltins
 class BinPacking(object):
-
     def __init__(self, *args, **kwargs):
         self.bins = []
         self.bin_size = args[0] if len(args) > 0 else kwargs['bin_size'] if 'bin_size' in kwargs else DEFAULT_BIN_SIZE
