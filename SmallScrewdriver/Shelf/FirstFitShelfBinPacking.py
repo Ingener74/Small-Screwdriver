@@ -4,7 +4,7 @@ from SmallScrewdriver.Shelf import FirstFitShelfBin
 
 
 # noinspection PyPep8Naming,PyShadowingBuiltins
-class ShelfFirstFitBinPacking(BinPacking):
+class FirstFitShelfBinPacking(BinPacking):
     def __init__(self, bin_size, images, *args, **kwargs):
         # Отсеиваем изображения размер которых больше или равен размеру контейнера
         images = filter(lambda image: image.size.less(bin_size) == (True, True), images)

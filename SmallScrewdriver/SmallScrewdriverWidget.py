@@ -6,13 +6,13 @@ from PySide.QtGui import (QWidget, QSizePolicy, QPainter, QTransform)
 
 import re
 from SmallScrewdriver import (Point, Size, Rect, Image, GuillotineBinPacking, MaxRectsBinPacking,
-                              ShelfNextFitBinPacking, ShelfFirstFitBinPacking)
+                              NextFitShelfBinPacking, FirstFitShelfBinPacking)
 
 
 # noinspection PyPep8Naming
 class BinPackingThread(QThread):
-    METHODS = (ShelfNextFitBinPacking,
-               ShelfFirstFitBinPacking,
+    METHODS = (NextFitShelfBinPacking,
+               FirstFitShelfBinPacking,
                GuillotineBinPacking,
                MaxRectsBinPacking)
 
