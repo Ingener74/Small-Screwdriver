@@ -6,7 +6,7 @@ from PySide.QtGui import (QWidget, QSizePolicy, QPainter, QTransform)
 
 import re
 from SmallScrewdriver import (Point, Size, Rect, Image, GuillotineBinPacking, MaxRectsBinPacking,
-                              ShelfNextFitBinPacking, ShelfFirstFitBinPacking, Bin)
+                              ShelfNextFitBinPacking, ShelfFirstFitBinPacking)
 
 
 # noinspection PyPep8Naming
@@ -80,7 +80,7 @@ class BinPackingThread(QThread):
 # noinspection PyPep8Naming
 class SmallScrewdriverWidget(QWidget):
     """
-    Виджет для
+    Виджет для упаковщика текстур
     """
     images_changed = Signal(object)
 
@@ -109,7 +109,7 @@ class SmallScrewdriverWidget(QWidget):
             b.draw(painter, Point(x, y))
 
     def wheelEvent(self, *args, **kwargs):
-        self.scale += args[0].delta() / 2400.0
+        self.scale += args[0].delta() / 4800.0
         self.update()
 
     def redrawBins(self, bins):

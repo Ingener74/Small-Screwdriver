@@ -3,7 +3,7 @@ from SmallScrewdriver import Bin, DEFAULT_BIN_SIZE, Point
 from ShelfBin import ShelfBin
 
 
-class BinNextFitShelf(ShelfBin):
+class NextFitShelfBin(ShelfBin):
     def __init__(self, bin_size=DEFAULT_BIN_SIZE, origin=Point(), *args, **kwargs):
         ShelfBin.__init__(self, size=bin_size, origin=origin)
 

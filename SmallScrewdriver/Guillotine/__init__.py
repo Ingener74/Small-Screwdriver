@@ -1,4 +1,4 @@
 # encoding: utf8
 
-from BinGuillotine import BinGuillotine
+from GuillotineBin import GuillotineBin
 from GuillotineBinPacking import GuillotineBinPacking

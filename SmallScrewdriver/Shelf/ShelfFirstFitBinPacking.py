@@ -1,6 +1,6 @@
 # encoding: utf8
 from SmallScrewdriver import BinPacking
-from SmallScrewdriver.Shelf import BinFirstFitShelf
+from SmallScrewdriver.Shelf import FirstFitShelfBin
 
 
 # noinspection PyPep8Naming,PyShadowingBuiltins
@@ -27,5 +27,5 @@ class ShelfFirstFitBinPacking(BinPacking):
     def _newBin(self, *args, **kwargs):
         size = kwargs['bin_size']
         del kwargs['bin_size']
-        self.bins.append(BinFirstFitShelf(size=size, *args, **kwargs))
+        self.bins.append(FirstFitShelfBin(size=size, *args, **kwargs))
         return self.bins[-1]

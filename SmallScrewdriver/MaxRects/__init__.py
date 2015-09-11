@@ -1,4 +1,4 @@
 # encoding: utf8
 
-from BinMaxRects import (BinMaxRects)
+from MaxRectsBin import (MaxRectsBin)
 from MaxRectsBinPacking import (MaxRectsBinPacking)

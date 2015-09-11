@@ -2,7 +2,7 @@
 
 from Shelf import Shelf
 from ShelfBin import ShelfBin
-from BinFirstFitShelf import BinFirstFitShelf
-from BinNextFitShelf import BinNextFitShelf
+from FirstFitShelfBin import FirstFitShelfBin
+from NextFitShelfBin import NextFitShelfBin
 from ShelfFirstFitBinPacking import ShelfFirstFitBinPacking
 from ShelfNextFitBinPacking import ShelfNextFitBinPacking

@@ -1,7 +1,7 @@
 # encoding: utf8
 
 from SmallScrewdriver import Size, Point, BinPacking, Bin
-from SmallScrewdriver.Shelf import Shelf, BinNextFitShelf
+from SmallScrewdriver.Shelf import Shelf, NextFitShelfBin
 
 
 # noinspection PyPep8Naming
@@ -44,5 +44,5 @@ class ShelfNextFitBinPacking(BinPacking):
         BinPacking.__init__(self, bin_size=bin_size, images=images, *args, **kwargs)
 
     def _newBin(self, *args, **kwargs):
-        self.bins.append(BinNextFitShelf(*args, **kwargs))
+        self.bins.append(NextFitShelfBin(*args, **kwargs))
         return self.bins[-1]

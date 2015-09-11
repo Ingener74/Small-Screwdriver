@@ -4,7 +4,7 @@ from SmallScrewdriver.Shelf import (ShelfBin)
 
 
 # noinspection PyPep8Naming
-class BinFirstFitShelf(ShelfBin):
+class FirstFitShelfBin(ShelfBin):
     def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point()):
         ShelfBin.__init__(self, size=size, origin=origin)
 

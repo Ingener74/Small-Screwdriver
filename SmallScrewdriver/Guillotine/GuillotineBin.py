@@ -3,7 +3,7 @@
 from SmallScrewdriver import Bin, DEFAULT_BIN_SIZE, Point, Rect
 
 
-class BinGuillotine(Bin):
+class GuillotineBin(Bin):
     """
     Контейнер для метода гильотины
     """
@@ -18,8 +18,8 @@ class BinGuillotine(Bin):
     def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(), *args, **kwargs):
         Bin.__init__(self, size=size, origin=origin)
 
-        self.select_variant = kwargs['select_variant'] if 'select_variant' in kwargs else BinGuillotine.BEST_VARIANTS
-        self.select_heuristic = kwargs['select_heuristic'] if 'select_heuristic' in kwargs else BinGuillotine.AREA_FIT
+        self.select_variant = kwargs['select_variant'] if 'select_variant' in kwargs else GuillotineBin.BEST_VARIANTS
+        self.select_heuristic = kwargs['select_heuristic'] if 'select_heuristic' in kwargs else GuillotineBin.AREA_FIT
         self.split_rule = kwargs['split_rule'] if 'split_rule' in kwargs else Rect.RULE_SAS
 
         self.free_rects = [Rect(size=self.size)]
