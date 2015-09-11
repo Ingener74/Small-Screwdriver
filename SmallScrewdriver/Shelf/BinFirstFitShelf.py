@@ -1,13 +1,12 @@
 # encoding: utf8
-from SmallScrewdriver import Bin, Size, Point, DEFAULT_BIN_SIZE
-from SmallScrewdriver.Shelf import Shelf
+from SmallScrewdriver import Bin, Point, DEFAULT_BIN_SIZE
+from SmallScrewdriver.Shelf import (ShelfBin)
 
 
-class BinFirstFitShelf(Bin):
+# noinspection PyPep8Naming
+class BinFirstFitShelf(ShelfBin):
     def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point()):
-        Bin.__init__(self, size=size, origin=origin)
-
-        self.shelfs = [Shelf(self.size)]
+        ShelfBin.__init__(self, size=size, origin=origin)
 
     def addImage(self, image):
 
@@ -16,21 +15,10 @@ class BinFirstFitShelf(Bin):
 
             # ... и пробуем добавить изображение ...
             if shelf.addImage(image):
-
                 # ... если получается добавляем изображение в контейнер ...
                 return Bin.addImage(self, image)
         else:
-            shelf = self.shelfs[-1]
-
-            # Если не в одну полку изображение не вошло ...
-            max_size = Size(self.size.width, self.size.height - (shelf.origin.y + shelf.size.height))
-
-            # ... создаём новую полку ...
-            shelf = Shelf(max_size, Point(0, shelf.origin.y + shelf.size.height))
-
-            # ... добавляем её к полками ...
-            self.shelfs.append(shelf)
-
-            # ... добавляем изображение в контейнер если изображение входит в эту полку в противном случае, оно не
+            # Если не в одну полку изображение не вошло создаём новую полку и добавляем изображение в
+            # контейнер если изображение входит в эту полку, в противном случае, оно не
             # входит в контейнер
-            return Bin.addImage(self, image) if shelf.addImage(image) else False
+            return Bin.addImage(self, image) if self._newShelf().addImage(image) else False

@@ -6,7 +6,7 @@ from PySide.QtGui import (QWidget, QSizePolicy, QPainter, QTransform)
 
 import re
 from SmallScrewdriver import (Point, Size, Rect, Image, GuillotineBinPacking, MaxRectsBinPacking,
-                              ShelfNextFitBinPacking, ShelfFirstFitBinPacking)
+                              ShelfNextFitBinPacking, ShelfFirstFitBinPacking, Bin)
 
 
 # noinspection PyPep8Naming
@@ -101,7 +101,7 @@ class SmallScrewdriverWidget(QWidget):
         painter.setWorldTransform(QTransform().scale(self.scale, self.scale))
 
         for i, b in enumerate(self.bins):
-            side = int(math.floor(math.log(len(self.bins), 2)))
+            side = int(math.ceil(math.log(len(self.bins), 2)))
 
             x = (i % side) * (b.size.width + 10) if side else 10
             y = (i / side) * (b.size.height + 10) if side else 10
@@ -127,7 +127,7 @@ class SmallScrewdriverWidget(QWidget):
 
         while dit.hasNext():
             im = folder.relativeFilePath(dit.next())
-            if not re.search("atlas", im):
+            if not re.search('atlas', im):
                 self.images.append(im)
 
         self.bin_packing_thread.setDirectory(self.directory)

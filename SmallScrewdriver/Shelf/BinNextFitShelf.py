@@ -1,25 +1,14 @@
 # encoding: utf8
-from SmallScrewdriver import Bin, DEFAULT_BIN_SIZE, Point, Size
-from Shelf import Shelf
+from SmallScrewdriver import Bin, DEFAULT_BIN_SIZE, Point
+from ShelfBin import ShelfBin
 
 
-class BinNextFitShelf(Bin):
+class BinNextFitShelf(ShelfBin):
     def __init__(self, bin_size=DEFAULT_BIN_SIZE, origin=Point(), *args, **kwargs):
-        Bin.__init__(self, size=bin_size, origin=origin)
-
-        self.shelfs = [Shelf(bin_size)]
+        ShelfBin.__init__(self, size=bin_size, origin=origin)
 
     def addImage(self, image):
-        last_shelf = self.shelfs[-1]
-        if last_shelf.addImage(image):
-            return Bin.addImage(self, image)
-        else:
-            max_size = Size(self.size.width, self.size.height - (last_shelf.origin.y + last_shelf.size.height))
-
-            # ... создаём новую полку ...
-            shelf = Shelf(max_size, Point(0, last_shelf.origin.y + last_shelf.size.height))
-
-            # ... добавляем её к полками ...
-            self.shelfs.append(shelf)
-
-            return Bin.addImage(self, image) if last_shelf.addImage(image) else False
+        return \
+            Bin.addImage(self, image) if self.shelfs[-1].addImage(image) else \
+            Bin.addImage(self, image) if self._newShelf().addImage(image) else \
+            False
