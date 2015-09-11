@@ -103,8 +103,8 @@ class SmallScrewdriverWidget(QWidget):
         for i, b in enumerate(self.bins):
             side = int(math.floor(math.log(len(self.bins), 2)))
 
-            x = (i % side) * (b.size.width + 10) if side else 0
-            y = (i / side) * (b.size.height + 10) if side else 0
+            x = (i % side) * (b.size.width + 10) if side else 10
+            y = (i / side) * (b.size.height + 10) if side else 10
 
             b.draw(painter, Point(x, y))
 
