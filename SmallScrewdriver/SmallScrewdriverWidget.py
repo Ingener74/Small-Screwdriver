@@ -39,6 +39,20 @@ class BinPackingThread(QThread):
         self.method = BinPackingThread.METHODS[0]
         self.bin_size = BinPackingThread.SIZES[0]
 
+        self.bin_parameter = {
+            'NextFitShelf': {
+            },
+            'FirstFitShelf': {
+            },
+            'Guillotine': {
+                'selection_variant': 0,
+                'selection_heuristic': 0,
+                'split_rule': 0
+            },
+            'MaxRects': {
+            }
+        }
+
     def setDirectory(self, directory):
         self.directory = directory
         self.bin_packing_available.emit(self.binPackingAvailable())
