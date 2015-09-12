@@ -62,8 +62,8 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
 
         self.binSizeComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SIZE, defaultValue=0)))
         self.methodTabWidget.setCurrentIndex(int(self.settings.value(SETTINGS_METHOD, defaultValue=0)))
-        self.fitVariantComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_VARIANT, defaultValue=0)))
-        self.heuristicComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_HEURISTIC, defaultValue=0)))
+        self.guillotineVariantComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_VARIANT, defaultValue=0)))
+        self.guillotineHeuristicComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_HEURISTIC, defaultValue=0)))
         self.splitComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SPLIT_RULE, defaultValue=0)))
         self.small_screwdriver.scale = float(self.settings.value(SETTINGS_DRAW_SCALE, defaultValue=1.0))
 
@@ -98,8 +98,8 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.settings.setValue(SETTINGS_SIZE, self.binSizeComboBox.currentIndex())
         self.settings.setValue(SETTINGS_METHOD, self.methodTabWidget.currentIndex())
 
-        self.settings.setValue(SETTINGS_VARIANT, self.fitVariantComboBox.currentIndex())
-        self.settings.setValue(SETTINGS_HEURISTIC, self.heuristicComboBox.currentIndex())
+        self.settings.setValue(SETTINGS_VARIANT, self.guillotineVariantComboBox.currentIndex())
+        self.settings.setValue(SETTINGS_HEURISTIC, self.guillotineHeuristicComboBox.currentIndex())
         self.settings.setValue(SETTINGS_SPLIT_RULE, self.splitComboBox.currentIndex())
 
         self.settings.setValue(SETTINGS_DRAW_SCALE, self.small_screwdriver.scale)

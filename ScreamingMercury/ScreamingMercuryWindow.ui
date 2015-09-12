@@ -146,20 +146,15 @@
            <attribute name="title">
             <string>Shelf First Fit</string>
            </attribute>
-          </widget>
-          <widget class="QWidget" name="tabGuillotine">
-           <attribute name="title">
-            <string>Guillotine</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
+           <layout class="QVBoxLayout" name="verticalLayout_8">
             <item>
-             <widget class="QGroupBox" name="groupBox_3">
+             <widget class="QGroupBox" name="groupBox_5">
               <property name="title">
-               <string>Эвристика выбора</string>
+               <string>Эвристики выбора</string>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_6">
+              <layout class="QVBoxLayout" name="verticalLayout_7">
                <item>
-                <widget class="QComboBox" name="fitVariantComboBox">
+                <widget class="QComboBox" name="firstFitShelfVariantComboBox">
                  <item>
                   <property name="text">
                    <string>Best Fit</string>
@@ -173,7 +168,79 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="heuristicComboBox">
+                <widget class="QComboBox" name="firstFitShelfHeuristicComboBox">
+                 <item>
+                  <property name="text">
+                   <string>Width Fit</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Height Fit</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Area Fit</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Floor-Ceiling</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Waste Map Improvement</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabGuillotine">
+           <attribute name="title">
+            <string>Guillotine</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QGroupBox" name="groupBox_3">
+              <property name="title">
+               <string>Эвристика выбора</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <item>
+                <widget class="QComboBox" name="guillotineVariantComboBox">
+                 <item>
+                  <property name="text">
+                   <string>Best Fit</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Worst Fit</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="guillotineHeuristicComboBox">
                  <item>
                   <property name="text">
                    <string>Best/Worst Area Fit</string>
@@ -256,6 +323,59 @@
            <attribute name="title">
             <string>Max Rects</string>
            </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_10">
+            <item>
+             <widget class="QGroupBox" name="groupBox_6">
+              <property name="title">
+               <string>Эвристика выбора</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_9">
+               <item>
+                <widget class="QComboBox" name="maxRectsHeuristicComboBox">
+                 <item>
+                  <property name="text">
+                   <string>Bottom-Left</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Best Area Fit</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Best Short Side Fit</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Best Long Side Fit</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Contact Point</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>388</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </widget>
          </widget>
         </item>
