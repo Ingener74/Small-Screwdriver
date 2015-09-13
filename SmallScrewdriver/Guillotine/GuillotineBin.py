@@ -18,6 +18,9 @@ class GuillotineBin(Bin):
     def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(), *args, **kwargs):
         Bin.__init__(self, size=size, origin=origin)
 
+        assert 'bin_parameters' in kwargs
+        self.parameters = kwargs['bin_parameters']
+
         self.select_variant = kwargs['select_variant'] if 'select_variant' in kwargs else GuillotineBin.BEST_VARIANTS
         self.select_heuristic = kwargs['select_heuristic'] if 'select_heuristic' in kwargs else GuillotineBin.AREA_FIT
         self.split_rule = kwargs['split_rule'] if 'split_rule' in kwargs else Rect.RULE_SAS

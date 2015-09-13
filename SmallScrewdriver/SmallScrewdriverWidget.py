@@ -6,7 +6,7 @@ from PySide.QtGui import (QWidget, QSizePolicy, QPainter, QTransform)
 
 import re
 from SmallScrewdriver import (Point, Size, Rect, Image, GuillotineBinPacking, MaxRectsBinPacking,
-                              NextFitShelfBinPacking, FirstFitShelfBinPacking, GuillotineBin)
+                              NextFitShelfBinPacking, FirstFitShelfBinPacking, GuillotineBin, FirstFitShelfBin)
 
 
 # noinspection PyPep8Naming
@@ -40,16 +40,18 @@ class BinPackingThread(QThread):
         self.bin_size = BinPackingThread.SIZES[0]
 
         self.bin_parameter = {
-            'NextFitShelf': {
+            'next_fit_shelf': {
             },
-            'FirstFitShelf': {
+            'first_fit_shelf': {
+                'selection_variant': FirstFitShelfBin.BEST_VARIANTS,
+                'selection_heuristic': FirstFitShelfBin.SHORT_SIDE_FIT,
             },
-            'Guillotine': {
+            'guillotine': {
                 'selection_variant': GuillotineBin.BEST_VARIANTS,
                 'selection_heuristic': GuillotineBin.SHORT_SIDE_FIT,
                 'split_rule': Rect.RULE_SAS
             },
-            'MaxRects': {
+            'max_rects': {
             }
         }
 

@@ -5,6 +5,16 @@ from SmallScrewdriver.Shelf import (ShelfBin)
 
 # noinspection PyPep8Naming
 class FirstFitShelfBin(ShelfBin):
+
+    BEST_VARIANTS = 0
+    WORST_VARIANTS = 1
+
+    AREA_FIT = 0
+    SHORT_SIDE_FIT = 1
+    LONG_SIDE_FIT = 2
+    FLOOR_CEILING = 3
+    WASTE_MAP_IMPROVEMENT = 4
+
     def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point()):
         ShelfBin.__init__(self, size=size, origin=origin)
 

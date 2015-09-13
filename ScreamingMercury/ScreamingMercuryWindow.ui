@@ -135,7 +135,7 @@
         <item>
          <widget class="QTabWidget" name="methodTabWidget">
           <property name="currentIndex">
-           <number>2</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="tabShelfNextFit">
            <attribute name="title">
