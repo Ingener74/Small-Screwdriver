@@ -1,0 +1,17 @@
+{
+  "name": "aimless-drill",
+  "version": "0.1.0",
+  "description": "",
+  "main": "gulpfile.coffee",
+  "dependencies": {
+    "bower": "^1.5.2",
+    "gulp": "^3.9.0",
+    "gulp-clean": "^0.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shnaider Pavel <shnaiderpasha@gmail.com>",
+  "license": "LGPL3"
+}
