@@ -6,6 +6,9 @@
 
 * фронтенд PySide
 
+# Sunday's Iron
+Консольная утилита для Small Screwdriver
+
 # Aimless Drill
 SPA Web фронтенд для Small Screwdriver
 
