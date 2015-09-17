@@ -6,4 +6,4 @@ App = React.createClass
             <p>Aimless Drill</p>
         </div>
 
-module.exports = App
+React.render <App />, document.getElementById 'app'
