@@ -4,6 +4,9 @@ browserify = require 'gulp-browserify'
 source = require 'vinyl-source-stream'
 concat = require 'gulp-concat'
 minifyCss = require 'gulp-minify-css'
+runSequence = require 'run-sequence'
+browserSync = require 'browser-sync'
+exec = require('child_process').exec;
 
 gulp.task 'clean', ->
   del ['./build/static', './build/templates']
@@ -13,7 +16,7 @@ gulp.task 'clean-all', ->
 
 gulp.task 'html', ->
   gulp.src './app/templates/*.html'
-  .pipe gulp.dest './build/templates'
+  .pipe gulp.dest './build/templates/'
 
 gulp.task 'css', ->
   gulp.src [
@@ -22,7 +25,7 @@ gulp.task 'css', ->
   ]
   .pipe minifyCss()
   .pipe concat 'style.css'
-  .pipe gulp.dest './build/static/css'
+  .pipe gulp.dest './build/static/css/'
 
 ###
   http://stackoverflow.com/questions/24656898/gulp-browserify-shim-and-jquery-depended
@@ -44,11 +47,29 @@ gulp.task 'cjsx', ->
   .pipe concat 'bundle.js'
   .pipe gulp.dest './build/static/js/'
 
-gulp.task 'build', ['html', 'css', 'cjsx']
+gulp.task 'py', ->
+  gulp.src ['./app/*.py']
+  .pipe gulp.dest './build/'
+
+gulp.task 'build', ['html', 'css', 'cjsx', 'py']
+
+gulp.task 'runserver', ->
+  exec 'cd build && python AimlessDrill.py', (err, stdout, stderr)->
+    console.log stdout
+    console.log stderr
+
+###
+  https://github.com/pebreo/gulp-browsersync-flask/blob/master/gulpfile.js
+###
+gulp.task 'browser-sync', ->
+  browserSync
+    notify: false
+    proxy: "127.0.0.1:5003"
+
+gulp.task 'default', (cb)->
+  runSequence 'clean', ['build'], 'runserver', 'browser-sync', cb
 
 gulp.task 'build-all'
-
-gulp.task 'default', ['clean', 'build']
 
 ###
   TODO
@@ -56,5 +77,6 @@ gulp.task 'default', ['clean', 'build']
   * browser sync
   * start flask
   * deploy
+  * watch
   * ...
 ###

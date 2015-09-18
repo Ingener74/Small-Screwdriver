@@ -1,9 +1,11 @@
 React = require 'react'
 
+Title = require './Title.cjsx'
+
 App = React.createClass
     render: ->
         <div>
-            <p>Aimless Drill</p>
+            <Title />
         </div>
 
 React.render <App />, document.getElementById 'app'
