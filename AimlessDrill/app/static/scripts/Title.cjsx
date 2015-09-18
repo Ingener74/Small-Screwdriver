@@ -1,6 +1,6 @@
 React = require 'react'
 
-Title = createClass
+Title = React.createClass
     render: ->
         <p>AimlessDrill</p>
 

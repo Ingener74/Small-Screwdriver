@@ -67,7 +67,12 @@ gulp.task 'browser-sync', ->
     proxy: "127.0.0.1:5003"
 
 gulp.task 'default', (cb)->
-  runSequence 'clean', ['build'], 'runserver', 'browser-sync', cb
+  runSequence 'clean', ['build'], 'runserver', 'browser-sync', 'watch', cb
+
+gulp.task 'watch', ->
+  gulp.watch [
+    'app/**/*'
+  ], ['build', browserSync.reload]
 
 gulp.task 'build-all'
 
