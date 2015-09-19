@@ -15,23 +15,20 @@ class GuillotineBin(Bin):
     SHORT_SIDE_FIT = 1
     LONG_SIDE_FIT = 2
 
-    def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(), *args, **kwargs):
-        Bin.__init__(self, size=size, origin=origin)
+    def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(), bin_parameters=None):
+        Bin.__init__(self, size=size, origin=origin, bin_parameters=bin_parameters)
 
-        assert 'bin_parameters' in kwargs
-        self.parameters = kwargs['bin_parameters']
-
-        self.select_variant = kwargs['select_variant'] if 'select_variant' in kwargs else GuillotineBin.BEST_VARIANTS
-        self.select_heuristic = kwargs['select_heuristic'] if 'select_heuristic' in kwargs else GuillotineBin.AREA_FIT
-        self.split_rule = kwargs['split_rule'] if 'split_rule' in kwargs else Rect.RULE_SAS
+        self.select_variant = self.bin_parameters['selection_variant']
+        self.select_heuristic = self.bin_parameters['selection_heuristic']
+        self.split_rule = self.bin_parameters['split_rule']
 
         self.free_rects = [Rect(size=self.size)]
 
     def addImage(self, image):
 
         af = lambda x: x.area()
-        ssf = lambda x: min(x.width() - image.size.width(), x.height() - image.size.height())
-        lsf = lambda x: max(x.width() - image.size.width(), x.height() - image.size.height())
+        ssf = lambda x: min(x.size.width - image.size.width, x.size.height - image.size.height)
+        lsf = lambda x: max(x.size.width - image.size.width, x.size.height - image.size.height)
 
         # Сортируем
         rects = sorted(self.free_rects, key=[af, ssf, lsf][self.select_heuristic], reverse=bool(self.select_variant))

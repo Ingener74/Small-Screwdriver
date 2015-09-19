@@ -11,10 +11,14 @@ from SmallScrewdriver import (Point, Size, Rect, Image, GuillotineBinPacking, Ma
 
 # noinspection PyPep8Naming
 class BinPackingThread(QThread):
-    METHODS = (NextFitShelfBinPacking,
-               FirstFitShelfBinPacking,
-               GuillotineBinPacking,
-               MaxRectsBinPacking)
+    METHODS = ({'name': 'next_fit_shelf',
+                'type': NextFitShelfBinPacking},
+               {'name': 'first_fit_shelf',
+                'type': FirstFitShelfBinPacking},
+               {'name': 'guillotine',
+                'type': GuillotineBinPacking},
+               {'name': 'max_rects',
+                'type': MaxRectsBinPacking})
 
     SIZES = (Size(256, 256),
              Size(512, 512),
@@ -79,8 +83,9 @@ class BinPackingThread(QThread):
         self.packing_progress.emit(0)
         self.saving_progress.emit(0)
 
-        bin_packing = self.method(self.bin_size, [Image(self.directory, image) for image in self.images],
-                                  packingProgress=self.packingProgress, savingProgress=self.savingProgress)
+        bin_packing = self.method['type'](self.bin_size, [Image(self.directory, image) for image in self.images],
+                                          bin_parameters=self.bin_parameter[self.method['name']],
+                                          packing_progress=self.packingProgress, saving_progress=self.savingProgress)
         bin_packing.saveAtlases(self.directory)
 
         self.update_bins.emit(bin_packing.bins)

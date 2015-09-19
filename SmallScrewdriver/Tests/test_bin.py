@@ -23,7 +23,7 @@ class TestBin(TestCase):
         self.assertEqual(b.size, Size(512, 512))
         self.assertEqual(b.origin, Point(20, 20))
 
-        b = Bin(origin=Point(30, 30), size=Size(256, 256))
+        b = Bin(size=Size(256, 256), origin=Point(30, 30))
         self.assertEqual(b.size, Size(256, 256))
         self.assertEqual(b.origin, Point(30, 30))
 

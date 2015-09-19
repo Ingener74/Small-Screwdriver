@@ -1,24 +1,20 @@
 # encoding: utf8
-from SmallScrewdriver import DEFAULT_BIN_SIZE
+from SmallScrewdriver import DEFAULT_BIN_SIZE, Point
 from abc import abstractmethod
 
 
 # noinspection PyPep8Naming,PyShadowingBuiltins
 class BinPacking(object):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, bin_size=DEFAULT_BIN_SIZE, images=None, bin_parameters=None, packing_progress=None, saving_progress=None):
         self.bins = []
-        self.bin_size = args[0] if len(args) > 0 else kwargs['bin_size'] if 'bin_size' in kwargs else DEFAULT_BIN_SIZE
 
-        images = args[1] if len(args) > 1 else kwargs['images'] if 'images' in kwargs else []
-        del kwargs['images']
-
-        self.packingProgress = kwargs['packingProgress'] if 'packingProgress' in kwargs else None
-        self.savingProgress = kwargs['savingProgress'] if 'savingProgress' in kwargs else None
-        del kwargs['packingProgress']
-        del kwargs['savingProgress']
+        self.packingProgress = packing_progress
+        self.savingProgress = saving_progress
 
         # Первый контейнер
-        self._newBin(*args, **kwargs)
+        self._newBin(size=bin_size, origin=Point(), bin_parameters=bin_parameters)
+
+        images = [] if images is None else images
 
         # Проходим по всем изображениям ...
         for index, image in enumerate(images):
@@ -35,7 +31,7 @@ class BinPacking(object):
                     break
             else:
                 # ... если не в один контейнер, поместить не получилось, создаём новый ...
-                bin = self._newBin(*args, **kwargs)
+                bin = self._newBin(size=bin_size, origin=Point(), bin_parameters=bin_parameters)
 
                 # ... и пробуем поместить в него ...
                 if bin.addImage(image):
@@ -62,5 +58,5 @@ class BinPacking(object):
             self.savingProgress(progress)
 
     @abstractmethod
-    def _newBin(self, *args, **kwargs):
+    def _newBin(self, size, origin, bin_parameters):
         raise NotImplementedError

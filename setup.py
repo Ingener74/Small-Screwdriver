@@ -14,7 +14,9 @@ setup(
     },
     author="Shnaider Pavel",
     author_email="shnaiderpasha@gmail.com",
-    description="SmallScrewdriver is python texture packer library",
+    description="""
+    SmallScrewdriver is python texture packer library, with PySide GUI, Flask/React.js SPA, and console frontend's
+    """,
     license="LGPL",
     keywords="texture",
     url="https://github.com/Ingener74/Small-Screwdriver"

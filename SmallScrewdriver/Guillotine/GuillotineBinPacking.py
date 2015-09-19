@@ -1,17 +1,20 @@
 # coding=utf-8
-from SmallScrewdriver import BinPacking, Rect, Point
+from SmallScrewdriver import BinPacking, Point, DEFAULT_BIN_SIZE
 from SmallScrewdriver.Guillotine import GuillotineBin
 
 
 # noinspection PyPep8Naming,PyShadowingBuiltins
 class GuillotineBinPacking(BinPacking):
-    def __init__(self, bin_size, images, *args, **kwargs):
-
+    def __init__(self, bin_size=DEFAULT_BIN_SIZE, images=None, bin_parameters=None, packing_progress=None,
+                 saving_progress=None):
         # Отсеиваем изображения которые больше размера контейнера
+        if not images:
+            images = []
         images = filter(lambda image: image.size.less(bin_size) == (True, True), images)
 
-        BinPacking.__init__(self, bin_size=bin_size, images=images, *args, **kwargs)
+        BinPacking.__init__(self, bin_size=bin_size, images=images, bin_parameters=bin_parameters,
+                            packing_progress=packing_progress, saving_progress=saving_progress)
 
-    def _newBin(self, *args, **kwargs):
-        self.bins.append(GuillotineBin(self.bin_size, Point(), *args, **kwargs))
+    def _newBin(self, size, origin, bin_parameters):
+        self.bins.append(GuillotineBin(size=size, origin=origin, bin_parameters=bin_parameters))
         return self.bins[-1]

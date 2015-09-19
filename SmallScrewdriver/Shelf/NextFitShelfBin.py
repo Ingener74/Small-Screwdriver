@@ -4,8 +4,8 @@ from ShelfBin import ShelfBin
 
 
 class NextFitShelfBin(ShelfBin):
-    def __init__(self, bin_size=DEFAULT_BIN_SIZE, origin=Point(), *args, **kwargs):
-        ShelfBin.__init__(self, size=bin_size, origin=origin)
+    def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(0, 0), bin_parameters=None):
+        ShelfBin.__init__(self, size=size, origin=origin, bin_parameters=bin_parameters)
 
     def addImage(self, image):
         return \

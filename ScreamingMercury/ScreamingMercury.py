@@ -16,6 +16,9 @@ SETTINGS_SPLITTER2 = 'Splitter2'
 SETTINGS_SIZE = 'BinSize'
 SETTINGS_METHOD = 'BinPackingMethod'
 
+SETTINGS_FIRST_FIT_VARIANT = 'FirstFitVariant'
+SETTINGS_FIRST_FIT_HEURISTIC = 'FirstFitHeuristic'
+
 SETTINGS_VARIANT = 'Variant'
 SETTINGS_HEURISTIC = 'Heuristic'
 SETTINGS_SPLIT_RULE = 'SplitRule'
@@ -55,16 +58,37 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
 
         self.startPushButton.setEnabled(self.small_screwdriver.bin_packing_thread.binPackingAvailable())
 
+        # Настройки
         self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
+
+        # Востанавливаем ...
+        # ... геометрию окна
         self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY))
         self.splitter.restoreState(self.settings.value(SETTINGS_SPLITTER1))
         self.splitter_2.restoreState(self.settings.value(SETTINGS_SPLITTER2))
 
+        # ... размер контейнера
         self.binSizeComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SIZE, defaultValue=0)))
+
+        # ... метод упаковки
         self.methodTabWidget.setCurrentIndex(int(self.settings.value(SETTINGS_METHOD, defaultValue=0)))
+
+        # ... вариант упоковки от лучшего варианта или от худшего
+        self.firstFitShelfVariantComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_FIRST_FIT_VARIANT,
+                                                                                  defaultValue=0)))
+        # ... эвристику упаковки
+        self.firstFitShelfHeuristicComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_FIRST_FIT_HEURISTIC,
+                                                                                    defaultValue=0)))
+
+        # ... вариант для гильотины
         self.guillotineVariantComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_VARIANT, defaultValue=0)))
+        # ... эвристику для гильотины
         self.guillotineHeuristicComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_HEURISTIC, defaultValue=0)))
+
+        # ... правило разделения гильотиной
         self.splitComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SPLIT_RULE, defaultValue=0)))
+
+        # ... масштаб отрисовки
         self.small_screwdriver.scale = float(self.settings.value(SETTINGS_DRAW_SCALE, defaultValue=1.0))
 
     def onAddDirectory(self):
@@ -96,7 +120,11 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.settings.setValue(SETTINGS_SPLITTER1, self.splitter.saveState())
         self.settings.setValue(SETTINGS_SPLITTER2, self.splitter_2.saveState())
         self.settings.setValue(SETTINGS_SIZE, self.binSizeComboBox.currentIndex())
+
         self.settings.setValue(SETTINGS_METHOD, self.methodTabWidget.currentIndex())
+
+        self.settings.setValue(SETTINGS_FIRST_FIT_VARIANT, self.firstFitShelfVariantComboBox.currentIndex())
+        self.settings.setValue(SETTINGS_FIRST_FIT_HEURISTIC, self.firstFitShelfHeuristicComboBox.currentIndex())
 
         self.settings.setValue(SETTINGS_VARIANT, self.guillotineVariantComboBox.currentIndex())
         self.settings.setValue(SETTINGS_HEURISTIC, self.guillotineHeuristicComboBox.currentIndex())
