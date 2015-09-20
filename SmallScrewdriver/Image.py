@@ -1,9 +1,9 @@
 # encoding: utf8
-from PySide.QtCore import QPoint, Qt, QDir
-from PySide.QtGui import QImage, QTransform
+from PySide.QtCore import (QPoint, Qt, QDir)
+from PySide.QtGui import (QImage, QTransform)
 
-from SmallScrewdriver import Rect, Size, Point
-from SillyCrossbow import crop_image
+from SmallScrewdriver import (Rect, Size, Point)
+from SillyCrossbow import (crop_image)
 
 
 # noinspection PyPep8Naming,PyUnusedLocal
@@ -30,7 +30,7 @@ class Image(Rect):
     def area(self):
         return self.crop.area()
 
-    def draw(self, painter, offset):
+    def draw(self, painter, offset=Point()):
         origin_offset = QPoint(self.origin.x + offset.x, self.origin.y + offset.y)
 
         if self.rotated:
