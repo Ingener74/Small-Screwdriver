@@ -24,13 +24,21 @@ class Rect(object):
     # ... для максимальных прямоугольников
     RULE_PICK_BOTH = 6
 
-    def __init__(self, *args, **kwargs):
-        self.origin = args[0] if len(args) > 0 else kwargs['origin'] if 'origin' in kwargs else Point()
-        self.size = args[1] if len(args) > 1 else kwargs['size'] if 'size' in kwargs else Size()
-        self.pen = args[2] if len(args) > 2 else kwargs['pen'] if 'pen' in kwargs else QPen()
+    # def __init__(self, *args, **kwargs):
+    #     self.origin = args[0] if len(args) > 0 else kwargs['origin'] if 'origin' in kwargs else Point()
+    #     self.size = args[1] if len(args) > 1 else kwargs['size'] if 'size' in kwargs else Size()
+    #     self.pen = args[2] if len(args) > 2 else kwargs['pen'] if 'pen' in kwargs else QPen()
+    #
+    #     if 'rect' in kwargs:
+    #         self.origin, self.size, self.pen = kwargs['rect'].origin, kwargs['rect'].size, kwargs['rect'].pen
 
-        if 'rect' in kwargs:
-            self.origin, self.size, self.pen = kwargs['rect'].origin, kwargs['rect'].size, kwargs['rect'].pen
+    def __init__(self, origin=Point(), size=Size(), pen=QPen(), rect=None):
+        self.origin = origin
+        self.size = size
+        self.pen = pen
+
+        if rect and rect != Rect():
+            self.origin, self.size, self.pen = rect.origin, rect.size, rect.pen
 
     def area(self):
         return self.size.area()
