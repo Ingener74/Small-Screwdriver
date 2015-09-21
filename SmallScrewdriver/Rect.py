@@ -11,14 +11,18 @@ from Point import Point
 # noinspection PyPep8Naming
 class Rect(object):
     """
-    Split rules
+    Правила разделения ...
     """
+    # ... для гильотины
     RULE_SAS = 0
     RULE_LAS = 1
     RULE_SLAS = 2
     RULE_LLAS = 3
     RULE_MAXAS = 4
     RULE_MINAS = 5
+
+    # ... для максимальных прямоугольников
+    RULE_PICK_BOTH = 6
 
     def __init__(self, *args, **kwargs):
         self.origin = args[0] if len(args) > 0 else kwargs['origin'] if 'origin' in kwargs else Point()
@@ -77,10 +81,12 @@ class Rect(object):
 
         # Обе стороны меньше
         elif less == (True, True):
-            return self.__splitTwo(rect, rule, False)
+            return self.__splitTwoPickBoth(rect, False) if rule == self.RULE_PICK_BOTH else \
+                self.__splitTwo(rect, rule, False)
 
         elif less_r == (True, True):
-            return self.__splitTwo(rect_r, rule, True)
+            return self.__splitTwoPickBoth(rect, True) if rule == self.RULE_PICK_BOTH else \
+                self.__splitTwo(rect_r, rule, True)
 
         # Остальные случаи
         else:
@@ -133,6 +139,20 @@ class Rect(object):
 
             r2 = Rect(self.origin + Point(0, rect.size.height),
                       Size(rect.size.width, self.size.height - rect.size.height))
+        return 2, r1, r2, rotate
+
+    def __splitTwoPickBoth(self, rect, rotate):
+        h = self.size.height
+        w = self.size.width
+        rh = rect.size.height
+        rw = rect.size.width
+
+        r1 = Rect(self.origin + Point(rh, 0), Size(w - rh, h)) if rotate else \
+            Rect(self.origin + Point(rw, 0), Size(w - rw, h))
+
+        r2 = Rect(self.origin + Point(0, rw), Size(w, h - rw)) if rotate else \
+            Rect(self.origin + Point(0, rh), Size(w, h - rh))
+
         return 2, r1, r2, rotate
 
     def __eq__(self, other):

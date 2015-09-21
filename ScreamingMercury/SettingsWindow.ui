@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>355</width>
-    <height>76</height>
+    <height>145</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,6 +29,29 @@
         <property name="text">
          <string>Минифицировать json файлы для контейнера</string>
         </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Тип отрисоки</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QComboBox" name="comboBox">
+        <item>
+         <property name="text">
+          <string>Нормальная(Исходные изображения)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Отладочная(Схематичная, прямоугольники изображений)</string>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>

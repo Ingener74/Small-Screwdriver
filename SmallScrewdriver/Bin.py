@@ -12,6 +12,11 @@ DEFAULT_BIN_SIZE = Size(256, 256)
 
 # noinspection PyPep8Naming
 class Bin(object):
+
+    DRAW_MODE_NORMAL = 0
+    DRAW_MODE_DEBUG = 1
+    DRAW_MODE_RELEASE = 2
+
     def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(0, 0), bin_parameters=None):
         self.origin = origin
         self.size = size
@@ -39,13 +44,16 @@ class Bin(object):
             area += r.area()
         return area / float(self.size.area())
 
-    def draw(self, painter, offset):
+    def draw(self, painter, offset, draw_mode = DRAW_MODE_NORMAL):
+
+        # Рисуем контур контейнера
         pen = QPen()
         pen.setStyle(Qt.DashLine)
         painter.setPen(pen)
         # painter.drawRect(self.origin.x, self.origin.y, self.size.width, self.size.height)
         painter.drawRect(offset.x, offset.y, self.size.width, self.size.height)
 
+        #
         for image in self.images:
             # Rect(rect.origin + self.origin, rect.size, rect.pen).draw(painter=painter)
             # image.draw(painter=painter, offset=self.origin)
@@ -57,7 +65,7 @@ class Bin(object):
 
         # Рисуем контейнер в изображение
         painter = QPainter(image)
-        self.draw(painter, Point())
+        self.draw(painter, Point(), draw_mode=self.DRAW_MODE_RELEASE)
 
         bin_file_name = binName + '.png'
 

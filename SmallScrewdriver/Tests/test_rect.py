@@ -39,7 +39,6 @@ class TestRect(TestCase):
         self.assertNotEqual(r4, r5)
 
     def test_split_sas(self):
-
         r1 = Rect(Point(10, 10), Size(512, 512))
         r2 = Rect(Point(), Size(110, 75))
         r3 = Rect(Point(), Size(70, 95))
@@ -77,9 +76,9 @@ class TestRect(TestCase):
         s, ro1, ro2, r = r2.split(r6, Rect.RULE_SAS)
         self.assertEqual(s, 1)
         self.assertEqual(ro1, Rect(Point(r2.origin.x,
-                                    r2.origin.y + r6.size.height),
-                              Size(r2.size.width,
-                                   r2.size.height - r6.size.height)))
+                                         r2.origin.y + r6.size.height),
+                                   Size(r2.size.width,
+                                        r2.size.height - r6.size.height)))
         self.assertEqual(ro2, Rect())
 
         s, ro1, ro2, r = r2.split(r7, Rect.RULE_SAS)
@@ -128,6 +127,7 @@ class TestRect(TestCase):
                                         rs3.size.height - r4.size.height)))
 
         # test LAS
+
     def test_split_las(self):
         r1 = Rect(Point(10, 10), Size(512, 512))
         r2 = Rect(Point(), Size(110, 75))
@@ -220,3 +220,24 @@ class TestRect(TestCase):
                                    Size(r4.size.width, rs3.size.height - r4.size.height)))
         self.assertEqual(r, False)
 
+    def test_split_pick_both(self):
+        r1 = Rect(Point(10, 10), Size(512, 512))
+        r2 = Rect(Point(), Size(110, 75))
+        r3 = Rect(Point(), Size(70, 95))
+        r4 = Rect(Point(), Size(90, 55))
+
+        s, rs1, rs2, r = r1.split(r2, Rect.RULE_PICK_BOTH)
+        self.assertEqual(s, 2)
+        self.assertEqual(rs1, Rect(r1.origin + Point(r2.size.width, 0),
+                                   Size(r1.size.width - r2.size.width, r1.size.height)))
+        self.assertEqual(rs2, Rect(r1.origin + Point(0, r2.size.height),
+                                   Size(r1.size.width, r1.size.height - r2.size.height)))
+        self.assertEqual(r, False)
+
+        s, rs3, rs4, r = rs1.split(r3, Rect.RULE_PICK_BOTH)
+        self.assertEqual(s, 2)
+        self.assertEqual(rs3, Rect(rs1.origin + Point(r3.size.width, 0),
+                                   Size(rs1.size.width - r3.size.width, rs1.size.height)))
+        self.assertEqual(rs4, Rect(rs1.origin + Point(0, r3.size.height),
+                                   Size(rs1.size.width, rs1.size.height - r3.size.height)))
+        self.assertEqual(r, False)
