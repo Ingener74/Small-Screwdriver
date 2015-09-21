@@ -156,14 +156,8 @@ class Rect(object):
         return 2, r1, r2, rotate
 
     def intersection(self, rect):
-        x1 = self.origin.x
-        y1 = self.origin.y
-        x2 = self.origin.x + self.size.width
-        y2 = self.origin.y + self.size.height
-        rx1 = rect.origin.x
-        ry1 = rect.origin.y
-        rx2 = rect.origin.x + rect.size.width
-        ry2 = rect.origin.y + rect.size.height
+        x1, y1, x2, y2 = self.get_x1y1x2y2()
+        rx1, ry1, rx2, ry2 = rect.get_x1y1x2y2()
 
         x1x2_min = min(x1, x2)
         x1x2_max = max(x1, x2)
@@ -173,10 +167,6 @@ class Rect(object):
         nx = 0
         nw = 0
 
-        # if x1x2_max > rx1rx2_min:
-        #     pass
-        # elif x
-
         y1y2_min = min(y1, y2)
         y1y2_max = max(y1, y2)
         ry1ry2_min = min(ry1, ry2)
@@ -185,7 +175,36 @@ class Rect(object):
         ny = 0
         nh = 0
 
+        #
+        #
+        # self   |             |
+        # -------------------------------------------
+        # rect          |            |
+        if x1x2_max > rx1rx2_min:
+            pass
+
+        # self        |        |
+        # -------------------------------------------
+        # rect     |                 |
+        elif x1x2_max > rx1rx2_min:
+            pass
+
+        # self                |             |
+        # -------------------------------------------
+        # rect          |            |
+        elif x1x2_max > rx1rx2_min:
+            pass
+
+        # self   |                      |
+        # -------------------------------------------
+        # rect          |            |
+        elif x1x2_max > rx1rx2_min:
+            pass
+
         return Rect(Point(nx, ny), Size(nw, nh))
+
+    def get_x1y1x2y2(self):
+        return self.origin.x, self.origin.y, self.origin.x + self.size.width, self.origin.y + self.size.height
 
     def __eq__(self, other):
         return self.origin == other.origin and self.size == other.size
