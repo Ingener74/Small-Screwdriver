@@ -155,6 +155,38 @@ class Rect(object):
 
         return 2, r1, r2, rotate
 
+    def intersection(self, rect):
+        x1 = self.origin.x
+        y1 = self.origin.y
+        x2 = self.origin.x + self.size.width
+        y2 = self.origin.y + self.size.height
+        rx1 = rect.origin.x
+        ry1 = rect.origin.y
+        rx2 = rect.origin.x + rect.size.width
+        ry2 = rect.origin.y + rect.size.height
+
+        x1x2_min = min(x1, x2)
+        x1x2_max = max(x1, x2)
+        rx1rx2_min = min(rx1, rx2)
+        rx1rx2_max = max(rx1, rx2)
+
+        nx = 0
+        nw = 0
+
+        # if x1x2_max > rx1rx2_min:
+        #     pass
+        # elif x
+
+        y1y2_min = min(y1, y2)
+        y1y2_max = max(y1, y2)
+        ry1ry2_min = min(ry1, ry2)
+        ry1ry2_max = max(ry1, ry2)
+
+        ny = 0
+        nh = 0
+
+        return Rect(Point(nx, ny), Size(nw, nh))
+
     def __eq__(self, other):
         return self.origin == other.origin and self.size == other.size
 

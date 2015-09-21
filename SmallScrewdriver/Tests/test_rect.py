@@ -241,3 +241,27 @@ class TestRect(TestCase):
         self.assertEqual(rs4, Rect(rs1.origin + Point(0, r3.size.height),
                                    Size(rs1.size.width, rs1.size.height - r3.size.height)))
         self.assertEqual(r, False)
+
+        s, rs5, rs6, r = rs3.split(r4, Rect.RULE_PICK_BOTH)
+        self.assertEqual(s, 2)
+        self.assertEqual(rs5, Rect(rs3.origin + Point(r4.size.width, 0),
+                                   Size(rs3.size.width - r4.size.width, rs3.size.height)))
+        self.assertEqual(rs6, Rect(rs3.origin + Point(0, r4.size.height),
+                                   Size(rs3.size.width, rs3.size.height - r4.size.height)))
+        self.assertEqual(r, False)
+
+    def test_intersection(self):
+
+        r1 = Rect(Point(10, 10), Size(30, 30))
+        r2 = Rect(Point(20, 20), Size(10, 10))
+
+        r = r1.intersection(r2)
+        self.assertEqual(r, r2)
+
+        r3 = Rect(Point(10, 10), Size(20, 40))
+        r4 = Rect(Point(15, 15), Size(15, 15))
+
+        r = r3.intersection(r4)
+        self.assertEqual(r, Rect(Point(15, 15), Size(5, 15)))
+
+
