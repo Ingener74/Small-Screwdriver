@@ -8,7 +8,7 @@ class FirstFitShelfBinPacking(BinPacking):
     def __init__(self, bin_size=DEFAULT_BIN_SIZE, images=None, bin_parameters=None, packing_progress=None,
                  saving_progress=None):
         # Отсеиваем изображения размер которых больше или равен размеру контейнера
-        images = filter(lambda image: image.size.less(bin_size) == (True, True), images)
+        images = filter(lambda image: image.crop.size.less(bin_size) == (True, True), images)
 
         # Ориентируем все изображения по вертикали
         def rotate(image):

@@ -24,14 +24,6 @@ class Rect(object):
     # ... для максимальных прямоугольников
     RULE_PICK_BOTH = 6
 
-    # def __init__(self, *args, **kwargs):
-    #     self.origin = args[0] if len(args) > 0 else kwargs['origin'] if 'origin' in kwargs else Point()
-    #     self.size = args[1] if len(args) > 1 else kwargs['size'] if 'size' in kwargs else Size()
-    #     self.pen = args[2] if len(args) > 2 else kwargs['pen'] if 'pen' in kwargs else QPen()
-    #
-    #     if 'rect' in kwargs:
-    #         self.origin, self.size, self.pen = kwargs['rect'].origin, kwargs['rect'].size, kwargs['rect'].pen
-
     def __init__(self, origin=Point(), size=Size(), pen=QPen(), rect=None):
         self.origin = origin
         self.size = size
@@ -52,14 +44,18 @@ class Rect(object):
 
     def split(self, rect, rule):
         """
-        Разделить прямоугольник
-        :param rect: разделяющий прямоугольник
-        rule - правило для разделения
-        :return: первое поле возвращает число прямоугольников после деления, возможны варианты: 0, 1 и 2
-         второе поле возвращает первый прямоугольник
-         третье поле возврящает второй прямоугольник
-         четвёрное поле возврящает True если прямоугольник пришлось повернуть для того чтобы он влез,
-         False если поворачивать не прилось
+        Разделить прямоугольник.
+        Метод работает сразу для 2-х методов: Гильотины и Максимальных прямоугольников
+        :param
+            rect: разделяющий прямоугольник
+            rule - правило для разделения
+        :return:
+            первое поле возвращает число прямоугольников после деления, возможны варианты: 0, 1 и 2
+            второе поле возвращает первый прямоугольник
+            третье поле возврящает второй прямоугольник
+            четвёрное поле возврящает ...
+                ... True если прямоугольник пришлось повернуть для того чтобы он влез,
+                ... False если поворачивать не пришлось
         """
 
         rect_r = Rect(rect.origin, rect.size.rotate(), rect.pen)
@@ -101,6 +97,13 @@ class Rect(object):
             return 0, Rect(), Rect(), False
 
     def __splitOne(self, rect, horizontal, rotate):
+        """
+        Разделить
+        :param rect:
+        :param horizontal:
+        :param rotate:
+        :return:
+        """
         if horizontal:
             return 1, \
                    Rect(self.origin + Point(0, rect.size.height),
@@ -115,6 +118,13 @@ class Rect(object):
                    rotate
 
     def __splitTwo(self, rect, rule, rotate):
+        """
+        Разделить для метода Гильотины
+        :param rect:
+        :param rule:
+        :param rotate:
+        :return:
+        """
         x1 = 0
         x2 = 0
         if rule is Rect.RULE_SAS or rule is Rect.RULE_LAS:
@@ -150,6 +160,12 @@ class Rect(object):
         return 2, r1, r2, rotate
 
     def __splitTwoPickBoth(self, rect, rotate):
+        """
+        Разделить для метода Максимальных прямоугольников
+        :param rect:
+        :param rotate:
+        :return:
+        """
         h = self.size.height
         w = self.size.width
         rh = rect.size.height
@@ -164,6 +180,11 @@ class Rect(object):
         return 2, r1, r2, rotate
 
     def intersection(self, rect):
+        """
+        Пересечение прямоугольников
+        :param rect:
+        :return:
+        """
         x1, y1, x2, y2 = self.get_x1y1x2y2()
         rx1, ry1, rx2, ry2 = rect.get_x1y1x2y2()
 
