@@ -172,44 +172,20 @@ class Rect(object):
         rx1rx2_min = min(rx1, rx2)
         rx1rx2_max = max(rx1, rx2)
 
-        nx = 0
-        nw = 0
-
         y1y2_min = min(y1, y2)
         y1y2_max = max(y1, y2)
         ry1ry2_min = min(ry1, ry2)
         ry1ry2_max = max(ry1, ry2)
 
-        ny = 0
-        nh = 0
-
-        #
-        #
-        # self   |             |
-        # -------------------------------------------
-        # rect          |            |
-        if x1x2_max > rx1rx2_min:
-            pass
-
-        # self        |        |
-        # -------------------------------------------
-        # rect     |                 |
-        elif x1x2_max > rx1rx2_min:
-            pass
-
-        # self                |             |
-        # -------------------------------------------
-        # rect          |            |
-        elif x1x2_max > rx1rx2_min:
-            pass
-
-        # self   |                      |
-        # -------------------------------------------
-        # rect          |            |
-        elif x1x2_max > rx1rx2_min:
-            pass
+        nx, nw = self.__range(x1x2_min, x1x2_max, rx1rx2_min, rx1rx2_max)
+        ny, nh = self.__range(y1y2_min, y1y2_max, ry1ry2_min, ry1ry2_max)
 
         return Rect(Point(nx, ny), Size(nw, nh))
+
+    @staticmethod
+    def __range(sx1, sx2, rx1, rx2):
+        nx = max(sx1, rx1)
+        return (nx, sx2 - nx) if rx1 <= sx2 <= rx2 else (nx, rx2 - nx) if sx1 <= rx2 <= sx2 else (0, 0)
 
     def get_x1y1x2y2(self):
         return self.origin.x, self.origin.y, self.origin.x + self.size.width, self.origin.y + self.size.height

@@ -262,6 +262,16 @@ class TestRect(TestCase):
         r4 = Rect(Point(15, 15), Size(15, 15))
 
         r = r3.intersection(r4)
-        self.assertEqual(r, Rect(Point(15, 15), Size(5, 15)))
+        self.assertEqual(r, Rect(Point(15, 15), Size(15, 15)))
 
+        r5 = Rect(Point(4, 4), Size(8, 8))
+        r6 = Rect(Point(9, 9), Size(12, 12))
 
+        r = r5.intersection(r6)
+        self.assertEqual(r, Rect(Point(9, 9), Size(3, 3)))
+
+        r7 = Rect(Point(5, 5), Size(5, 5))
+        r8 = Rect(Point(5, 10), Size(10, 10))
+
+        r = r7.intersection(r8)
+        self.assertEqual(r, Rect(Point(5, 10), Size(5, 0)))
