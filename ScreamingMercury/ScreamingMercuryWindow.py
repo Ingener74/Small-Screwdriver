@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:/Users/Pavel/workspace/Small-Screwdriver/ScreamingMercury/ScreamingMercuryWindow.ui'
 #
-# Created: Sat Sep 12 10:33:05 2015
+# Created: Tue Sep 22 23:56:22 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_ScreamingMercury(object):
     def setupUi(self, ScreamingMercury):
         ScreamingMercury.setObjectName("ScreamingMercury")
-        ScreamingMercury.resize(1443, 1009)
+        ScreamingMercury.resize(1342, 1009)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/main/screwdriver.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         ScreamingMercury.setWindowIcon(icon)
@@ -188,7 +188,7 @@ class Ui_ScreamingMercury(object):
         self.horizontalLayout_3.addWidget(self.splitter_2)
 
         self.retranslateUi(ScreamingMercury)
-        self.methodTabWidget.setCurrentIndex(2)
+        self.methodTabWidget.setCurrentIndex(3)
         QtCore.QMetaObject.connectSlotsByName(ScreamingMercury)
 
     def retranslateUi(self, ScreamingMercury):
