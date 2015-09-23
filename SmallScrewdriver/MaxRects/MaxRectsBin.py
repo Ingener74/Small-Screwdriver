@@ -43,6 +43,7 @@ class MaxRectsBin(Bin):
                     fr += [r1, r2]
                     return Bin.addImage(self, image=image)
 
-                elif
+                else:
+                    raise SystemError('Error')
 
         return False

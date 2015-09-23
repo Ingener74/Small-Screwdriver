@@ -86,6 +86,13 @@ class Bin(object):
         with open(binName + '.json', mode='w') as outfile:
             json.dump(obj=json_images, fp=outfile, separators=(',', ':'), indent=4)
 
+    def verify(self):
+        """
+        Верификация изображений в контейнере проверяем что изображения
+        :return:
+        """
+        pass
+
     def __str__(self):
         return '{}({}, {}, {})'.format(self.__class__.__name__, self.origin, self.size, self.images)
 
