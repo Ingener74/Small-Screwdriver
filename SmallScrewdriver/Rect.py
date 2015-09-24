@@ -25,12 +25,7 @@ class Rect(object):
     RULE_PICK_BOTH = 6
 
     def __init__(self, origin=Point(), size=Size(), pen=QPen(), rect=None):
-        self.origin = origin
-        self.size = size
-        self.pen = pen
-
-        if rect and rect != Rect():
-            self.origin, self.size, self.pen = rect.origin, rect.size, rect.pen
+        self.origin, self.size, self.pen = (rect.origin, rect.size, rect.pen) if rect else (origin, size, pen)
 
     def area(self):
         return self.size.area()
