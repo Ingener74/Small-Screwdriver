@@ -1,12 +1,34 @@
 # encoding: utf8
 # Sunday's Iron
 from PySide.QtCore import QDir, QDirIterator
+import sys
 import re
+import time
 
 from termcolor import cprint
 from click import command, option
 
 from SmallScrewdriver import (FirstFitShelfBinPacking, Size, Image)
+
+
+# noinspection PyPep8Naming
+def packProgress(progress, max_progress=40):
+    for i in xrange(0, progress):
+        percent = float(i) / progress
+        hashes = '#' * int(round(percent * max_progress))
+        spaces = ' ' * (max_progress - len(hashes))
+        sys.stdout.write("\rPercent: [{0}] {1}%".format(hashes + spaces, int(round(percent * 100))))
+        sys.stdout.flush()
+
+
+# noinspection PyPep8Naming
+def verifyProgress(progress):
+    pass
+
+
+# noinspection PyPep8Naming
+def savingProgress(progress):
+    pass
 
 
 @command()
@@ -37,5 +59,10 @@ def pack(directory, quiet, algorithm):
     bin_packer.saveAtlases(directory)
 
 if __name__ == '__main__':
-    cprint("Sunday's Iron command line texture packing tool", 'yellow')
-    pack()
+
+    for i in xrange(0, 100):
+        time.sleep(1)
+        packProgress(i)
+
+    # cprint("Sunday's Iron command line texture packing tool", 'yellow')
+    # pack()
