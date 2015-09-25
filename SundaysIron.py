@@ -27,9 +27,9 @@ def verifyProgress(progress):
 
 
 # noinspection PyPep8Naming
-def savingProgress(progress, status):
+def savingProgress(progress):
     verify_progress.end()
-    saving_progress.update(progress=progress, status=status)
+    saving_progress.update(progress=progress)
 
 
 @command()
@@ -56,24 +56,14 @@ def pack(directory, quiet, algorithm):
 
     images = [Image(directory, filename) for filename in filenames]
 
-    bin_packer = FirstFitShelfBinPacking(Size(2048, 2048), images)
+    bin_packer = FirstFitShelfBinPacking(Size(2048, 2048), images, bin_parameters={}, packing_progress=packProgress,
+                                         saving_progress=savingProgress)
     bin_packer.saveAtlases(directory)
+
+    print ''
 
 
 if __name__ == '__main__':
 
-    delay = 0.01
-    for i in xrange(0, 100):
-        packProgress(i)
-        time.sleep(delay)
-
-    for i in xrange(0, 100):
-        verifyProgress(i)
-        time.sleep(delay)
-
-    for i in xrange(0, 100):
-        savingProgress(i, status=ProgressBar.STATUS_ERROR if i > 50 else ProgressBar.STATUS_OK)
-        time.sleep(delay)
-
-        # cprint("Sunday's Iron command line texture packing tool", 'yellow')
-        # pack()
+    cprint("Sunday's Iron command line texture packing tool", 'yellow')
+    pack()
