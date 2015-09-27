@@ -1,5 +1,13 @@
 <RCC>
   <qresource prefix="/main">
+    <file>application_vnd_oasis_opendocument_formula.png</file>
+    <file>applications.png</file>
+    <file>document_save.png</file>
+    <file>package (1).png</file>
+    <file>package.png</file>
+    <file>package_x_generic.png</file>
+    <file>save (1).png</file>
+    <file>save.png</file>
     <file>cog.png</file>
     <file>start.png</file>
     <file>list_add.png</file>

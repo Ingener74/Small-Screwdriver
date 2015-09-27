@@ -5,7 +5,7 @@ from PySide.QtCore import Qt
 from PySide.QtGui import (QPen, QImage, QPainter)
 
 import os
-from SmallScrewdriver import Size, Point
+from SmallScrewdriver import Size, Point, Rect
 
 DEFAULT_BIN_SIZE = Size(256, 256)
 
@@ -86,12 +86,19 @@ class Bin(object):
         with open(binName + '.json', mode='w') as outfile:
             json.dump(obj=json_images, fp=outfile, separators=(',', ':'), indent=4)
 
+    def __verify(self, image0, images):
+        for image in images:
+            if image.intersection(image0) != Rect():
+                pass
+
+        self.__verify(images[0], images[1:])
+
     def verify(self):
         """
-        Верификация изображений в контейнере проверяем что изображения
+        Верификация изображений в контейнере проверяем что изображения в контейнере не накладываются друг на друга
         :return:
         """
-        pass
+        self.__verify(self.images[0], self.images[1:])
 
     def __str__(self):
         return '{}({}, {}, {})'.format(self.__class__.__name__, self.origin, self.size, self.images)
