@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>476</width>
-    <height>146</height>
+    <width>593</width>
+    <height>220</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,6 +35,22 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Верификация</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QProgressBar" name="verificationProgressBar">
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Сохранение</string>
@@ -48,8 +64,6 @@
        </widget>
       </item>
      </layout>
-     <zorder>groupBox</zorder>
-     <zorder>savingProgressBar</zorder>
     </widget>
    </item>
   </layout>
