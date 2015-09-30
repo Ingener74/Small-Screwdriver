@@ -123,7 +123,7 @@ class BinPackingThread(QThread):
 
 
 # noinspection PyPep8Naming
-class SmallScrewdriverWidget(QWidget):
+class DrawBinsWidget(QWidget):
     """
     Виджет для упаковщика текстур
     """
@@ -133,13 +133,7 @@ class SmallScrewdriverWidget(QWidget):
         QWidget.__init__(self, *args, **kwargs)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-        self.directory = None
-        self.images = []
         self.bins = []
-        self.scale = 1.0
-
-        self.bin_packing_thread = BinPackingThread()
-        self.bin_packing_thread.update_bins.connect(self.redrawBins)
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -161,38 +155,6 @@ class SmallScrewdriverWidget(QWidget):
         self.bins = bins
         self.update()
 
-    def setDirectory(self, directory):
-        self.directory = directory
-
-        folder = QDir(path=self.directory)
-        folder.setNameFilters(['*.png'])
-        folder.setFilter(QDir.Files or QDir.NoDotAndDotDot)
-
-        dit = QDirIterator(folder, flags=QDirIterator.Subdirectories, filters=QDir.Files)
-
-        while dit.hasNext():
-            im = folder.relativeFilePath(dit.next())
-            if not re.search('atlas', im):
-                self.images.append(im)
-
-        self.bin_packing_thread.setDirectory(self.directory)
-        self.bin_packing_thread.setImages(self.images)
-
-        self.images_changed.emit(self.images)
-
-    def removeImage(self, index):
-        del self.images[index]
-        self.images_changed.emit(self.images)
-
-    def startBinPacking(self):
-        self.bin_packing_thread.start()
-
-    def binSizeChanged(self, index):
-        self.bin_packing_thread.setBinSize(index)
-
-    def methodChanged(self, index):
-        self.bin_packing_thread.setMethod(index)
-
 
 # noinspection PyPep8Naming
 class ScreamingMercury(QWidget, Ui_ScreamingMercury):
@@ -200,7 +162,7 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         QWidget.__init__(self, parent)
         self.setupUi(self)
 
-        self.small_screwdriver = SmallScrewdriverWidget()
+        self.small_screwdriver = DrawBinsWidget()
         self.work_layout.insertWidget(0, self.small_screwdriver)
 
         self.progress_window = Progress()
@@ -259,14 +221,22 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         # ... масштаб отрисовки
         self.small_screwdriver.scale = float(self.settings.value(SETTINGS_DRAW_SCALE, defaultValue=1.0))
 
+        #
+        self.scale = 1.0
+        self.directory = None
+        self.images = []
+
+        self.bin_packing_thread = BinPackingThread()
+        self.bin_packing_thread.update_bins.connect(self.redrawBins)
+
     def onAddDirectory(self):
         directory = QFileDialog.getExistingDirectory()
         if directory != u'':
-            self.small_screwdriver.setDirectory(directory)
+            self.setDirectory(directory)
 
     def onRemoveImages(self):
         row = self.imageList.currentRow()
-        self.small_screwdriver.removeImage(row)
+        self.removeImage(row)
         self.imageList.setCurrentRow(row)
 
     def onStart(self):
@@ -299,3 +269,38 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.settings.setValue(SETTINGS_SPLIT_RULE, self.splitComboBox.currentIndex())
 
         self.settings.setValue(SETTINGS_DRAW_SCALE, self.small_screwdriver.scale)
+
+    #
+    # from DrawBinsWidget
+    #
+    def setDirectory(self, directory):
+        self.directory = directory
+
+        folder = QDir(path=self.directory)
+        folder.setNameFilters(['*.png'])
+        folder.setFilter(QDir.Files or QDir.NoDotAndDotDot)
+
+        dit = QDirIterator(folder, flags=QDirIterator.Subdirectories, filters=QDir.Files)
+
+        while dit.hasNext():
+            im = folder.relativeFilePath(dit.next())
+            if not re.search('atlas', im):
+                self.images.append(im)
+
+        self.bin_packing_thread.setDirectory(self.directory)
+        self.bin_packing_thread.setImages(self.images)
+
+        self.images_changed.emit(self.images)
+
+    def removeImage(self, index):
+        del self.images[index]
+        self.images_changed.emit(self.images)
+
+    def startBinPacking(self):
+        self.bin_packing_thread.start()
+
+    def binSizeChanged(self, index):
+        self.bin_packing_thread.setBinSize(index)
+
+    def methodChanged(self, index):
+        self.bin_packing_thread.setMethod(index)
