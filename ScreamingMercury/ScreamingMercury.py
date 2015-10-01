@@ -127,8 +127,6 @@ class DrawBinsWidget(QWidget):
     """
     Виджет для упаковщика текстур
     """
-    images_changed = Signal(object)
-
     def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -158,6 +156,8 @@ class DrawBinsWidget(QWidget):
 
 # noinspection PyPep8Naming
 class ScreamingMercury(QWidget, Ui_ScreamingMercury):
+    images_changed = Signal(object)
+
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
         self.setupUi(self)
@@ -168,25 +168,25 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.progress_window = Progress()
         self.settings_window = Settings()
 
+        self.bin_packing_thread = BinPackingThread()
+
         self.addDirectory.clicked.connect(self.onAddDirectory)
         self.removeImage.clicked.connect(self.onRemoveImages)
         self.startPushButton.clicked.connect(self.onStart)
-        self.methodTabWidget.currentChanged.connect(self.small_screwdriver.methodChanged)
-        self.binSizeComboBox.currentIndexChanged.connect(self.small_screwdriver.binSizeChanged)
+        self.methodTabWidget.currentChanged.connect(self.methodChanged)
+        self.binSizeComboBox.currentIndexChanged.connect(self.binSizeChanged)
 
         self.settingsPushButton.clicked.connect(self.settings_window.show)
 
-        self.small_screwdriver.images_changed.connect(self.updateImages)
+        self.images_changed.connect(self.updateImages)
 
-        self.small_screwdriver.bin_packing_thread.bin_packing_available.connect(self.startPushButton.setEnabled)
-        self.small_screwdriver.bin_packing_thread.on_end.connect(self.startPushButton.setEnabled)
-        self.small_screwdriver.bin_packing_thread.on_end.connect(self.progress_window.setHidden)
-        self.small_screwdriver.bin_packing_thread.packing_progress.connect(
-            self.progress_window.binPackingProgressBar.setValue)
-        self.small_screwdriver.bin_packing_thread.saving_progress.connect(
-            self.progress_window.savingProgressBar.setValue)
+        self.bin_packing_thread.bin_packing_available.connect(self.startPushButton.setEnabled)
+        self.bin_packing_thread.on_end.connect(self.startPushButton.setEnabled)
+        self.bin_packing_thread.on_end.connect(self.progress_window.setHidden)
+        self.bin_packing_thread.packing_progress.connect(self.progress_window.binPackingProgressBar.setValue)
+        self.bin_packing_thread.saving_progress.connect(self.progress_window.savingProgressBar.setValue)
 
-        self.startPushButton.setEnabled(self.small_screwdriver.bin_packing_thread.binPackingAvailable())
+        self.startPushButton.setEnabled(self.bin_packing_thread.binPackingAvailable())
 
         # Настройки
         self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
@@ -226,8 +226,7 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.directory = None
         self.images = []
 
-        self.bin_packing_thread = BinPackingThread()
-        self.bin_packing_thread.update_bins.connect(self.redrawBins)
+        self.bin_packing_thread.update_bins.connect(self.small_screwdriver.redrawBins)
 
     def onAddDirectory(self):
         directory = QFileDialog.getExistingDirectory()
@@ -241,7 +240,7 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
 
     def onStart(self):
         self.startPushButton.setEnabled(False)
-        self.small_screwdriver.startBinPacking()
+        self.startBinPacking()
         self.progress_window.show()
 
     def updateImages(self, images):
