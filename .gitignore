@@ -76,3 +76,8 @@ atlas6.png
 atlas4.json
 /doc/node_modules
 atlas7.json
+
+*.js.map
+
+.idea
+

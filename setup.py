@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name="SmallScrewdriver",
-    version="1.0.1",
+    version="1.0.2",
     packages=['SmallScrewdriver', 'ScreamingMercury'],
     scripts=['ScreamingMercury.py', 'SundaysIron.py'],
     install_requires=['PySide>=1.2.1',
