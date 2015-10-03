@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ScreamingMercury/SettingsWindow.ui'
+# Form implementation generated from reading ui file 'C:/Users/Pavel/workspace/Small-Screwdriver/ScreamingMercury/SettingsWindow.ui'
 #
-# Created: Mon Sep 21 15:54:04 2015
+# Created: Sat Oct 03 20:18:00 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,9 +12,9 @@ from PySide import QtCore, QtGui
 class Ui_SettingsWindow(object):
     def setupUi(self, SettingsWindow):
         SettingsWindow.setObjectName("SettingsWindow")
-        SettingsWindow.resize(355, 145)
+        SettingsWindow.resize(415, 145)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/main/cog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/main/images/cog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         SettingsWindow.setWindowIcon(icon)
         self.verticalLayout_2 = QtGui.QVBoxLayout(SettingsWindow)
         self.verticalLayout_2.setObjectName("verticalLayout_2")

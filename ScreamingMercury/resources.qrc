@@ -1,17 +1,17 @@
 <RCC>
   <qresource prefix="/main">
-    <file>application_vnd_oasis_opendocument_formula.png</file>
-    <file>applications.png</file>
-    <file>document_save.png</file>
-    <file>package (1).png</file>
-    <file>package.png</file>
-    <file>package_x_generic.png</file>
-    <file>save (1).png</file>
-    <file>save.png</file>
-    <file>cog.png</file>
-    <file>start.png</file>
-    <file>list_add.png</file>
-    <file>trash_green_full.png</file>
-    <file>screwdriver.png</file>
+    <file>images/application_vnd_oasis_opendocument_formula.png</file>
+    <file>images/applications.png</file>
+    <file>images/cog.png</file>
+    <file>images/document_save.png</file>
+    <file>images/list_add.png</file>
+    <file>images/package (1).png</file>
+    <file>images/package.png</file>
+    <file>images/package_x_generic.png</file>
+    <file>images/save (1).png</file>
+    <file>images/save.png</file>
+    <file>images/screwdriver.png</file>
+    <file>images/start.png</file>
+    <file>images/trash_green_full.png</file>
   </qresource>
 </RCC>

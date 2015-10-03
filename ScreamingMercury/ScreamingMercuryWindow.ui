@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/main/screwdriver.png</normaloff>:/main/screwdriver.png</iconset>
+    <normaloff>:/main/images/screwdriver.png</normaloff>:/main/images/screwdriver.png</iconset>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_3">
    <item>
@@ -46,7 +46,7 @@
              <string>Добавить</string>
             </property>
             <property name="icon">
-             <iconset resource="resources.qrc">
+             <iconset>
               <normaloff>:/main/list_add.png</normaloff>:/main/list_add.png</iconset>
             </property>
             <property name="iconSize">
@@ -69,7 +69,7 @@
              <string>Убрать</string>
             </property>
             <property name="icon">
-             <iconset resource="resources.qrc">
+             <iconset>
               <normaloff>:/main/trash_green_full.png</normaloff>:/main/trash_green_full.png</iconset>
             </property>
             <property name="iconSize">
@@ -401,7 +401,7 @@
             </property>
             <property name="icon">
              <iconset resource="resources.qrc">
-              <normaloff>:/main/cog.png</normaloff>:/main/cog.png</iconset>
+              <normaloff>:/main/images/cog.png</normaloff>:/main/images/cog.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -421,7 +421,7 @@
             </property>
             <property name="icon">
              <iconset resource="resources.qrc">
-              <normaloff>:/main/start.png</normaloff>:/main/start.png</iconset>
+              <normaloff>:/main/images/start.png</normaloff>:/main/images/start.png</iconset>
             </property>
             <property name="iconSize">
              <size>

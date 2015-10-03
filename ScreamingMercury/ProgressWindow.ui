@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/main/screwdriver.png</normaloff>:/main/screwdriver.png</iconset>
+    <normaloff>:/main/images/screwdriver.png</normaloff>:/main/images/screwdriver.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>

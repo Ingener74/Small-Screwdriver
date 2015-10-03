@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:/Users/Pavel/workspace/Small-Screwdriver/ScreamingMercury/ProgressWindow.ui'
 #
-# Created: Sun Sep 27 21:52:02 2015
+# Created: Sat Oct 03 20:17:39 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -14,7 +14,7 @@ class Ui_ProgressWindow(object):
         ProgressWindow.setObjectName("ProgressWindow")
         ProgressWindow.resize(593, 220)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/main/screwdriver.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/main/images/screwdriver.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         ProgressWindow.setWindowIcon(icon)
         self.verticalLayout_2 = QtGui.QVBoxLayout(ProgressWindow)
         self.verticalLayout_2.setObjectName("verticalLayout_2")

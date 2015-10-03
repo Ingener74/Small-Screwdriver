@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:/Users/Pavel/workspace/Small-Screwdriver/ScreamingMercury/ScreamingMercuryWindow.ui'
 #
-# Created: Tue Sep 22 23:56:22 2015
+# Created: Sat Oct 03 20:17:48 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -14,7 +14,7 @@ class Ui_ScreamingMercury(object):
         ScreamingMercury.setObjectName("ScreamingMercury")
         ScreamingMercury.resize(1342, 1009)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/main/screwdriver.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/main/images/screwdriver.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         ScreamingMercury.setWindowIcon(icon)
         self.horizontalLayout_3 = QtGui.QHBoxLayout(ScreamingMercury)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
@@ -164,7 +164,7 @@ class Ui_ScreamingMercury(object):
         self.settingsPushButton = QtGui.QPushButton(self.layoutWidget)
         self.settingsPushButton.setText("")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/main/cog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap(":/main/images/cog.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.settingsPushButton.setIcon(icon3)
         self.settingsPushButton.setIconSize(QtCore.QSize(36, 36))
         self.settingsPushButton.setObjectName("settingsPushButton")
@@ -172,7 +172,7 @@ class Ui_ScreamingMercury(object):
         self.startPushButton = QtGui.QPushButton(self.layoutWidget)
         self.startPushButton.setText("")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap(":/main/start.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap(":/main/images/start.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.startPushButton.setIcon(icon4)
         self.startPushButton.setIconSize(QtCore.QSize(72, 72))
         self.startPushButton.setObjectName("startPushButton")
