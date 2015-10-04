@@ -36,10 +36,12 @@ def savingProgress(progress):
 @option('--directory', default='.', help='working directory')
 @option('--quiet', default=False, help='pack atlases quietly')
 @option('--algorithm', default='MaxRects', help='NextFitShelf, FirstFitShelf, Guillotine, MaxRects(default)')
-def pack(directory, quiet, algorithm):
+@option('--size', default='2048x2048', help='256x256, 512x512, 1024x1024, 2048x2048, 4096x4096, 8192x8192')
+def pack(directory, quiet, algorithm, size):
     cprint('working directory {}'.format(directory), color='green')
     cprint('quiet {}'.format(quiet), color='green')
     cprint('algorithm {}'.format(algorithm), color='green')
+    cprint('size {}'.format(size))
 
     folder = QDir(path=directory)
     folder.setNameFilters(['*.png'])
