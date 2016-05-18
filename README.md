@@ -15,3 +15,7 @@ SPA Web фронтенд для Small Screwdriver
 * бэкенд Flask/PySide/Python
 
 * фронтенд React.js/Bootstrap/Browserify/CoffeeScript
+
+![Github Logo](/doc/1.png)
+![Github Logo](/doc/2.png)
+
