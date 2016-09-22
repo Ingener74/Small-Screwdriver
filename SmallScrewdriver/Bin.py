@@ -6,16 +6,18 @@ from PySide.QtGui import (QPen, QImage, QPainter)
 
 import os
 from SmallScrewdriver import Size, Point, Rect
+from Exporters import Exporter
 
 DEFAULT_BIN_SIZE = Size(256, 256)
 
 
 # noinspection PyPep8Naming
 class Bin(object):
-
     DRAW_MODE_NORMAL = 0
     DRAW_MODE_DEBUG = 1
     DRAW_MODE_RELEASE = 2
+
+    exporter = Exporter()
 
     def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(0, 0), bin_parameters=None):
         self.origin = origin
@@ -59,7 +61,7 @@ class Bin(object):
             # image.draw(painter=painter, offset=self.origin)
             image.draw(painter=painter, offset=offset)
 
-    def save(self, binName):
+    def save(self, bin_name):
         # Создаём изображение для контейнера
         image = QImage(self.size.width, self.size.height, QImage.Format_ARGB32)
 
@@ -67,7 +69,7 @@ class Bin(object):
         painter = QPainter(image)
         self.draw(painter, Point(), draw_mode=self.DRAW_MODE_RELEASE)
 
-        bin_file_name = binName + '.png'
+        bin_file_name = bin_name + '.png'
 
         # Если изображение для контейнера существует, удаляем
         if os.path.exists(bin_file_name):
@@ -77,14 +79,7 @@ class Bin(object):
         image.save(bin_file_name)
         painter.end()
 
-        # Собираем json файл для контейнера
-        json_images = []
-        for i in self.images:
-            json_images.append(i.toJson())
-
-        # Сохраняем json файл для контейнера
-        with open(binName + '.json', mode='w') as outfile:
-            json.dump(obj=json_images, fp=outfile, separators=(',', ':'), indent=4)
+        Bin.exporter.export(bin_name, self.size, self.images)
 
     def __verify(self, image0, images):
         for image in images:

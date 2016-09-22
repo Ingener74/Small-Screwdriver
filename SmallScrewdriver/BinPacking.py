@@ -3,13 +3,27 @@ from SmallScrewdriver import DEFAULT_BIN_SIZE, Point
 from abc import abstractmethod
 
 
+class BinPackingProgress(object):
+    def __init__(self):
+        pass
+
+    def packing_progress(self, percent):
+        pass
+
+    def saving_progress(self, percent):
+        pass
+
+    def verify_progress(self, percent):
+        pass
+
+
 # noinspection PyPep8Naming,PyShadowingBuiltins
 class BinPacking(object):
-    def __init__(self, bin_size=DEFAULT_BIN_SIZE, images=None, bin_parameters=None, packing_progress=None, saving_progress=None):
-        self.bins = []
 
-        self.packingProgress = packing_progress
-        self.savingProgress = saving_progress
+    bin_packing_progress = BinPackingProgress()
+
+    def __init__(self, bin_size=DEFAULT_BIN_SIZE, images=None, bin_parameters=None):
+        self.bins = []
 
         # Первый контейнер
         self._newBin(size=bin_size, origin=Point(), bin_parameters=bin_parameters)
@@ -24,8 +38,7 @@ class BinPacking(object):
 
                 # ... пробуем поместить изображение в контейнер ...
                 if bin.addImage(image):
-
-                    self.__packingProgress(100 * index / len(images))
+                    BinPacking.bin_packing_progress.packing_progress(100 * index / len(images))
 
                     # ... если получилось, идём к следующему изображению ...
                     break
@@ -35,27 +48,19 @@ class BinPacking(object):
 
                 # ... и пробуем поместить в него ...
                 if bin.addImage(image):
-                    self.__packingProgress(100 * index / len(images))
+                    BinPacking.bin_packing_progress.packing_progress(100 * index / len(images))
                 else:
                     # ... и если не получается значит произошла ...
                     raise SystemError(u'Какая та хуйня')
 
-        self.__packingProgress(100)
+        BinPacking.bin_packing_progress.packing_progress(100)
 
     def saveAtlases(self, directory):
         for i, b in enumerate(self.bins):
-            self.__savingProgress(100 * i / len(self.bins))
-            b.save(directory + '/atlas' + str(i))
+            BinPacking.bin_packing_progress.saving_progress(100 * i / len(self.bins))
+            b.save(directory + 'atlas' + str(i))
 
-        self.__savingProgress(100)
-
-    def __packingProgress(self, progress):
-        if self.packingProgress:
-            self.packingProgress(progress)
-
-    def __savingProgress(self, progress):
-        if self.savingProgress:
-            self.savingProgress(progress)
+        BinPacking.bin_packing_progress.saving_progress(100)
 
     @abstractmethod
     def _newBin(self, size, origin, bin_parameters):

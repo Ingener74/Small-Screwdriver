@@ -6,7 +6,9 @@ from PySide.QtCore import (Qt, QSettings, QDir, QDirIterator, Signal, QThread)
 from PySide.QtGui import (QWidget, QFileDialog, QSizePolicy, QPainter, QTransform)
 
 from SmallScrewdriver import (Point, Size, Rect, Image, GuillotineBinPacking, MaxRectsBinPacking,
-                              NextFitShelfBinPacking, FirstFitShelfBinPacking, GuillotineBin, FirstFitShelfBin)
+                              NextFitShelfBinPacking, FirstFitShelfBinPacking, GuillotineBin, FirstFitShelfBin,
+                              Bin, JupiterExporter, PListExporter,
+                              BinPacking, BinPackingProgress)
 from ScreamingMercuryWindow import (Ui_ScreamingMercury)
 from Settings import (Settings)
 from Progress import (Progress)
@@ -29,37 +31,58 @@ SETTINGS_SPLIT_RULE = 'SplitRule'
 
 SETTINGS_DRAW_SCALE = 'DrawScale'
 
+SETTINGS_OUTPUT_FORMAT = 'OutputFormat'
+
+
+EXPORTERS = (
+    JupiterExporter,
+    PListExporter
+)
+
 
 # noinspection PyPep8Naming
-class BinPackingThread(QThread):
+class BinPackingThread(QThread, BinPackingProgress):
     """
     Поток обработки изображений вне GUI потока
     """
-    METHODS = ({'name': 'next_fit_shelf',
-                'type': NextFitShelfBinPacking},
-               {'name': 'first_fit_shelf',
-                'type': FirstFitShelfBinPacking},
-               {'name': 'guillotine',
-                'type': GuillotineBinPacking},
-               {'name': 'max_rects',
-                'type': MaxRectsBinPacking})
+    METHODS = (
+        {
+            'name': 'next_fit_shelf',
+            'type': NextFitShelfBinPacking
+        }, {
+            'name': 'first_fit_shelf',
+            'type': FirstFitShelfBinPacking
+        }, {
+            'name': 'guillotine',
+            'type': GuillotineBinPacking
+        }, {
+            'name': 'max_rects',
+            'type': MaxRectsBinPacking
+        }
+    )
 
-    SIZES = (Size(256, 256),
-             Size(512, 512),
-             Size(1024, 1024),
-             Size(2048, 2048),
-             Size(4096, 4096),
-             Size(8192, 8192))
+    SIZES = (
+        Size(256, 256),
+        Size(512, 512),
+        Size(1024, 1024),
+        Size(2048, 2048),
+        Size(4096, 4096),
+        Size(8192, 8192)
+    )
 
     bin_packing_available = Signal(bool)
     update_bins = Signal(Rect)
 
-    packing_progress = Signal(int)
-    saving_progress = Signal(int)
+    packing_progress_signal = Signal(int)
+    saving_progress_signal = Signal(int)
+    verify_progress_signal = Signal(int)
     on_end = Signal(bool)
 
     def __init__(self):
         QThread.__init__(self)
+
+        Bin.exporter = JupiterExporter()
+        BinPacking.bin_packing_progress = self
 
         self.directory = None
         self.images = []
@@ -100,26 +123,33 @@ class BinPackingThread(QThread):
     def setBinSize(self, index):
         self.bin_size = BinPackingThread.SIZES[index]
 
+    @staticmethod
+    def set_exporter(index):
+        Bin.exporter = EXPORTERS[index]()
+
     def run(self):
         if not self.directory or not len(self.images):
             return
 
-        self.packing_progress.emit(0)
-        self.saving_progress.emit(0)
+        self.packing_progress_signal.emit(0)
+        self.saving_progress_signal.emit(0)
 
-        bin_packing = self.method['type'](self.bin_size, [Image(self.directory, image) for image in self.images],
-                                          bin_parameters=self.bin_parameter[self.method['name']],
-                                          packing_progress=self.packingProgress, saving_progress=self.savingProgress)
-        bin_packing.saveAtlases(self.directory)
+        bin_packing = self.method['type'](self.bin_size,
+                                          [Image(self.directory, image) for image in self.images],
+                                          bin_parameters=self.bin_parameter[self.method['name']])
+        bin_packing.saveAtlases(self.directory + QDir.separator())
 
         self.update_bins.emit(bin_packing.bins)
         self.on_end.emit(True)
 
-    def packingProgress(self, progress):
-        self.packing_progress.emit(progress)
+    def packing_progress(self, percent):
+        self.packing_progress_signal.emit(percent)
 
-    def savingProgress(self, progress):
-        self.saving_progress.emit(progress)
+    def saving_progress(self, percent):
+        self.saving_progress_signal.emit(percent)
+
+    def verify_progress(self, percent):
+        pass
 
 
 # noinspection PyPep8Naming
@@ -127,6 +157,7 @@ class DrawBinsWidget(QWidget):
     """
     Виджет отрисовки контейнеров
     """
+
     def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -182,49 +213,50 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.bin_packing_thread.bin_packing_available.connect(self.startPushButton.setEnabled)
         self.bin_packing_thread.on_end.connect(self.startPushButton.setEnabled)
         self.bin_packing_thread.on_end.connect(self.progress_window.setHidden)
-        self.bin_packing_thread.packing_progress.connect(self.progress_window.binPackingProgressBar.setValue)
-        self.bin_packing_thread.saving_progress.connect(self.progress_window.savingProgressBar.setValue)
+        self.bin_packing_thread.packing_progress_signal.connect(self.progress_window.binPackingProgressBar.setValue)
+        self.bin_packing_thread.saving_progress_signal.connect(self.progress_window.savingProgressBar.setValue)
 
         self.startPushButton.setEnabled(self.bin_packing_thread.binPackingAvailable())
 
-        # Настройки
-        self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
-
-        # Востанавливаем ...
-        # ... геометрию окна
-        self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY))
-        self.splitter.restoreState(self.settings.value(SETTINGS_SPLITTER1))
-        self.splitter_2.restoreState(self.settings.value(SETTINGS_SPLITTER2))
-
-        # ... размер контейнера
-        self.binSizeComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SIZE, defaultValue=0)))
-
-        # ... метод упаковки
-        self.methodTabWidget.setCurrentIndex(int(self.settings.value(SETTINGS_METHOD, defaultValue=0)))
-
-        # ... вариант упоковки от лучшего варианта или от худшего
-        self.firstFitShelfVariantComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_FIRST_FIT_VARIANT,
-                                                                                  defaultValue=0)))
-        # ... эвристику упаковки
-        self.firstFitShelfHeuristicComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_FIRST_FIT_HEURISTIC,
-                                                                                    defaultValue=0)))
-
-        # ... вариант для гильотины
-        self.guillotineVariantComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_VARIANT, defaultValue=0)))
-        # ... эвристику для гильотины
-        self.guillotineHeuristicComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_HEURISTIC, defaultValue=0)))
-
-        # ... правило разделения гильотиной
-        self.splitComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SPLIT_RULE, defaultValue=0)))
-
-        # ... масштаб отрисовки
-        self.small_screwdriver.scale = float(self.settings.value(SETTINGS_DRAW_SCALE, defaultValue=1.0))
+        self.restoreSettings()
 
         #
         self.directory = None
         self.images = []
 
         self.bin_packing_thread.update_bins.connect(self.small_screwdriver.redrawBins)
+
+        self.outputFormatComboBox.currentIndexChanged.connect(BinPackingThread.set_exporter)
+        BinPackingThread.set_exporter(self.outputFormatComboBox.currentIndex())
+
+    def restoreSettings(self):
+        # Настройки
+        self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
+        # Востанавливаем ...
+        # ... геометрию окна
+        self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY))
+        self.splitter.restoreState(self.settings.value(SETTINGS_SPLITTER1))
+        self.splitter_2.restoreState(self.settings.value(SETTINGS_SPLITTER2))
+        # ... размер контейнера
+        self.binSizeComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SIZE, defaultValue=0)))
+        # ... метод упаковки
+        self.methodTabWidget.setCurrentIndex(int(self.settings.value(SETTINGS_METHOD, defaultValue=0)))
+        # ... вариант упоковки от лучшего варианта или от худшего
+        self.firstFitShelfVariantComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_FIRST_FIT_VARIANT,
+                                                                                  defaultValue=0)))
+        # ... эвристику упаковки
+        self.firstFitShelfHeuristicComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_FIRST_FIT_HEURISTIC,
+                                                                                    defaultValue=0)))
+        # ... вариант для гильотины
+        self.guillotineVariantComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_VARIANT, defaultValue=0)))
+        # ... эвристику для гильотины
+        self.guillotineHeuristicComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_HEURISTIC, defaultValue=0)))
+        # ... правило разделения гильотиной
+        self.splitComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_SPLIT_RULE, defaultValue=0)))
+        # ... масштаб отрисовки
+        self.small_screwdriver.scale = float(self.settings.value(SETTINGS_DRAW_SCALE, defaultValue=1.0))
+
+        self.outputFormatComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_OUTPUT_FORMAT, defaultValue=0)))
 
     def onAddDirectory(self):
         directory = QFileDialog.getExistingDirectory()
@@ -285,3 +317,5 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.settings.setValue(SETTINGS_SPLIT_RULE, self.splitComboBox.currentIndex())
 
         self.settings.setValue(SETTINGS_DRAW_SCALE, self.small_screwdriver.scale)
+
+        self.settings.setValue(SETTINGS_OUTPUT_FORMAT, self.outputFormatComboBox.currentIndex())

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1342</width>
-    <height>1009</height>
+    <width>300</width>
+    <height>956</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,7 @@
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="QGroupBox" name="groupBox_2">
+      <widget class="QGroupBox" name="imagesGroupBox">
        <property name="title">
         <string>Изображения</string>
        </property>
@@ -90,7 +90,30 @@
       <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QGroupBox" name="groupBox">
+         <widget class="QGroupBox" name="outputFormatGroupBox">
+          <property name="title">
+           <string>Выходной формат</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_11">
+           <item>
+            <widget class="QComboBox" name="outputFormatComboBox">
+             <item>
+              <property name="text">
+               <string>Jupiter</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Cocos2D-x plist</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="atlasSizeGroupBox">
           <property name="title">
            <string>Максимальный размер атласов</string>
           </property>
@@ -380,7 +403,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <layout class="QHBoxLayout" name="buttonsHorizontalLayout">
           <item>
            <spacer name="horizontalSpacer">
             <property name="orientation">
