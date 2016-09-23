@@ -18,7 +18,7 @@ class PListExporter(Exporter):
                 'spriteSourceSize': '{' + str(image_dict['original_size']['width']) + ',' + str(image_dict['original_size']['height']) + '}',
                 'textureRect': '{{' + str(image_dict['offset']['x']) + ',' + str(image_dict['offset']['x']) + '},{' +
                                str(image_dict['crop']['size']['width']) + ',' + str(image_dict['crop']['size']['height']) + '}}',
-                'textureRotated': False
+                'textureRotated': image_dict['rotated']
             }
 
         frames = {
