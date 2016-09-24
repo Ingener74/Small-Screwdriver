@@ -22,7 +22,7 @@ class Image(Rect):
 
         Rect.__init__(self, Point(), Size(image.width(), image.height()))
 
-        self.image, x, y, width, height = crop_image(image, 50)
+        self.image, x, y, width, height = crop_image(image, 10)
         self.crop = Rect(Point(x, y), Size(width, height))
 
         self.rotated = False
