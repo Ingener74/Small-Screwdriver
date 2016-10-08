@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>593</width>
-    <height>220</height>
+    <width>133</width>
+    <height>289</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,6 +18,22 @@
     <normaloff>:/main/images/screwdriver.png</normaloff>:/main/images/screwdriver.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QGroupBox" name="prepareGroupBox">
+     <property name="title">
+      <string>Подготовка</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QProgressBar" name="prepareProgressBar">
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">

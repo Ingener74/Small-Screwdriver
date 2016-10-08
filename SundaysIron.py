@@ -8,28 +8,41 @@ from PySide.QtCore import QDir, QDirIterator
 from SundaysIron import ProgressBar
 from termcolor import cprint
 from click import command, option
-from SmallScrewdriver import (FirstFitShelfBinPacking, Size, Image)
+from SmallScrewdriver import (BinPacking, BinPackingProgress, FirstFitShelfBinPacking, NextFitShelfBinPacking,
+                              GuillotineBinPacking, MaxRectsBinPacking, Size, Image)
 
+METHODS = (
+    {
+        'name': 'next_fit_shelf',
+        'type': NextFitShelfBinPacking
+    }, {
+        'name': 'first_fit_shelf',
+        'type': FirstFitShelfBinPacking
+    }, {
+        'name': 'guillotine',
+        'type': GuillotineBinPacking
+    }, {
+        'name': 'max_rects',
+        'type': MaxRectsBinPacking
+    }
+)
+
+prepare_progress = ProgressBar("Prepare : ", max_value=80)
 pack_progress = ProgressBar("Packing : ", max_value=80)
 verify_progress = ProgressBar("Verify  : ", max_value=80)
 saving_progress = ProgressBar("Saving  : ", max_value=80)
 
+class MyBinPackingProgress(BinPackingProgress):
+    def packing_progress(self, percent):
+        pack_progress.update(progress=percent)
 
-# noinspection PyPep8Naming
-def packProgress(progress):
-    pack_progress.update(progress=progress)
+    def verify_progress(self, percent):
+        pack_progress.end()
+        verify_progress.update(progress=percent)
 
-
-# noinspection PyPep8Naming
-def verifyProgress(progress):
-    pack_progress.end()
-    verify_progress.update(progress=progress)
-
-
-# noinspection PyPep8Naming
-def savingProgress(progress):
-    verify_progress.end()
-    saving_progress.update(progress=progress)
+    def saving_progress(self, percent):
+        verify_progress.end()
+        saving_progress.update(progress=percent)
 
 
 @command()
@@ -58,8 +71,9 @@ def pack(directory, quiet, algorithm, size):
 
     images = [Image(directory, filename) for filename in filenames]
 
-    bin_packer = FirstFitShelfBinPacking(Size(2048, 2048), images, bin_parameters={}, packing_progress=packProgress,
-                                         saving_progress=savingProgress)
+    BinPacking.bin_packing_progress = MyBinPackingProgress()
+
+    bin_packer = FirstFitShelfBinPacking(Size(2048, 2048), images, bin_parameters={})
     bin_packer.saveAtlases(directory)
 
     print ''

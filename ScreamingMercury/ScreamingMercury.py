@@ -33,6 +33,8 @@ SETTINGS_DRAW_SCALE = 'DrawScale'
 
 SETTINGS_OUTPUT_FORMAT = 'OutputFormat'
 
+SETTINGS_DIRECTORY = 'InputDirectory'
+
 
 EXPORTERS = (
     JupiterExporter,
@@ -73,6 +75,7 @@ class BinPackingThread(QThread, BinPackingProgress):
     bin_packing_available = Signal(bool)
     update_bins = Signal(Rect)
 
+    prepare_progress_signal = Signal(int)
     packing_progress_signal = Signal(int)
     saving_progress_signal = Signal(int)
     verify_progress_signal = Signal(int)
@@ -131,11 +134,17 @@ class BinPackingThread(QThread, BinPackingProgress):
         if not self.directory or not len(self.images):
             return
 
+        self.prepare_progress_signal.emit(0)
         self.packing_progress_signal.emit(0)
         self.saving_progress_signal.emit(0)
 
+        images = []
+        for i, image in enumerate(self.images):
+            self.prepare_progress_signal.emit(int(100 * float(i) / float(len(self.images))))
+            images.append(Image(self.directory, image))
+
         bin_packing = self.method['type'](self.bin_size,
-                                          [Image(self.directory, image) for image in self.images],
+                                          images,
                                           bin_parameters=self.bin_parameter[self.method['name']])
         bin_packing.saveAtlases(self.directory + QDir.separator())
 
@@ -188,9 +197,11 @@ class DrawBinsWidget(QWidget):
 
 # noinspection PyPep8Naming
 class ScreamingMercury(QWidget, Ui_ScreamingMercury):
-    def __init__(self, parent=None):
+    def __init__(self, delegate, parent=None):
         QWidget.__init__(self, parent)
         self.setupUi(self)
+
+        self.delegate = delegate
 
         self.small_screwdriver = DrawBinsWidget()
         self.work_layout.insertWidget(0, self.small_screwdriver)
@@ -206,6 +217,8 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.methodTabWidget.currentChanged.connect(self.bin_packing_thread.setMethod)
         self.binSizeComboBox.currentIndexChanged.connect(self.bin_packing_thread.setBinSize)
 
+        self.clearPushButton.clicked.connect(self.delegate.on_remove_all_images)
+
         self.settingsPushButton.clicked.connect(self.settings_window.show)
 
         # self.images_changed.connect(self.updateImages)
@@ -213,16 +226,20 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.bin_packing_thread.bin_packing_available.connect(self.startPushButton.setEnabled)
         self.bin_packing_thread.on_end.connect(self.startPushButton.setEnabled)
         self.bin_packing_thread.on_end.connect(self.progress_window.setHidden)
+        self.bin_packing_thread.prepare_progress_signal.connect(self.progress_window.prepareProgressBar.setValue)
         self.bin_packing_thread.packing_progress_signal.connect(self.progress_window.binPackingProgressBar.setValue)
         self.bin_packing_thread.saving_progress_signal.connect(self.progress_window.savingProgressBar.setValue)
 
+
         self.startPushButton.setEnabled(self.bin_packing_thread.binPackingAvailable())
+
+        self.directory = None
+        self.images = []
 
         self.restoreSettings()
 
-        #
-        self.directory = None
-        self.images = []
+        if self.directory:
+            self.harvestDirectory(self.directory)
 
         self.bin_packing_thread.update_bins.connect(self.small_screwdriver.redrawBins)
 
@@ -232,6 +249,9 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
     def restoreSettings(self):
         # Настройки
         self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
+
+        print self.settings.fileName()
+
         # Востанавливаем ...
         # ... геометрию окна
         self.restoreGeometry(self.settings.value(SETTINGS_GEOMETRY))
@@ -258,26 +278,34 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
 
         self.outputFormatComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_OUTPUT_FORMAT, defaultValue=0)))
 
+        self.directory = self.settings.value(SETTINGS_DIRECTORY, defaultValue=None)
+
     def onAddDirectory(self):
-        directory = QFileDialog.getExistingDirectory()
+        directory = QFileDialog.getExistingDirectory(caption='Select image directory', dir=self.directory)
         if directory != u'':
             self.directory = directory
 
-            folder = QDir(path=self.directory)
-            folder.setNameFilters(['*.png'])
-            folder.setFilter(QDir.Files or QDir.NoDotAndDotDot)
+            self.harvestDirectory(self.directory)
 
-            dit = QDirIterator(folder, flags=QDirIterator.Subdirectories, filters=QDir.Files)
+    def resetDirectory(self):
+        self.directory = None
+        self.images = []
+        self.bin_packing_thread.setDirectory(self.directory)
+        self.bin_packing_thread.setImages(self.images)
+        self.updateImages(self.images)
 
-            while dit.hasNext():
-                im = folder.relativeFilePath(dit.next())
-                if not re.search('atlas', im):
-                    self.images.append(im)
-
-            self.bin_packing_thread.setDirectory(self.directory)
-            self.bin_packing_thread.setImages(self.images)
-
-            self.updateImages(self.images)
+    def harvestDirectory(self, directory):
+        folder = QDir(path=directory)
+        folder.setNameFilters(['*.png'])
+        folder.setFilter(QDir.Files or QDir.NoDotAndDotDot)
+        dit = QDirIterator(folder, flags=QDirIterator.Subdirectories, filters=QDir.Files)
+        while dit.hasNext():
+            im = folder.relativeFilePath(dit.next())
+            if not re.search('atlas', im):
+                self.images.append(im)
+        self.bin_packing_thread.setDirectory(self.directory)
+        self.bin_packing_thread.setImages(self.images)
+        self.updateImages(self.images)
 
     def onRemoveImages(self):
         row = self.imageList.currentRow()
@@ -319,3 +347,5 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.settings.setValue(SETTINGS_DRAW_SCALE, self.small_screwdriver.scale)
 
         self.settings.setValue(SETTINGS_OUTPUT_FORMAT, self.outputFormatComboBox.currentIndex())
+
+        self.settings.setValue(SETTINGS_DIRECTORY, self.directory)

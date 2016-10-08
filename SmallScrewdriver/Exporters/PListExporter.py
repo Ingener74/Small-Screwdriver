@@ -12,8 +12,17 @@ class PListExporter(Exporter):
         for i in images:
             image_dict = i.toJson()
 
-            offset_x = image_dict['original_size']['width']/2 - (image_dict['crop']['origin']['x'] + image_dict['crop']['size']['width']/2)
-            offset_y = image_dict['original_size']['height']/2 - (image_dict['crop']['origin']['y'] + image_dict['crop']['size']['height']/2)
+            ow = image_dict['original_size']['width']
+            oh = image_dict['original_size']['height']
+
+            tw = image_dict['crop']['size']['width']
+            th = image_dict['crop']['size']['height']
+
+            tx = image_dict['crop']['origin']['x']
+            ty = image_dict['original_size']['height'] - (image_dict['crop']['origin']['y'] + image_dict['crop']['size']['height'])
+
+            offset_x = (tx + tw / 2) - ow / 2
+            offset_y = (ty + th / 2) - oh / 2
 
             json_images[image_dict['filename']] = {
                 'aliases': [],
@@ -45,7 +54,6 @@ class PListExporter(Exporter):
                 'premultiplyAlpha': False,
                 'realTextureFileName': bin_name_png,
                 'size': '{' + str(bin_size.width) + ',' + str(bin_size.height) + '}',
-                'smartupdate': '',
                 'textureFileName': bin_name_png
             }
         }

@@ -14,6 +14,8 @@ class Image(Rect):
     self.crop   - область изображения взятого из оригинала после обрезания прозрачных краёв
     """
 
+    BorderPadding = 1
+
     def __init__(self, directory, filename):
         self.directory = directory
         self.filename = filename
@@ -22,7 +24,7 @@ class Image(Rect):
 
         Rect.__init__(self, Point(), Size(image.width(), image.height()))
 
-        self.image, x, y, width, height = crop_image(image, 10)
+        cropped_image, x, y, width, height = crop_image(image, 10)
         self.crop = Rect(Point(x, y), Size(width, height))
 
         self.rotated = False
@@ -31,16 +33,18 @@ class Image(Rect):
         return self.crop.area()
 
     def draw(self, painter, offset=Point()):
+        cropped_image, x, y, width, height = crop_image(QImage(self.directory + QDir.separator() + self.filename), 10)
+
         origin_offset = QPoint(self.origin.x + offset.x, self.origin.y + offset.y)
 
         if self.rotated:
             old_transform = QTransform(painter.transform())
             painter.setTransform(painter.transform().translate(origin_offset.x() + self.crop.size.height,
                                                                origin_offset.y()).rotate(90, Qt.ZAxis))
-            painter.drawImage(0, 0, self.image)
+            painter.drawImage(0, 0, cropped_image)
             painter.setTransform(old_transform)
         else:
-            painter.drawImage(origin_offset, self.image)
+            painter.drawImage(origin_offset, cropped_image)
         # Rect(self.origin, self.crop.size).draw(painter, offset)
 
     def toJson(self):

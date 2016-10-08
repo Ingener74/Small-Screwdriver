@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'E:\prj\Small-Screwdriver\ScreamingMercury\ScreamingMercuryWindow.ui'
 #
-# Created: Wed Sep 21 21:49:22 2016
+# Created: Thu Oct 06 23:56:39 2016
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -35,15 +35,20 @@ class Ui_ScreamingMercury(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.addDirectory = QtGui.QPushButton(self.imagesGroupBox)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/main/list_add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(":/main/images/list_add.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.addDirectory.setIcon(icon1)
         self.addDirectory.setIconSize(QtCore.QSize(24, 24))
         self.addDirectory.setObjectName("addDirectory")
         self.horizontalLayout.addWidget(self.addDirectory)
+        self.clearPushButton = QtGui.QPushButton(self.imagesGroupBox)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(":/main/images/trash_green_full.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.clearPushButton.setIcon(icon2)
+        self.clearPushButton.setIconSize(QtCore.QSize(24, 24))
+        self.clearPushButton.setObjectName("clearPushButton")
+        self.horizontalLayout.addWidget(self.clearPushButton)
         self.removeImage = QtGui.QPushButton(self.imagesGroupBox)
         self.removeImage.setWhatsThis("")
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/main/trash_green_full.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.removeImage.setIcon(icon2)
         self.removeImage.setIconSize(QtCore.QSize(24, 24))
         self.removeImage.setShortcut("")
@@ -206,6 +211,7 @@ class Ui_ScreamingMercury(object):
         self.imagesGroupBox.setTitle(QtGui.QApplication.translate("ScreamingMercury", "Изображения", None, QtGui.QApplication.UnicodeUTF8))
         self.addDirectory.setToolTip(QtGui.QApplication.translate("ScreamingMercury", "Добавить папку с изображениями", None, QtGui.QApplication.UnicodeUTF8))
         self.addDirectory.setText(QtGui.QApplication.translate("ScreamingMercury", "Добавить", None, QtGui.QApplication.UnicodeUTF8))
+        self.clearPushButton.setText(QtGui.QApplication.translate("ScreamingMercury", "Очистить", None, QtGui.QApplication.UnicodeUTF8))
         self.removeImage.setToolTip(QtGui.QApplication.translate("ScreamingMercury", "Убрать выделенное изображение", None, QtGui.QApplication.UnicodeUTF8))
         self.removeImage.setText(QtGui.QApplication.translate("ScreamingMercury", "Убрать", None, QtGui.QApplication.UnicodeUTF8))
         self.outputFormatGroupBox.setTitle(QtGui.QApplication.translate("ScreamingMercury", "Выходной формат", None, QtGui.QApplication.UnicodeUTF8))

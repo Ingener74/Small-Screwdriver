@@ -3,3 +3,4 @@
 from ScreamingMercury import ScreamingMercury
 from Settings import Settings
 from Progress import Progress
+from ScreamingMercuryController import ScreamingMercuryController
