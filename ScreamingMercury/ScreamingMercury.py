@@ -35,6 +35,7 @@ SETTINGS_OUTPUT_FORMAT = 'OutputFormat'
 
 SETTINGS_DIRECTORY = 'InputDirectory'
 
+SETTINGS_PROGRESS_WINDOW_GEOMETRY = 'ProgressWindowGeometry'
 
 EXPORTERS = (
     JupiterExporter,
@@ -141,7 +142,7 @@ class BinPackingThread(QThread, BinPackingProgress):
 
         images = []
         for i, image in enumerate(self.images):
-            self.prepare_progress_signal.emit(int(100 * float(i) / float(len(self.images))))
+            self.prepare_progress_signal.emit(int(100 * (i + 1) / float(len(self.images))))
             images.append(Image(self.directory, image))
 
         bin_packing = self.method['type'](self.bin_size,
@@ -231,7 +232,6 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.bin_packing_thread.packing_progress_signal.connect(self.progress_window.binPackingProgressBar.setValue)
         self.bin_packing_thread.saving_progress_signal.connect(self.progress_window.savingProgressBar.setValue)
 
-
         self.startPushButton.setEnabled(self.bin_packing_thread.binPackingAvailable())
 
         self.directory = None
@@ -280,6 +280,8 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.outputFormatComboBox.setCurrentIndex(int(self.settings.value(SETTINGS_OUTPUT_FORMAT, defaultValue=0)))
 
         self.directory = self.settings.value(SETTINGS_DIRECTORY, defaultValue=None)
+
+        self.progress_window.restoreGeometry(self.settings.value(SETTINGS_PROGRESS_WINDOW_GEOMETRY))
 
     def onAddDirectory(self):
         directory = QFileDialog.getExistingDirectory(caption='Select image directory', dir=self.directory)
@@ -350,3 +352,6 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.settings.setValue(SETTINGS_OUTPUT_FORMAT, self.outputFormatComboBox.currentIndex())
 
         self.settings.setValue(SETTINGS_DIRECTORY, self.directory)
+
+        # Progress Window
+        self.settings.setValue(SETTINGS_PROGRESS_WINDOW_GEOMETRY, self.progress_window.saveGeometry())
