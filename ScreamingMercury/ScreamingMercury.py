@@ -136,6 +136,7 @@ class BinPackingThread(QThread, BinPackingProgress):
 
         self.prepare_progress_signal.emit(0)
         self.packing_progress_signal.emit(0)
+        self.verify_progress_signal.emit(0)
         self.saving_progress_signal.emit(0)
 
         images = []
