@@ -26,7 +26,7 @@ class Image(Rect):
 
         Rect.__init__(self, Point(), Size(image.width(), image.height()))
 
-        cropped_image, x, y, width, height = self.__getCrop(image)
+        cropped_image, x, y, width, height = self.__getCrop(image, False)
 
         self.crop = Rect(Point(x, y), Size(width, height))
 
@@ -86,9 +86,9 @@ class Image(Rect):
     def __repr__(self):
         return self.__str__()
 
-    def __getCrop(self, image=None):
+    def __getCrop(self, image=None, loadCrop=True):
         if self.__hasCrop():
-            cropped_image, crop_info = self.__loadCrop()
+            cropped_image, crop_info = self.__loadCrop(loadCrop)
             x, y, width, height = crop_info['x'], crop_info['y'], crop_info['width'], crop_info['height']
         else:
             if not image:
@@ -118,9 +118,10 @@ class Image(Rect):
                 'height': height
             }, fp=f)
 
-    def __loadCrop(self):
+    def __loadCrop(self, loadCrop=True):
         name_wo_ext = self.__getFileNameWoExt()
         json_data = open(name_wo_ext + '.json').read()
         image = QImage()
-        image.load(name_wo_ext + '.crop', 'PNG')
+        if loadCrop:
+            image.load(name_wo_ext + '.crop', 'PNG')
         return image, json.loads(json_data)
