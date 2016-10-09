@@ -1,12 +1,12 @@
 # encoding: utf8
-import json
+
+import os
 
 from PySide.QtCore import Qt
 from PySide.QtGui import (QPen, QImage, QPainter)
 
-import os
-from SmallScrewdriver import Size, Point, Rect
 from Exporters import Exporter
+from SmallScrewdriver import Size, Point, Rect
 
 DEFAULT_BIN_SIZE = Size(256, 256)
 
@@ -46,16 +46,16 @@ class Bin(object):
             area += r.area()
         return area / float(self.size.area())
 
-    def draw(self, painter, offset, draw_mode = DRAW_MODE_NORMAL):
+    def draw(self, painter, offset, draw_mode=DRAW_MODE_NORMAL):
 
-        # Рисуем контур контейнера
-        pen = QPen()
-        pen.setStyle(Qt.DashLine)
-        painter.setPen(pen)
-        # painter.drawRect(self.origin.x, self.origin.y, self.size.width, self.size.height)
-        painter.drawRect(offset.x, offset.y, self.size.width, self.size.height)
+        if draw_mode != Bin.DRAW_MODE_RELEASE:
+            # Рисуем контур контейнера
+            pen = QPen()
+            pen.setStyle(Qt.DashLine)
+            painter.setPen(pen)
+            # painter.drawRect(self.origin.x, self.origin.y, self.size.width, self.size.height)
+            painter.drawRect(offset.x, offset.y, self.size.width, self.size.height)
 
-        #
         for image in self.images:
             # Rect(rect.origin + self.origin, rect.size, rect.pen).draw(painter=painter)
             # image.draw(painter=painter, offset=self.origin)

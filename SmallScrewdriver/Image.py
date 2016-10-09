@@ -1,10 +1,11 @@
 # encoding: utf8
 import json
-from PySide.QtCore import (QPoint, Qt, QDir, QFile, QFileInfo)
+
+from PySide.QtCore import (QPoint, Qt, QDir, QFileInfo)
 from PySide.QtGui import (QImage, QTransform)
+from SillyCrossbow import (crop_image)
 
 from SmallScrewdriver import (Rect, Size, Point)
-from SillyCrossbow import (crop_image)
 
 
 # noinspection PyPep8Naming,PyUnusedLocal
@@ -97,20 +98,17 @@ class Image(Rect):
             self.__saveCrop(cropped_image, x, y, width, height)
         return cropped_image, x, y, width, height
 
-    def __getFileNameWoExt(self):
+    def __fileNameWoExt(self):
         image = QFileInfo(self.directory + QDir.separator() + self.filename)
         return image.absoluteDir().absolutePath() + QDir.separator() + image.baseName()
 
     def __hasCrop(self):
-        name_wo_ext = self.__getFileNameWoExt()
-        crop_info_exists = QFileInfo(name_wo_ext + '.json').exists()
-        crop_image_exists = QFileInfo(name_wo_ext + '.crop').exists()
-        exists = crop_info_exists and crop_image_exists
-        return exists
+        name_wo_ext = self.__fileNameWoExt()
+        return QFileInfo(name_wo_ext + '.json').exists() and QFileInfo(name_wo_ext + '.crop').exists()
 
     def __saveCrop(self, image, x, y, width, height):
-        image.save(self.__getFileNameWoExt() + '.crop', 'PNG')
-        with open(self.__getFileNameWoExt() + '.json', 'w') as f:
+        image.save(self.__fileNameWoExt() + '.crop', 'PNG')
+        with open(self.__fileNameWoExt() + '.json', 'w') as f:
             json.dump({
                 'x': x,
                 'y': y,
@@ -119,7 +117,7 @@ class Image(Rect):
             }, fp=f)
 
     def __loadCrop(self, loadCrop=True):
-        name_wo_ext = self.__getFileNameWoExt()
+        name_wo_ext = self.__fileNameWoExt()
         json_data = open(name_wo_ext + '.json').read()
         image = QImage()
         if loadCrop:

@@ -1,6 +1,7 @@
 # encoding: utf8
-from SmallScrewdriver import DEFAULT_BIN_SIZE, Point
 from abc import abstractmethod
+
+from SmallScrewdriver import DEFAULT_BIN_SIZE, Point
 
 
 class BinPackingProgress(object):
