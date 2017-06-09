@@ -9,23 +9,18 @@ class TestBin(TestCase):
 
         b = Bin()
         self.assertEqual(b.size, DEFAULT_BIN_SIZE)
-        self.assertEqual(b.origin, Point())
 
-        b = Bin(size=DEFAULT_BIN_SIZE, origin=Point())
+        b = Bin(size=DEFAULT_BIN_SIZE)
         self.assertEqual(b.size, DEFAULT_BIN_SIZE)
-        self.assertEqual(b.origin, Point())
 
-        b = Bin(size=Size(512, 512), origin=Point(10, 10))
+        b = Bin(size=Size(512, 512))
         self.assertEqual(b.size, Size(512, 512))
-        self.assertEqual(b.origin, Point(10, 10))
 
-        b = Bin(**{'size': Size(512, 512), 'origin': Point(20, 20)})
+        b = Bin(**{'size': Size(512, 512)})
         self.assertEqual(b.size, Size(512, 512))
-        self.assertEqual(b.origin, Point(20, 20))
 
-        b = Bin(size=Size(256, 256), origin=Point(30, 30))
+        b = Bin(size=Size(256, 256))
         self.assertEqual(b.size, Size(256, 256))
-        self.assertEqual(b.origin, Point(30, 30))
 
     def test_append1(self):
         b = Bin(Size(256, 256), Point(0, 0))

@@ -1,11 +1,14 @@
 # encoding: utf8
 from abc import abstractmethod
 
-from SmallScrewdriver import DEFAULT_BIN_SIZE, Point
+from SmallScrewdriver import (Point)
 
 
 class BinPackingProgress(object):
     def __init__(self):
+        pass
+
+    def prepare_progress(self, progress_in_percent):
         pass
 
     def packing_progress(self, percent):
@@ -21,13 +24,13 @@ class BinPackingProgress(object):
 # noinspection PyPep8Naming,PyShadowingBuiltins
 class BinPacking(object):
 
-    bin_packing_progress = BinPackingProgress()
-
-    def __init__(self, bin_size=DEFAULT_BIN_SIZE, images=None, bin_parameters=None):
+    def __init__(self, bin_size, images, bin_parameters, progress):
         self.bins = []
 
+        self.progress = progress
+
         # Первый контейнер
-        self._newBin(size=bin_size, origin=Point(), bin_parameters=bin_parameters)
+        self._newBin(bin_size, bin_parameters)
 
         images = [] if images is None else images
 
@@ -39,30 +42,30 @@ class BinPacking(object):
 
                 # ... пробуем поместить изображение в контейнер ...
                 if bin.addImage(image):
-                    BinPacking.bin_packing_progress.packing_progress(100 * index / len(images))
+                    self.progress.packing_progress(100 * index / len(images))
 
                     # ... если получилось, идём к следующему изображению ...
                     break
             else:
                 # ... если не в один контейнер, поместить не получилось, создаём новый ...
-                bin = self._newBin(size=bin_size, origin=Point(), bin_parameters=bin_parameters)
+                bin = self._newBin(bin_size, bin_parameters)
 
                 # ... и пробуем поместить в него ...
                 if bin.addImage(image):
-                    BinPacking.bin_packing_progress.packing_progress(100 * index / len(images))
+                    self.progress.packing_progress(100 * index / len(images))
                 else:
                     # ... и если не получается значит произошла ...
                     raise SystemError(u'Какая та хуйня')
 
-        BinPacking.bin_packing_progress.packing_progress(100)
+        self.progress.packing_progress(100)
 
     def saveAtlases(self, directory):
         for i, b in enumerate(self.bins):
-            BinPacking.bin_packing_progress.saving_progress(100 * i / len(self.bins))
+            self.progress.saving_progress(100 * i / len(self.bins))
             b.save(directory + 'atlas' + str(i))
 
-        BinPacking.bin_packing_progress.saving_progress(100)
+            self.progress.saving_progress(100)
 
     @abstractmethod
-    def _newBin(self, size, origin, bin_parameters):
+    def _newBin(self, size, bin_parameters):
         raise NotImplementedError

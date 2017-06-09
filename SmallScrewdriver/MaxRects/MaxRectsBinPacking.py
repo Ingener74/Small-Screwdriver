@@ -14,6 +14,6 @@ class MaxRectsBinPacking(BinPacking):
                             images=images,
                             bin_parameters=bin_parameters)
 
-    def _newBin(self, size, origin, bin_parameters):
-        self.bins.append(MaxRectsBin(size=size, origin=origin, bin_parameters=bin_parameters))
+    def _newBin(self, size, bin_parameters):
+        self.bins.append(MaxRectsBin(size, bin_parameters))
         return self.bins[-1]

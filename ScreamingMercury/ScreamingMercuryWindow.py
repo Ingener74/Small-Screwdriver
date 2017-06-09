@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'E:\prj\Small-Screwdriver\ScreamingMercury\ScreamingMercuryWindow.ui'
 #
-# Created: Thu Oct 06 23:56:39 2016
+# Created: Thu Oct 13 21:06:36 2016
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -12,7 +12,7 @@ from PySide import QtCore, QtGui
 class Ui_ScreamingMercury(object):
     def setupUi(self, ScreamingMercury):
         ScreamingMercury.setObjectName("ScreamingMercury")
-        ScreamingMercury.resize(300, 956)
+        ScreamingMercury.resize(501, 1023)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/main/images/screwdriver.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         ScreamingMercury.setWindowIcon(icon)
@@ -76,6 +76,7 @@ class Ui_ScreamingMercury(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.binSizeComboBox = QtGui.QComboBox(self.atlasSizeGroupBox)
         self.binSizeComboBox.setObjectName("binSizeComboBox")
+        self.binSizeComboBox.addItem("")
         self.binSizeComboBox.addItem("")
         self.binSizeComboBox.addItem("")
         self.binSizeComboBox.addItem("")
@@ -203,7 +204,7 @@ class Ui_ScreamingMercury(object):
         self.horizontalLayout_3.addWidget(self.splitter_2)
 
         self.retranslateUi(ScreamingMercury)
-        self.methodTabWidget.setCurrentIndex(3)
+        self.methodTabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(ScreamingMercury)
 
     def retranslateUi(self, ScreamingMercury):
@@ -224,13 +225,14 @@ class Ui_ScreamingMercury(object):
         self.binSizeComboBox.setItemText(3, QtGui.QApplication.translate("ScreamingMercury", "2048 x 2048", None, QtGui.QApplication.UnicodeUTF8))
         self.binSizeComboBox.setItemText(4, QtGui.QApplication.translate("ScreamingMercury", "4096 x 4096", None, QtGui.QApplication.UnicodeUTF8))
         self.binSizeComboBox.setItemText(5, QtGui.QApplication.translate("ScreamingMercury", "8192 x 8192", None, QtGui.QApplication.UnicodeUTF8))
+        self.binSizeComboBox.setItemText(6, QtGui.QApplication.translate("ScreamingMercury", "16384 x 16384", None, QtGui.QApplication.UnicodeUTF8))
         self.methodTabWidget.setTabText(self.methodTabWidget.indexOf(self.tabShelfNextFit), QtGui.QApplication.translate("ScreamingMercury", "Shelf Next Fit", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_5.setTitle(QtGui.QApplication.translate("ScreamingMercury", "Эвристики выбора", None, QtGui.QApplication.UnicodeUTF8))
         self.firstFitShelfVariantComboBox.setItemText(0, QtGui.QApplication.translate("ScreamingMercury", "Best Fit", None, QtGui.QApplication.UnicodeUTF8))
         self.firstFitShelfVariantComboBox.setItemText(1, QtGui.QApplication.translate("ScreamingMercury", "Worst Fit", None, QtGui.QApplication.UnicodeUTF8))
-        self.firstFitShelfHeuristicComboBox.setItemText(0, QtGui.QApplication.translate("ScreamingMercury", "Width Fit", None, QtGui.QApplication.UnicodeUTF8))
-        self.firstFitShelfHeuristicComboBox.setItemText(1, QtGui.QApplication.translate("ScreamingMercury", "Height Fit", None, QtGui.QApplication.UnicodeUTF8))
-        self.firstFitShelfHeuristicComboBox.setItemText(2, QtGui.QApplication.translate("ScreamingMercury", "Area Fit", None, QtGui.QApplication.UnicodeUTF8))
+        self.firstFitShelfHeuristicComboBox.setItemText(0, QtGui.QApplication.translate("ScreamingMercury", "Area Fit", None, QtGui.QApplication.UnicodeUTF8))
+        self.firstFitShelfHeuristicComboBox.setItemText(1, QtGui.QApplication.translate("ScreamingMercury", "Width Fit", None, QtGui.QApplication.UnicodeUTF8))
+        self.firstFitShelfHeuristicComboBox.setItemText(2, QtGui.QApplication.translate("ScreamingMercury", "Height Fit", None, QtGui.QApplication.UnicodeUTF8))
         self.firstFitShelfHeuristicComboBox.setItemText(3, QtGui.QApplication.translate("ScreamingMercury", "Floor-Ceiling", None, QtGui.QApplication.UnicodeUTF8))
         self.firstFitShelfHeuristicComboBox.setItemText(4, QtGui.QApplication.translate("ScreamingMercury", "Waste Map Improvement", None, QtGui.QApplication.UnicodeUTF8))
         self.methodTabWidget.setTabText(self.methodTabWidget.indexOf(self.tabShelfFirstFit), QtGui.QApplication.translate("ScreamingMercury", "Shelf First Fit", None, QtGui.QApplication.UnicodeUTF8))

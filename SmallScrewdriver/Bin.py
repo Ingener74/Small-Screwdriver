@@ -13,14 +13,14 @@ DEFAULT_BIN_SIZE = Size(256, 256)
 
 # noinspection PyPep8Naming
 class Bin(object):
+
+    EXPORTER = 0
+
     DRAW_MODE_NORMAL = 0
     DRAW_MODE_DEBUG = 1
     DRAW_MODE_RELEASE = 2
 
-    exporter = Exporter()
-
-    def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(0, 0), bin_parameters=None):
-        self.origin = origin
+    def __init__(self, size, bin_parameters=None):
         self.size = size
         self.bin_parameters = bin_parameters
         self.images = []
@@ -79,7 +79,7 @@ class Bin(object):
         image.save(bin_file_name)
         painter.end()
 
-        Bin.exporter.export(bin_name, self.size, self.images)
+        self.bin_parameters[Bin.EXPORTER]().export(bin_name, self.size, self.images)
 
     def __verify(self, image0, images):
         for image in images:
@@ -96,7 +96,7 @@ class Bin(object):
         self.__verify(self.images[0], self.images[1:])
 
     def __str__(self):
-        return '{}({}, {}, {})'.format(self.__class__.__name__, self.origin, self.size, self.images)
+        return '{}({}, {})'.format(self.__class__.__name__, self.size, self.images)
 
     def __repr__(self):
         return self.__str__()

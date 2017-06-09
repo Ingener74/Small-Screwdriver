@@ -1,12 +1,12 @@
 # encoding: utf8
-from SmallScrewdriver import Bin, DEFAULT_BIN_SIZE, Point, Size
-from Shelf import Shelf
+from SmallScrewdriver import (Bin, Point, Size)
+from Shelf import (Shelf)
 
 
 # noinspection PyPep8Naming
 class ShelfBin(Bin):
-    def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(0, 0), bin_parameters=None):
-        Bin.__init__(self, size=size, origin=origin, bin_parameters=bin_parameters)
+    def __init__(self, size, bin_parameters=None):
+        Bin.__init__(self, size, bin_parameters)
 
         self.shelfs = [Shelf(self.size)]
 

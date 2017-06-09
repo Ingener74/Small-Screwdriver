@@ -13,6 +13,7 @@ class Rect(object):
     """
     Правила разделения ...
     """
+
     # ... для гильотины
     RULE_SAS = 0
     RULE_LAS = 1

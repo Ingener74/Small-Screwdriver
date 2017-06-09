@@ -5,13 +5,10 @@ import re
 from PySide.QtCore import (Qt, QSettings, QDir, QDirIterator, Signal, QThread)
 from PySide.QtGui import (QWidget, QFileDialog, QSizePolicy, QPainter, QTransform)
 
-from SmallScrewdriver import (Point, Size, Rect, Image, GuillotineBinPacking, MaxRectsBinPacking,
-                              NextFitShelfBinPacking, FirstFitShelfBinPacking, GuillotineBin, FirstFitShelfBin,
-                              Bin, JupiterExporter, PListExporter,
-                              BinPacking, BinPackingProgress)
+from Progress import (Progress)
 from ScreamingMercuryWindow import (Ui_ScreamingMercury)
 from Settings import (Settings)
-from Progress import (Progress)
+from SmallScrewdriver import (Point, Rect, BinPackingProgress, SmallScrewdriver)
 
 COMPANY = 'Venus.Games'
 APPNAME = 'ScreamingMercury'
@@ -37,41 +34,12 @@ SETTINGS_DIRECTORY = 'InputDirectory'
 
 SETTINGS_PROGRESS_WINDOW_GEOMETRY = 'ProgressWindowGeometry'
 
-EXPORTERS = (
-    JupiterExporter,
-    PListExporter
-)
-
 
 # noinspection PyPep8Naming
 class BinPackingThread(QThread, BinPackingProgress):
     """
     Поток обработки изображений вне GUI потока
     """
-    METHODS = (
-        {
-            'name': 'next_fit_shelf',
-            'type': NextFitShelfBinPacking
-        }, {
-            'name': 'first_fit_shelf',
-            'type': FirstFitShelfBinPacking
-        }, {
-            'name': 'guillotine',
-            'type': GuillotineBinPacking
-        }, {
-            'name': 'max_rects',
-            'type': MaxRectsBinPacking
-        }
-    )
-
-    SIZES = (
-        Size(256, 256),
-        Size(512, 512),
-        Size(1024, 1024),
-        Size(2048, 2048),
-        Size(4096, 4096),
-        Size(8192, 8192)
-    )
 
     bin_packing_available = Signal(bool)
     update_bins = Signal(Rect)
@@ -85,30 +53,15 @@ class BinPackingThread(QThread, BinPackingProgress):
     def __init__(self):
         QThread.__init__(self)
 
-        Bin.exporter = JupiterExporter()
-        BinPacking.bin_packing_progress = self
+        self.exporter = 0
 
         self.directory = None
         self.images = []
 
-        self.method = BinPackingThread.METHODS[0]
-        self.bin_size = BinPackingThread.SIZES[0]
+        self.method_index = 0
+        self.bin_size_index = 0
 
-        self.bin_parameter = {
-            'next_fit_shelf': {
-            },
-            'first_fit_shelf': {
-                'selection_variant': FirstFitShelfBin.BEST_VARIANTS,
-                'selection_heuristic': FirstFitShelfBin.SHORT_SIDE_FIT,
-            },
-            'guillotine': {
-                'selection_variant': GuillotineBin.BEST_VARIANTS,
-                'selection_heuristic': GuillotineBin.SHORT_SIDE_FIT,
-                'split_rule': Rect.RULE_SAS
-            },
-            'max_rects': {
-            }
-        }
+        self.algorithm_parameters = []
 
     def setDirectory(self, directory):
         self.directory = directory
@@ -122,14 +75,16 @@ class BinPackingThread(QThread, BinPackingProgress):
         self.bin_packing_available.emit(self.binPackingAvailable())
 
     def setMethod(self, index):
-        self.method = BinPackingThread.METHODS[index]
+        self.method_index = index
 
     def setBinSize(self, index):
-        self.bin_size = BinPackingThread.SIZES[index]
+        self.bin_size_index = index
 
-    @staticmethod
-    def set_exporter(index):
-        Bin.exporter = EXPORTERS[index]()
+    def set_exporter(self, index):
+        self.exporter = index
+
+    def set_algorithm_parameters(self, parameters):
+        self.algorithm_parameters = parameters
 
     def run(self):
         if not self.directory or not len(self.images):
@@ -140,18 +95,30 @@ class BinPackingThread(QThread, BinPackingProgress):
         self.verify_progress_signal.emit(0)
         self.saving_progress_signal.emit(0)
 
-        images = []
-        for i, image in enumerate(self.images):
-            self.prepare_progress_signal.emit(int(100 * (i + 1) / float(len(self.images))))
-            images.append(Image(self.directory, image))
+        # images = []
+        # for i, image in enumerate(self.images):
+        #     self.prepare_progress_signal.emit(int(100 * (i + 1) / float(len(self.images))))
+        #     images.append(Image(self.directory, image))
+        #
+        # bin_packing = self.method['type'](self.bin_size,
+        #                                   images,
+        #                                   bin_parameters=self.bin_parameter[self.method['name']])
+        # bin_packing.saveAtlases(self.directory + QDir.separator())
 
-        bin_packing = self.method['type'](self.bin_size,
-                                          images,
-                                          bin_parameters=self.bin_parameter[self.method['name']])
-        bin_packing.saveAtlases(self.directory + QDir.separator())
+        bins = SmallScrewdriver.pack_images(images_filenames=self.images,
+                                            input_directory=self.directory,
+                                            output_directory=self.directory,
+                                            exporter=SmallScrewdriver.Exporters[self.exporter],
+                                            max_bin_size=self.bin_size_index,
+                                            algorithm=self.method_index,
+                                            algorithm_parameters=self.algorithm_parameters,
+                                            progress=self)
 
-        self.update_bins.emit(bin_packing.bins)
+        self.update_bins.emit(bins)
         self.on_end.emit(True)
+
+    def prepare_progress(self, progress_in_percent):
+        self.prepare_progress_signal.emit(progress_in_percent)
 
     def packing_progress(self, percent):
         self.packing_progress_signal.emit(percent)
@@ -230,6 +197,7 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
         self.bin_packing_thread.on_end.connect(self.progress_window.setHidden)
         self.bin_packing_thread.prepare_progress_signal.connect(self.progress_window.prepareProgressBar.setValue)
         self.bin_packing_thread.packing_progress_signal.connect(self.progress_window.binPackingProgressBar.setValue)
+        self.bin_packing_thread.verify_progress_signal.connect(self.progress_window.verificationProgressBar.setValue)
         self.bin_packing_thread.saving_progress_signal.connect(self.progress_window.savingProgressBar.setValue)
 
         self.startPushButton.setEnabled(self.bin_packing_thread.binPackingAvailable())
@@ -244,8 +212,8 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
 
         self.bin_packing_thread.update_bins.connect(self.small_screwdriver.redrawBins)
 
-        self.outputFormatComboBox.currentIndexChanged.connect(BinPackingThread.set_exporter)
-        BinPackingThread.set_exporter(self.outputFormatComboBox.currentIndex())
+        self.outputFormatComboBox.currentIndexChanged.connect(self.bin_packing_thread.set_exporter)
+        self.bin_packing_thread.set_exporter(self.outputFormatComboBox.currentIndex())
 
     def restoreSettings(self):
         # Настройки
@@ -318,8 +286,24 @@ class ScreamingMercury(QWidget, Ui_ScreamingMercury):
 
         self.imageList.setCurrentRow(row)
 
+    def get_algorithm_paramaters(self):
+        if SmallScrewdriver.FirstShelf == self.methodTabWidget.currentIndex():
+            return [self.firstFitShelfVariantComboBox.currentIndex(),
+                    self.firstFitShelfHeuristicComboBox.currentIndex()]
+        elif SmallScrewdriver.Guillotine == self.methodTabWidget.currentIndex():
+            return [self.splitComboBox.currentIndex(),
+                    self.guillotineVariantComboBox.currentIndex(),
+                    self.guillotineHeuristicComboBox.currentIndex()]
+        elif SmallScrewdriver.MaxRects == self.methodTabWidget.currentIndex():
+            return []
+        else:
+            return []
+
     def onStart(self):
         self.startPushButton.setEnabled(False)
+
+        self.bin_packing_thread.set_algorithm_parameters(self.get_algorithm_paramaters())
+
         self.bin_packing_thread.start()
         self.progress_window.show()
 

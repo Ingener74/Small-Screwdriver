@@ -15,8 +15,8 @@ class FirstFitShelfBin(ShelfBin):
     FLOOR_CEILING = 3
     WASTE_MAP_IMPROVEMENT = 4
 
-    def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(0, 0), bin_parameters=None):
-        ShelfBin.__init__(self, size=size, origin=origin, bin_parameters=bin_parameters)
+    def __init__(self, size, bin_parameters=None):
+        ShelfBin.__init__(self, size, bin_parameters)
 
     def addImage(self, image):
 

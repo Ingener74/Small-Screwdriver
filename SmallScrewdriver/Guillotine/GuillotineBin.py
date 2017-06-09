@@ -8,19 +8,25 @@ class GuillotineBin(Bin):
     Контейнер для метода гильотины
     """
 
+    SPLIT_RULES = 1
+    SELECTION_VARIANTS = 2
+    SELECTION_HEURISTICS = 3
+
+    # SELECTION_VARIANTS = 0
     BEST_VARIANTS = 0
     WORST_VARIANTS = 1
 
+    # SELECTION_HEURISTICS = 1
     AREA_FIT = 0
     SHORT_SIDE_FIT = 1
     LONG_SIDE_FIT = 2
 
-    def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(), bin_parameters=None):
-        Bin.__init__(self, size=size, origin=origin, bin_parameters=bin_parameters)
+    def __init__(self, size, bin_parameters=None):
+        Bin.__init__(self, size, bin_parameters)
 
-        self.select_variant = self.bin_parameters['selection_variant']
-        self.select_heuristic = self.bin_parameters['selection_heuristic']
-        self.split_rule = self.bin_parameters['split_rule']
+        # self.select_variant = self.bin_parameters['selection_variant']
+        # self.select_heuristic = self.bin_parameters['selection_heuristic']
+        # self.split_rule = self.bin_parameters['split_rule']
 
         self.free_rects = [Rect(size=self.size)]
 
@@ -31,12 +37,15 @@ class GuillotineBin(Bin):
         lsf = lambda x: max(x.size.width - image.size.width, x.size.height - image.size.height)
 
         # Сортируем
-        rects = sorted(self.free_rects, key=[af, ssf, lsf][self.select_heuristic], reverse=bool(self.select_variant))
+        # rects = sorted(self.free_rects, key=[af, ssf, lsf][self.select_heuristic], reverse=bool(self.select_variant))
+        rects = sorted(self.free_rects,
+                       key=[af, ssf, lsf][self.bin_parameters[GuillotineBin.SELECTION_HEURISTICS]],
+                       reverse=bool(self.bin_parameters[GuillotineBin.SELECTION_VARIANTS]))
 
         # Проходим по свободным прямоугольникам
         for rect in rects:
             # Делим прямоугольник обрезанным прямоугольником из нашего изображения
-            s, rs1, rs2, rotate = rect.split(image.crop, self.split_rule)
+            s, rs1, rs2, rotate = rect.split(image.crop, self.bin_parameters[GuillotineBin.SPLIT_RULES])
 
             # Если разрезание прошло успешно ...
             if s > 0:

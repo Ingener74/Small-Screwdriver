@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
-    <height>956</height>
+    <width>501</width>
+    <height>1023</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -167,6 +167,11 @@
                <string>8192 x 8192</string>
               </property>
              </item>
+             <item>
+              <property name="text">
+               <string>16384 x 16384</string>
+              </property>
+             </item>
             </widget>
            </item>
           </layout>
@@ -175,7 +180,7 @@
         <item>
          <widget class="QTabWidget" name="methodTabWidget">
           <property name="currentIndex">
-           <number>3</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tabShelfNextFit">
            <attribute name="title">
@@ -211,17 +216,17 @@
                 <widget class="QComboBox" name="firstFitShelfHeuristicComboBox">
                  <item>
                   <property name="text">
+                   <string>Area Fit</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
                    <string>Width Fit</string>
                   </property>
                  </item>
                  <item>
                   <property name="text">
                    <string>Height Fit</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Area Fit</string>
                   </property>
                  </item>
                  <item>

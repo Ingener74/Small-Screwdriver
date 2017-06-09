@@ -13,8 +13,8 @@ class MaxRectsBin(Bin):
     HEURISTIC_BSSF = 2
     HEURISTIC_BLSF = 3
 
-    def __init__(self, size=DEFAULT_BIN_SIZE, origin=Point(), bin_parameters=None):
-        Bin.__init__(self, size=size, origin=origin, bin_parameters=bin_parameters)
+    def __init__(self, size, bin_parameters=None):
+        Bin.__init__(self, size, bin_parameters)
 
         self.free_rect = [Rect(size=self.size)]
 
@@ -36,12 +36,12 @@ class MaxRectsBin(Bin):
                 if s == 1:
                     del fr[rect]
                     fr += [r1]
-                    return Bin.addImage(self, image=image)
+                    return Bin.addImage(self, image)
 
                 elif s == 2:
                     del fr[rect]
                     fr += [r1, r2]
-                    return Bin.addImage(self, image=image)
+                    return Bin.addImage(self, image)
 
                 else:
                     raise SystemError('Error')

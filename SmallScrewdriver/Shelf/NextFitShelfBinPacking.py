@@ -6,12 +6,12 @@ from SmallScrewdriver.Shelf import NextFitShelfBin
 
 # noinspection PyPep8Naming
 class NextFitShelfBinPacking(BinPacking):
-    def __init__(self, bin_size=DEFAULT_BIN_SIZE, images=None, bin_parameters=None):
+    def __init__(self, bin_size, images, bin_parameters, progress):
         # TODO выкинуть все изображения размер которых больше размера контейнера
         self.images = sorted(images, key=lambda image: image.crop.size.width, reverse=True)
 
-        BinPacking.__init__(self, bin_size=bin_size, images=images, bin_parameters=bin_parameters)
+        BinPacking.__init__(self, bin_size, images, bin_parameters, progress)
 
-    def _newBin(self, size, origin, bin_parameters):
-        self.bins.append(NextFitShelfBin(size=size, origin=origin, bin_parameters=bin_parameters))
+    def _newBin(self, size, bin_parameters):
+        self.bins.append(NextFitShelfBin(size, bin_parameters))
         return self.bins[-1]
