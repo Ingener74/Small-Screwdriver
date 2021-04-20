@@ -11,7 +11,7 @@ click==5.1
 coverage==3.7.1
 itsdangerous==0.24
 pluggy==0.3.0
-py==1.4.30
+py==1.10.0
 pytest==2.7.2
 pytest-cov==2.1.0
 termcolor==1.1.0
